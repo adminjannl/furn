@@ -1,0 +1,17 @@
+🚀 Deep scraping ALL cabinets with prices and images...
+
+
+📄 Page 1: https://mnogomebeli.com/shkafy/
+   Found 0 products
+
+📊 Final Results:
+   Total scraped: 0
+   Idea series removed: 0
+   Final count: 0
+
+   ✅ With prices: 0
+   ✅ With images: 0
+
+💾 Saved to: all-107-cabinets-complete.json
+
+📋 First 5 cabinets:
