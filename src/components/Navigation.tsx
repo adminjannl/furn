@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Menu, ShoppingBag, X } from 'lucide-react';
+import { Menu, X, ShoppingBag } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
@@ -12,6 +12,15 @@ interface Category {
 export default function Navigation() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     supabase
@@ -24,23 +33,34 @@ export default function Navigation() {
   }, []);
 
   return (
-    <nav className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <ShoppingBag className="h-8 w-8 text-neutral-800" />
-            <span className="text-xl font-semibold text-neutral-900">Harts Furniture</span>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      scrolled ? 'bg-cream-50/95 backdrop-blur-sm shadow-md' : 'bg-transparent'
+    }`}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          <Link to="/" className="flex items-center space-x-3 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-oak-700 rounded-full blur-sm opacity-20 group-hover:opacity-40 transition-opacity"></div>
+              <ShoppingBag className="h-8 w-8 text-oak-700 relative" strokeWidth={1.5} />
+            </div>
+            <div>
+              <span className="block text-2xl font-serif font-semibold text-oak-800 tracking-tight">Harts</span>
+              <span className="block text-xs text-oak-600 tracking-widest uppercase -mt-1">Furniture</span>
+            </div>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-8">
-            <Link to="/products" className="text-neutral-700 hover:text-neutral-900 transition-colors">
+          <div className="hidden lg:flex items-center space-x-1">
+            <Link
+              to="/products"
+              className="px-4 py-2 text-sm font-medium text-oak-700 hover:text-oak-900 hover:bg-cream-100 rounded transition-colors duration-200"
+            >
               All Products
             </Link>
             {categories.map((category) => (
               <Link
                 key={category.id}
                 to={`/category/${category.slug}`}
-                className="text-neutral-700 hover:text-neutral-900 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-oak-700 hover:text-oak-900 hover:bg-cream-100 rounded transition-colors duration-200"
               >
                 {category.name}
               </Link>
@@ -48,8 +68,9 @@ export default function Navigation() {
           </div>
 
           <button
-            className="md:hidden"
+            className="lg:hidden p-2 text-oak-700 hover:bg-cream-100 rounded transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -57,11 +78,11 @@ export default function Navigation() {
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-neutral-200">
-          <div className="px-4 py-3 space-y-3">
+        <div className="lg:hidden border-t border-oak-200 bg-cream-50/98 backdrop-blur-sm">
+          <div className="px-6 py-4 space-y-1">
             <Link
               to="/products"
-              className="block text-neutral-700 hover:text-neutral-900"
+              className="block px-4 py-3 text-sm font-medium text-oak-700 hover:text-oak-900 hover:bg-cream-100 rounded transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               All Products
@@ -70,7 +91,7 @@ export default function Navigation() {
               <Link
                 key={category.id}
                 to={`/category/${category.slug}`}
-                className="block text-neutral-700 hover:text-neutral-900"
+                className="block px-4 py-3 text-sm font-medium text-oak-700 hover:text-oak-900 hover:bg-cream-100 rounded transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {category.name}

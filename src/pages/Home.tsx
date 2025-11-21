@@ -50,65 +50,81 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
-      <section className="bg-gradient-to-br from-neutral-100 to-neutral-200 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="pt-20">
+      <section className="relative min-h-[85vh] flex items-center bg-gradient-to-br from-cream-50 via-champagne-50 to-cream-100">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM1YzUxNDUiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDE2aDRWMTBoLTR6TTMyIDE0djRoNHYtNHoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-40"></div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20 relative">
           <div className="max-w-3xl">
-            <h1 className="text-5xl font-bold text-neutral-900 mb-6">
-              Premium European Furniture
+            <p className="text-sm font-medium text-oak-600 tracking-widest uppercase mb-6">Since 1947</p>
+            <h1 className="text-6xl lg:text-7xl font-serif font-bold text-oak-900 mb-8 leading-tight">
+              Premium European<br/>Furniture
             </h1>
-            <p className="text-xl text-neutral-600 mb-8 leading-relaxed">
+            <p className="text-xl text-oak-700 mb-12 leading-relaxed max-w-2xl">
               Discover handcrafted furniture made with exceptional quality and timeless design.
-              Quality craftsmanship since 1947.
+              Each piece tells a story of European craftsmanship.
             </p>
-            <Link
-              to="/products"
-              className="inline-flex items-center px-8 py-3 bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-colors duration-200"
-            >
-              Shop Now
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link to="/products" className="btn-primary inline-flex items-center justify-center">
+                Explore Collection
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+              <Link to="/category/sofas" className="btn-secondary inline-flex items-center justify-center">
+                View Sofas
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-neutral-900 mb-8">Shop by Category</h2>
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-serif font-bold text-oak-900 mb-4">Shop by Category</h2>
+            <p className="text-lg text-oak-600">Explore our curated collections</p>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {categories.map((category) => (
               <Link
                 key={category.id}
                 to={`/category/${category.slug}`}
-                className="group p-6 bg-neutral-50 rounded-lg hover:bg-neutral-100 transition-colors duration-200"
+                className="group relative overflow-hidden rounded-lg bg-cream-50 border border-oak-200 hover:border-oak-400 transition-all duration-300 hover:shadow-lg"
               >
-                <h3 className="text-lg font-medium text-neutral-900 group-hover:text-neutral-700">
-                  {category.name}
-                </h3>
-                {category.description && (
-                  <p className="mt-2 text-sm text-neutral-600 line-clamp-2">
-                    {category.description}
-                  </p>
-                )}
+                <div className="p-8 text-center">
+                  <h3 className="text-lg font-serif font-semibold text-oak-800 group-hover:text-oak-900 mb-2">
+                    {category.name}
+                  </h3>
+                  {category.description && (
+                    <p className="text-sm text-oak-600 line-clamp-2">
+                      {category.description}
+                    </p>
+                  )}
+                  <div className="mt-4 inline-flex items-center text-sm text-oak-700 group-hover:text-oak-900">
+                    Explore
+                    <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-neutral-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold text-neutral-900">Featured Products</h2>
+      <section className="py-20 bg-cream-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <h2 className="text-4xl font-serif font-bold text-oak-900 mb-2">Featured Collection</h2>
+              <p className="text-lg text-oak-600">Handpicked pieces for your home</p>
+            </div>
             <Link
               to="/products"
-              className="text-neutral-700 hover:text-neutral-900 flex items-center"
+              className="text-oak-700 hover:text-oak-900 flex items-center font-medium group"
             >
               View All
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -116,20 +132,20 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+      <section className="py-20 bg-oak-800">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
             <div>
-              <div className="text-4xl font-bold text-neutral-900 mb-2">75+</div>
-              <p className="text-neutral-600">Years of Experience</p>
+              <div className="text-5xl font-serif font-bold text-champagne-300 mb-3">75+</div>
+              <p className="text-cream-200 text-lg">Years of Experience</p>
             </div>
             <div>
-              <div className="text-4xl font-bold text-neutral-900 mb-2">1000+</div>
-              <p className="text-neutral-600">Happy Customers</p>
+              <div className="text-5xl font-serif font-bold text-champagne-300 mb-3">1000+</div>
+              <p className="text-cream-200 text-lg">Happy Customers</p>
             </div>
             <div>
-              <div className="text-4xl font-bold text-neutral-900 mb-2">Free</div>
-              <p className="text-neutral-600">Shipping Over €500</p>
+              <div className="text-5xl font-serif font-bold text-champagne-300 mb-3">Free</div>
+              <p className="text-cream-200 text-lg">Shipping Over €500</p>
             </div>
           </div>
         </div>

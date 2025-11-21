@@ -13,7 +13,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <div className="min-h-screen flex flex-col bg-neutral-50">
+        <div className="min-h-screen flex flex-col bg-cream-50">
           <Navigation />
           <main className="flex-grow">
             <Routes>
