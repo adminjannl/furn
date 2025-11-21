@@ -1,0 +1,300 @@
+    100,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0215',
+    'Стол-приставка BOSS.XO WOOD Real',
+    'stol-pristavka-boss-xo-wood-real',
+    'Premium table Стол-приставка BOSS.XO WOOD Real. High-quality European furniture with exceptional design and durability. Dimensions: 80x40x75 cm (LxWxH)',
+    1100,
+    id,
+    10,
+    40,
+    75,
+    80,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0216',
+    'Стол-приставка BOSS.XO WOOD Dark',
+    'stol-pristavka-boss-xo-wood-dark',
+    'Premium table Стол-приставка BOSS.XO WOOD Dark. High-quality European furniture with exceptional design and durability. Dimensions: 80x40x75 cm (LxWxH)',
+    1100,
+    id,
+    10,
+    40,
+    75,
+    80,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0217',
+    'Стол-приставка BOSS.XO WOOD Snow',
+    'stol-pristavka-boss-xo-wood-snow',
+    'Premium table Стол-приставка BOSS.XO WOOD Snow. High-quality European furniture with exceptional design and durability. Dimensions: 80x40x75 cm (LxWxH)',
+    1100,
+    id,
+    10,
+    40,
+    75,
+    80,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0218',
+    'Стол-приставка BOSS.XO WOOD Smok',
+    'stol-pristavka-boss-xo-wood-smok',
+    'Premium table Стол-приставка BOSS.XO WOOD Smok. High-quality European furniture with exceptional design and durability. Dimensions: 80x40x75 cm (LxWxH)',
+    1100,
+    id,
+    10,
+    40,
+    75,
+    80,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0219',
+    'Стол-приставка BOSS.XO WOOD Rock',
+    'stol-pristavka-boss-xo-wood-rock',
+    'Premium table Стол-приставка BOSS.XO WOOD Rock. High-quality European furniture with exceptional design and durability. Dimensions: 80x40x75 cm (LxWxH)',
+    1100,
+    id,
+    10,
+    40,
+    75,
+    80,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0220',
+    'Письменный стол LUX Сонома, Белый снег',
+    'pis-mennyy-stol-lux-sonoma-belyy-sneg',
+    'Premium table Письменный стол LUX Сонома, Белый снег. High-quality European furniture with exceptional design and durability. Dimensions: 120x60x75 cm (LxWxH)',
+    600,
+    id,
+    10,
+    60,
+    75,
+    120,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0221',
+    'Стол письменный СИМПЛ Белый снег',
+    'stol-pis-mennyy-simpl-belyy-sneg',
+    'Premium table Стол письменный СИМПЛ Белый снег. High-quality European furniture with exceptional design and durability. Dimensions: 120x60x75 cm (LxWxH)',
+    1167,
+    id,
+    10,
+    60,
+    75,
+    120,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+-- Insert Product Images
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Стол Boss One NEW Бетон, черный - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0200';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Стол Boss One NEW Бетон, черный - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0200';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Стол Boss One NEW Бетон, черный - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0200';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Стол Boss One NEW Бетон, черный - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0200';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Стол Boss One NEW Бетон, черный - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0200';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Стол Boss One NEW Дуб вотан, Черный - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0201';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Стол Boss One NEW Дуб вотан, Черный - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0201';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Стол Boss One NEW Дуб вотан, Черный - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0201';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Стол Boss One NEW Дуб вотан, Черный - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0201';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Стол Boss One NEW Дуб вотан, Черный - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0201';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Стол Boss One NEW Белый мрамор, Белый - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0202';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Стол Boss One NEW Белый мрамор, Белый - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0202';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Стол Boss One NEW Белый мрамор, Белый - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0202';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Стол Boss One NEW Белый мрамор, Белый - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0202';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Стол Boss One NEW Белый мрамор, Белый - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0202';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Стол Лофт-125 Крафт табачный - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0203';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Стол Лофт-125 Крафт табачный - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0203';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Стол Лофт-125 Крафт табачный - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0203';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,

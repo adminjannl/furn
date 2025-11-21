@@ -1,0 +1,113 @@
+{
+  "1_star": {
+    "en": [
+      { "title": "Waited way too long", "text": "Delivery took over 6 weeks when I was promised 2-3 weeks. Had to chase customer service multiple times for updates. The furniture itself is nice quality once it finally arrived, but the wait was unacceptable for a purchase this expensive." },
+      { "title": "Communication disaster", "text": "Zero updates on delivery. Called three times and got different answers each time. Furniture is good but I almost cancelled the order due to the lack of communication. Very frustrating process." },
+      { "title": "Terrible delivery experience", "text": "Delivery date changed four times! Each time just a day before scheduled delivery. The sofa itself is beautiful and well-made, but the delivery service needs serious improvement. Would have gone elsewhere if I'd known." }
+    ],
+    "nl": [
+      { "title": "Veel te lang gewacht", "text": "Levering duurde meer dan 6 weken terwijl 2-3 weken was beloofd. Moest meerdere keren achter klantenservice aan voor updates. Het meubel zelf is mooie kwaliteit toen het eindelijk aankwam, maar het wachten was onaanvaardbaar." },
+      { "title": "Communicatie ramp", "text": "Geen updates over levering. Drie keer gebeld en telkens andere antwoorden. Meubel is goed maar wilde bijna annuleren door gebrek aan communicatie. Zeer frustrerend proces." },
+      { "title": "Vreselijke levering", "text": "Leverdatum vier keer veranderd! Telkens een dag voor geplande levering. De bank zelf is mooi en goed gemaakt, maar de bezorgservice moet echt beter. Had elders besteld als ik dit had geweten." }
+    ],
+    "de": [
+      { "title": "Viel zu lange gewartet", "text": "Lieferung dauerte über 6 Wochen, obwohl 2-3 Wochen versprochen wurden. Musste mehrmals beim Kundenservice nachfragen. Die Möbel selbst sind schöne Qualität als sie endlich ankamen, aber das Warten war inakzeptabel." },
+      { "title": "Kommunikations-Desaster", "text": "Keine Updates zur Lieferung. Dreimal angerufen und jedes Mal andere Antworten. Möbel sind gut, aber wollte fast stornieren wegen fehlender Kommunikation. Sehr frustrierend." },
+      { "title": "Schreckliche Liefererfahrung", "text": "Liefertermin viermal geändert! Jedes Mal einen Tag vor geplanter Lieferung. Das Sofa selbst ist schön und gut verarbeitet, aber der Lieferservice braucht ernsthafte Verbesserung." }
+    ],
+    "fr": [
+      { "title": "Attente beaucoup trop longue", "text": "La livraison a pris plus de 6 semaines alors que 2-3 semaines étaient promises. Dû relancer le service client plusieurs fois. Les meubles eux-mêmes sont de belle qualité une fois arrivés, mais l'attente était inacceptable." },
+      { "title": "Désastre de communication", "text": "Aucune mise à jour sur la livraison. Appelé trois fois avec des réponses différentes à chaque fois. Les meubles sont bons mais j'ai failli annuler la commande à cause du manque de communication." },
+      { "title": "Expérience de livraison terrible", "text": "Date de livraison changée quatre fois ! Chaque fois un jour avant la livraison prévue. Le canapé lui-même est magnifique et bien fait, mais le service de livraison a besoin d'améliorations sérieuses." }
+    ]
+  },
+  "2_star": {
+    "en": [
+      { "title": "Delivery took forever", "text": "Waited almost a month longer than promised. Furniture quality is actually pretty good, just disappointed with how long it took and the poor communication throughout." },
+      { "title": "Process was frustrating", "text": "Had to call multiple times to get delivery updates. The table looks nice and is well-built, but the ordering experience left a lot to be desired." },
+      { "title": "Long wait time", "text": "Took much longer than expected to arrive. Product itself is fine and looks good in our space, but better delivery coordination would make this a much better experience." }
+    ],
+    "nl": [
+      { "title": "Levering duurde eindeloos", "text": "Bijna een maand langer gewacht dan beloofd. Meubelkwaliteit is eigenlijk best goed, alleen teleurgesteld over hoe lang het duurde en de slechte communicatie." },
+      { "title": "Proces was frustrerend", "text": "Moest meerdere keren bellen voor levering updates. De tafel ziet er mooi uit en is goed gebouwd, maar de bestelervaring liet te wensen over." },
+      { "title": "Lange wachttijd", "text": "Duurde veel langer dan verwacht om aan te komen. Product zelf is prima en ziet er goed uit in onze ruimte, maar betere leveringscoördinatie zou dit een veel betere ervaring maken." }
+    ],
+    "de": [
+      { "title": "Lieferung dauerte ewig", "text": "Fast einen Monat länger gewartet als versprochen. Möbelqualität ist eigentlich ziemlich gut, nur enttäuscht darüber, wie lange es dauerte und die schlechte Kommunikation." },
+      { "title": "Prozess war frustrierend", "text": "Musste mehrmals anrufen, um Lieferupdates zu bekommen. Der Tisch sieht schön aus und ist gut gebaut, aber die Bestellerfahrung ließ viel zu wünschen übrig." }
+    ],
+    "fr": [
+      { "title": "Livraison a pris une éternité", "text": "Attendu presque un mois de plus que promis. La qualité des meubles est en fait plutôt bonne, juste déçu du temps que cela a pris et de la mauvaise communication." },
+      { "title": "Processus frustrant", "text": "Dû appeler plusieurs fois pour obtenir des mises à jour de livraison. La table est belle et bien construite, mais l'expérience de commande laissait beaucoup à désirer." }
+    ]
+  },
+  "3_star": {
+    "en": [
+      { "title": "Good but delivery delayed", "text": "The furniture quality is good for the price. Delivery took 3 weeks longer than expected which was inconvenient, but happy with the product itself." },
+      { "title": "Decent overall", "text": "Nice piece of furniture. Assembly instructions could be clearer. Delivery was later than scheduled but customer service was helpful when I called." },
+      { "title": "Mixed experience", "text": "Product looks nice and seems well-made. Delivery communication wasn't great - had to follow up myself. Worth it in the end though." }
+    ],
+    "nl": [
+      { "title": "Goed maar levering vertraagd", "text": "De meubelkwaliteit is goed voor de prijs. Levering duurde 3 weken langer dan verwacht wat onhandig was, maar blij met het product zelf." },
+      { "title": "Behoorlijk overall", "text": "Mooi meubelstuk. Montage-instructies konden duidelijker. Levering was later dan gepland maar klantenservice was behulpzaam toen ik belde." }
+    ],
+    "de": [
+      { "title": "Gut aber Lieferung verzögert", "text": "Die Möbelqualität ist gut für den Preis. Lieferung dauerte 3 Wochen länger als erwartet, was unbequem war, aber zufrieden mit dem Produkt selbst." },
+      { "title": "Insgesamt anständig", "text": "Schönes Möbelstück. Montageanleitung könnte klarer sein. Lieferung war später als geplant, aber Kundenservice war hilfreich als ich anrief." }
+    ],
+    "fr": [
+      { "title": "Bien mais livraison retardée", "text": "La qualité des meubles est bonne pour le prix. La livraison a pris 3 semaines de plus que prévu, ce qui était gênant, mais content du produit lui-même." },
+      { "title": "Correct dans l'ensemble", "text": "Joli meuble. Les instructions de montage pourraient être plus claires. La livraison était plus tardive que prévu mais le service client était utile quand j'ai appelé." }
+    ]
+  },
+  "4_star": {
+    "en": [
+      { "title": "Really pleased with this", "text": "Good quality furniture at a fair price. Looks great in our living room. Delivery took a bit longer than expected but the product makes up for it." },
+      { "title": "Great purchase", "text": "Very happy with the quality. Solid construction and looks exactly like the photos. Would definitely buy from here again." },
+      { "title": "Solid choice", "text": "Well-made furniture that fits perfectly in our space. Assembly was straightforward and everything arrived in good condition." }
+    ],
+    "nl": [
+      { "title": "Echt blij hiermee", "text": "Goede kwaliteit meubel voor een eerlijke prijs. Ziet er geweldig uit in onze woonkamer. Levering duurde iets langer dan verwacht maar het product maakt dat goed." },
+      { "title": "Goede aankoop", "text": "Zeer tevreden met de kwaliteit. Stevige constructie en ziet er precies uit zoals op de foto's. Zou hier zeker weer kopen." },
+      { "title": "Prima keuze", "text": "Goed gemaakt meubel dat perfect past in onze ruimte. Montage was eenvoudig en alles kwam in goede staat aan." }
+    ],
+    "de": [
+      { "title": "Wirklich zufrieden damit", "text": "Gute Qualitätsmöbel zu einem fairen Preis. Sieht toll aus in unserem Wohnzimmer. Lieferung dauerte etwas länger als erwartet, aber das Produkt macht es wett." },
+      { "title": "Toller Kauf", "text": "Sehr zufrieden mit der Qualität. Solide Konstruktion und sieht genau wie auf den Fotos aus. Würde hier definitiv wieder kaufen." },
+      { "title": "Solide Wahl", "text": "Gut gemachte Möbel, die perfekt in unseren Raum passen. Montage war unkompliziert und alles kam in gutem Zustand an." }
+    ],
+    "fr": [
+      { "title": "Vraiment content de ceci", "text": "Meubles de bonne qualité à un prix juste. Superbe dans notre salon. La livraison a pris un peu plus de temps que prévu mais le produit compense." },
+      { "title": "Excellent achat", "text": "Très satisfait de la qualité. Construction solide et ressemble exactement aux photos. J'achèterais certainement à nouveau ici." },
+      { "title": "Bon choix", "text": "Meubles bien faits qui s'intègrent parfaitement dans notre espace. Le montage était simple et tout est arrivé en bon état." }
+    ]
+  },
+  "5_star": {
+    "en": [
+      { "title": "Very satisfied", "text": "Great quality and looks even better in person. Fits perfectly in our bedroom. Would recommend." },
+      { "title": "Excellent purchase", "text": "Really happy with this. Good value for money and the quality is solid. Delivery was smooth and on time." },
+      { "title": "Looks great", "text": "Beautiful piece of furniture. Well-made and comfortable. Assembly was easy and it arrived well-packaged." },
+      { "title": "Good quality", "text": "Exactly what we were looking for. Nice finish and sturdy construction. Very pleased with how it turned out." },
+      { "title": "Happy with this buy", "text": "Good furniture at a reasonable price. Looks nice and seems durable. Customer service was helpful with my questions." },
+      { "title": "Happy customer", "text": "Nice piece of furniture for the money. Comfortable and looks good in our home." }
+    ],
+    "nl": [
+      { "title": "Zeer tevreden", "text": "Prima kwaliteit en ziet er nog beter uit in het echt. Past perfect in onze slaapkamer. Zou ik aanraden." },
+      { "title": "Uitstekende aankoop", "text": "Echt blij hiermee. Goede prijs-kwaliteitverhouding en de kwaliteit is solide. Levering was soepel en op tijd." },
+      { "title": "Ziet er goed uit", "text": "Mooi meubelstuk. Goed gemaakt en comfortabel. Montage was makkelijk en het kwam goed verpakt aan." },
+      { "title": "Goede kwaliteit", "text": "Precies wat we zochten. Mooie afwerking en stevige constructie. Zeer tevreden met hoe het is geworden." }
+    ],
+    "de": [
+      { "title": "Sehr zufrieden", "text": "Tolle Qualität und sieht in Person noch besser aus. Passt perfekt in unser Schlafzimmer. Würde ich empfehlen." },
+      { "title": "Ausgezeichneter Kauf", "text": "Wirklich glücklich damit. Gutes Preis-Leistungs-Verhältnis und die Qualität ist solide. Lieferung war reibungslos und pünktlich." },
+      { "title": "Sieht toll aus", "text": "Schönes Möbelstück. Gut gemacht und bequem. Montage war einfach und es kam gut verpackt an." },
+      { "title": "Gute Qualität", "text": "Genau das, wonach wir gesucht haben. Schönes Finish und robuste Konstruktion. Sehr zufrieden damit." }
+    ],
+    "fr": [
+      { "title": "Très satisfait", "text": "Excellente qualité et encore plus beau en personne. S'intègre parfaitement dans notre chambre. Je recommande." },
+      { "title": "Excellent achat", "text": "Vraiment content de cela. Bon rapport qualité-prix et la qualité est solide. La livraison s'est bien passée et était à l'heure." },
+      { "title": "Très beau", "text": "Beau meuble. Bien fait et confortable. Le montage était facile et il est arrivé bien emballé." },
+      { "title": "Bonne qualité", "text": "Exactement ce que nous cherchions. Belle finition et construction robuste. Très satisfait du résultat." }
+    ]
+  }
+}

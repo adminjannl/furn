@@ -1,0 +1,300 @@
+    false
+  FROM products WHERE sku = 'TBL-MNM-0210';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Журнальный стол LUX NEW Крафт табачный - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0210';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Журнальный стол LUX NEW Крафт табачный - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0210';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Журнальный стол LUX NEW Крафт табачный - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0210';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Журнальный стол LUX new Сонома - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0211';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Журнальный стол LUX new Сонома - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0211';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Журнальный стол LUX new Сонома - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0211';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Журнальный стол LUX new Сонома - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0211';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Журнальный стол LUX new Сонома - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0211';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Стол журнальный BOSS 42 см Wood Brown - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0212';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Стол журнальный BOSS 42 см Wood Brown - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0212';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Стол журнальный BOSS 42 см Wood Brown - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0212';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Стол журнальный BOSS 42 см Wood Brown - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0212';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Стол журнальный BOSS 42 см Wood Brown - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0212';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Стол журнальный BOSS 42 см Wood Beige - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0213';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Стол журнальный BOSS 42 см Wood Beige - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0213';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Стол журнальный BOSS 42 см Wood Beige - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0213';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Стол журнальный BOSS 42 см Wood Beige - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0213';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Стол журнальный BOSS 42 см Wood Beige - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0213';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Стол журнальный BOSS 42 см Wood Grafit - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0214';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Стол журнальный BOSS 42 см Wood Grafit - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0214';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Стол журнальный BOSS 42 см Wood Grafit - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0214';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Стол журнальный BOSS 42 см Wood Grafit - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0214';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Стол журнальный BOSS 42 см Wood Grafit - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0214';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Стол-приставка BOSS.XO WOOD Real - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0215';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Стол-приставка BOSS.XO WOOD Real - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0215';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Стол-приставка BOSS.XO WOOD Real - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0215';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Стол-приставка BOSS.XO WOOD Real - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0215';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Стол-приставка BOSS.XO WOOD Real - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0215';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Стол-приставка BOSS.XO WOOD Dark - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0216';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Стол-приставка BOSS.XO WOOD Dark - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0216';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Стол-приставка BOSS.XO WOOD Dark - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0216';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Стол-приставка BOSS.XO WOOD Dark - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0216';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Стол-приставка BOSS.XO WOOD Dark - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0216';
+

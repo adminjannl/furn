@@ -1,0 +1,34 @@
+{
+  "database": {
+    "count": 78,
+    "samples": [
+      "Executive Office Chair",
+      "Glass Coffee Table",
+      "Classic Leather Sectional",
+      "Rustic Dining Table",
+      "Dining Chair Set of 4"
+    ]
+  },
+  "json": {
+    "count": 45,
+    "samples": [
+      "Кровать Фрея 160*200 с ПМ MONOLIT Латте",
+      "Кровать ЛЕО 160 Вельвет CORD серая",
+      "Кровать ЛЕО 160 Вельвет CORD бежевая",
+      "Кровать Фрея 160*200 Слим MONOLIT Серая",
+      "Кровать NORD Шенилл IQ серая"
+    ]
+  },
+  "gaps": {
+    "toTarget": 17,
+    "missingFromDb": 1,
+    "inDbNotInJson": 28
+  },
+  "missingBeds": [
+    {
+      "name": "Кровать Босс Дрим 160*200 Про Велюр Роял агат",
+      "url": "https://mnogomebeli.com/krovati/krovati-boss/krovat-boss-dream-160-velyur-royal/!krovat-boss-drim-160-velyur-royal-agat/",
+      "image": "https://mnogomebeli.com/upload/iblock/d3a/b9gkwd3el3cbx8pryh40aty5wpz65hv5/Frame-126.jpg"
+    }
+  ]
+}

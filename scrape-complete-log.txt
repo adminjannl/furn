@@ -1,0 +1,57 @@
+🗄️  Scraping ALL cabinet categories to get 107 products...
+
+
+📂 Scraping: https://mnogomebeli.com/shkafy/
+   ✅ Found 45 new products (Total: 45)
+
+📂 Scraping: https://mnogomebeli.com/shkafy/raspashnye/
+   ✅ Found 0 new products (Total: 45)
+
+📂 Scraping: https://mnogomebeli.com/shkafy/shkafy-kupe/
+   ❌ HTTP 404
+
+📂 Scraping: https://mnogomebeli.com/shkafy/uglovye/
+   ✅ Found 0 new products (Total: 45)
+
+📂 Scraping: https://mnogomebeli.com/shkafy/s-zerkalom/
+   ✅ Found 5 new products (Total: 50)
+
+📂 Scraping: https://mnogomebeli.com/shkafy/prihozhaya/
+   ✅ Found 0 new products (Total: 50)
+
+📂 Scraping: https://mnogomebeli.com/shkafy/pryamye/
+   ✅ Found 0 new products (Total: 50)
+
+📂 Scraping: https://mnogomebeli.com/shkafy/boss-standart-220/
+   ✅ Found 36 new products (Total: 86)
+
+============================================================
+📊 FINAL RESULTS:
+   Total unique cabinets: 86
+   Target from website: 107
+   ⚠️  21 products still missing (likely behind JS load)
+============================================================
+
+💾 Saved to cabinets-scraped-complete.json
+
+📋 Breakdown by category:
+   /shkafy/: 45 products
+   /shkafy/boss-standart-220/: 36 products
+   /shkafy/s-zerkalom/: 5 products
+
+📋 First 15 cabinets:
+   1. Шкаф BOSS STANDART 120 - 3Д Кашемир серый
+   2. Идея 180 шкаф распашной 4Д+ящики Кашемир
+   3. Рим 120 шкаф распашной 3Д Кашемир
+   4. Идея 120 шкаф распашной 3Д Кашемир
+   5. Рим 120 шкаф распашной 3Д Орех Селект
+   6. Идея 135 шкаф распашной 3Д+ящики Белый
+   7. Рим 160 шкаф распашной 4Д Белый
+   8. Шкаф BOSS STANDART 180 - 4Д Шиншилла серая
+   9. Рим 80 шкаф распашной 2Д Белый
+   10. Рим 180 шкаф распашной 4Д Кашемир
+   11. Рим 180 шкаф распашной 4Д Орех Селект
+   12. Шкаф BOSS STANDART 150 - 3Д Шиншилла серая
+   13. Шкаф BOSS STANDART 180 - 4Д Кашемир серый
+   14. Рим 90 шкаф распашной 2Д Белый
+   15. Рим 160 шкаф распашной 4Д Кашемир

@@ -1,0 +1,224 @@
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Стол-приставка BOSS.XO WOOD Snow - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0217';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Стол-приставка BOSS.XO WOOD Snow - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0217';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Стол-приставка BOSS.XO WOOD Snow - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0217';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Стол-приставка BOSS.XO WOOD Snow - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0217';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Стол-приставка BOSS.XO WOOD Snow - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0217';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Стол-приставка BOSS.XO WOOD Smok - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0218';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Стол-приставка BOSS.XO WOOD Smok - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0218';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Стол-приставка BOSS.XO WOOD Smok - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0218';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Стол-приставка BOSS.XO WOOD Smok - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0218';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Стол-приставка BOSS.XO WOOD Smok - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0218';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Стол-приставка BOSS.XO WOOD Rock - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0219';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Стол-приставка BOSS.XO WOOD Rock - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0219';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Стол-приставка BOSS.XO WOOD Rock - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0219';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Стол-приставка BOSS.XO WOOD Rock - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0219';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Стол-приставка BOSS.XO WOOD Rock - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0219';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Письменный стол LUX Сонома, Белый снег - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0220';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Письменный стол LUX Сонома, Белый снег - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0220';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Письменный стол LUX Сонома, Белый снег - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0220';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Письменный стол LUX Сонома, Белый снег - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0220';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Письменный стол LUX Сонома, Белый снег - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0220';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/iblock/ca0/owh3pl8rllakat9wx5y320naowqqmqmk/INT_Boss_3_monolith_77_stol_Lux_stol_transformer_sonoma_leto_0002_1284kh1000.jpg?17504451841278016',
+    'Стол письменный СИМПЛ Белый снег - View 1',
+    1,
+    true
+  FROM products WHERE sku = 'TBL-MNM-0221';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/7eb/zu8o5plb2clu4ntn4i0y0ovsbc331jgm/INT_bed_Boss_Dream_160_monolith_steel_0000_1284kh1000.jpg?1738242127355884',
+    'Стол письменный СИМПЛ Белый снег - View 2',
+    2,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0221';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/b49/g3crl3chereq953rseexvwpq825je3nd/INT_Bed_Boss_180_alkantara_pepel_0000_1284kh1000.jpg?1738242127268411',
+    'Стол письменный СИМПЛ Белый снег - View 3',
+    3,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0221';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/3ea/aprv7ziu7ghphnbyq8luldi4ia7o31uf/INT_bed_Boss_XO_160_monolith_Lat.jpg?1738242427364862',
+    'Стол письменный СИМПЛ Белый снег - View 4',
+    4,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0221';
+
+  INSERT INTO product_images (product_id, image_url, alt_text, display_order, is_primary)
+  SELECT
+    id,
+    'https://mnogomebeli.com/upload/uf/562/aacyebaizf3sj0tr1m2ozm2v7kvlfwyd/INT_Bed_Boss_Kids_90_monolit_latte_0000.jpg?1756989223416966',
+    'Стол письменный СИМПЛ Белый снег - View 5',
+    5,
+    false
+  FROM products WHERE sku = 'TBL-MNM-0221';

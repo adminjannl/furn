@@ -1,0 +1,300 @@
+/*
+  # Import 22 Tables from mnogomebeli.com
+
+  1. New Products
+    - 22 tables with real prices from website
+    - Multiple categories: dining tables, coffee tables, transformers, writing desks
+    - Includes dimensions (LxWxH) where available
+    - Estimated dimensions added for products without specified dimensions
+
+  2. Product Details
+    - SKUs: TBL-MNM-0200 to TBL-MNM-0221
+    - Price range: 600 BYN to 19,999 BYN
+    - All products set to 'active' status
+    - Stock quantity: 10 units per product
+
+  3. Images
+    - 110 product images total
+    - Primary image set for each product
+    - All images with alt text and display order
+
+  4. Security
+    - Uses existing RLS policies from products and product_images tables
+*/
+
+-- Insert Tables Category if not exists
+INSERT INTO categories (name, slug, description, display_order, created_at)
+VALUES (
+  'Tables',
+  'tables',
+  'Premium tables for every room - dining, coffee, writing desks, and transformers',
+  5,
+  NOW()
+)
+ON CONFLICT (slug) DO NOTHING;
+
+-- Insert Products
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0200',
+    'Стол Boss One NEW Бетон, черный',
+    'stol-boss-one-new-beton-chernyy',
+    'Premium table Стол Boss One NEW Бетон, черный. High-quality European furniture with exceptional design and durability. Dimensions: 140x80x75 cm (LxWxH)',
+    9790,
+    id,
+    10,
+    80,
+    75,
+    140,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0201',
+    'Стол Boss One NEW Дуб вотан, Черный',
+    'stol-boss-one-new-dub-votan-chernyy',
+    'Premium table Стол Boss One NEW Дуб вотан, Черный. High-quality European furniture with exceptional design and durability. Dimensions: 140x80x75 cm (LxWxH)',
+    9790,
+    id,
+    10,
+    80,
+    75,
+    140,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0202',
+    'Стол Boss One NEW Белый мрамор, Белый',
+    'stol-boss-one-new-belyy-mramor-belyy',
+    'Premium table Стол Boss One NEW Белый мрамор, Белый. High-quality European furniture with exceptional design and durability. Dimensions: 140x80x75 cm (LxWxH)',
+    9790,
+    id,
+    10,
+    80,
+    75,
+    140,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0203',
+    'Стол Лофт-125 Крафт табачный',
+    'stol-loft-125-kraft-tabachnyy',
+    'Premium table Стол Лофт-125 Крафт табачный. High-quality European furniture with exceptional design and durability. Dimensions: 120x70x75 cm (LxWxH)',
+    16499,
+    id,
+    10,
+    70,
+    75,
+    120,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0204',
+    'Стол ЛОФТ Slide NEW Орех Селект, Чёрный',
+    'stol-loft-slide-new-oreh-selekt-ch-rnyy',
+    'Premium table Стол ЛОФТ Slide NEW Орех Селект, Чёрный. High-quality European furniture with exceptional design and durability. Dimensions: 140x80x75 cm (LxWxH)',
+    9790,
+    id,
+    10,
+    80,
+    75,
+    140,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0205',
+    'Стол ЛОФТ Slide NEW Крафт табачный, Чёрный',
+    'stol-loft-slide-new-kraft-tabachnyy-ch-rnyy',
+    'Premium table Стол ЛОФТ Slide NEW Крафт табачный, Чёрный. High-quality European furniture with exceptional design and durability. Dimensions: 140x80x75 cm (LxWxH)',
+    9790,
+    id,
+    10,
+    80,
+    75,
+    140,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0206',
+    'Стол-трансформер LUX венге',
+    'stol-transformer-lux-venge',
+    'Premium table Стол-трансформер LUX венге. High-quality European furniture with exceptional design and durability. Dimensions: 162x80x79 cm (LxWxH)',
+    10999,
+    id,
+    10,
+    80,
+    79,
+    162,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0207',
+    'Стол-трансформер LUX Крафт',
+    'stol-transformer-lux-kraft',
+    'Premium table Стол-трансформер LUX Крафт. High-quality European furniture with exceptional design and durability. Dimensions: 162x80x79 cm (LxWxH)',
+    3599,
+    id,
+    10,
+    80,
+    79,
+    162,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0208',
+    'Стол-трансформер LUX Сонома',
+    'stol-transformer-lux-sonoma',
+    'Premium table Стол-трансформер LUX Сонома. High-quality European furniture with exceptional design and durability. Dimensions: 162x80x79 cm (LxWxH)',
+    14999,
+    id,
+    10,
+    80,
+    79,
+    162,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0209',
+    'Журнальный стол LUX NEW Венге',
+    'zhurnal-nyy-stol-lux-new-venge',
+    'Premium table Журнальный стол LUX NEW Венге. High-quality European furniture with exceptional design and durability. Dimensions: 103x88x69 cm (LxWxH)',
+    19999,
+    id,
+    10,
+    88,
+    69,
+    103,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0210',
+    'Журнальный стол LUX NEW Крафт табачный',
+    'zhurnal-nyy-stol-lux-new-kraft-tabachnyy',
+    'Premium table Журнальный стол LUX NEW Крафт табачный. High-quality European furniture with exceptional design and durability. Dimensions: 103x88x69 cm (LxWxH)',
+    10999,
+    id,
+    10,
+    88,
+    69,
+    103,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0211',
+    'Журнальный стол LUX new Сонома',
+    'zhurnal-nyy-stol-lux-new-sonoma',
+    'Premium table Журнальный стол LUX new Сонома. High-quality European furniture with exceptional design and durability. Dimensions: 103x88x69 cm (LxWxH)',
+    19999,
+    id,
+    10,
+    88,
+    69,
+    103,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0212',
+    'Стол журнальный BOSS 42 см Wood Brown',
+    'stol-zhurnal-nyy-boss-42-sm-wood-brown',
+    'Premium table Стол журнальный BOSS 42 см Wood Brown. High-quality European furniture with exceptional design and durability. Dimensions: 100x60x45 cm (LxWxH)',
+    19999,
+    id,
+    10,
+    60,
+    45,
+    100,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0213',
+    'Стол журнальный BOSS 42 см Wood Beige',
+    'stol-zhurnal-nyy-boss-42-sm-wood-beige',
+    'Premium table Стол журнальный BOSS 42 см Wood Beige. High-quality European furniture with exceptional design and durability. Dimensions: 100x60x45 cm (LxWxH)',
+    10999,
+    id,
+    10,
+    60,
+    45,
+    100,
+    'active',
+    NOW(),
+    NOW()
+  FROM categories WHERE slug = 'tables'
+  ON CONFLICT (sku) DO NOTHING;
+
+  INSERT INTO products (sku, name, slug, description, price, category_id, stock_quantity, width_cm, height_cm, length_cm, status, created_at, updated_at)
+  SELECT
+    'TBL-MNM-0214',
+    'Стол журнальный BOSS 42 см Wood Grafit',
+    'stol-zhurnal-nyy-boss-42-sm-wood-grafit',
+    'Premium table Стол журнальный BOSS 42 см Wood Grafit. High-quality European furniture with exceptional design and durability. Dimensions: 100x60x45 cm (LxWxH)',
+    10999,
+    id,
+    10,
+    60,
+    45,

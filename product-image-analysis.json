@@ -1,0 +1,2093 @@
+{
+  "productsWithImages": [
+    {
+      "sku": "BD-PLT-007",
+      "name": "King Size Platform Bed",
+      "totalImages": 1,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/312096c3-6800-4d7f-a129-5767ffee8d32/af0d9f91-8647-4d9b-b33e-f6bd1eda4283.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "af0d9f91-8647-4d9b-b33e-f6bd1eda4283",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/312096c3-6800-4d7f-a129-5767ffee8d32/af0d9f91-8647-4d9b-b33e-f6bd1eda4283.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BD-STR-008",
+      "name": "Queen Storage Bed",
+      "totalImages": 1,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/91629adc-04ca-4947-b71f-1996ed91061a/27db0b0f-602c-4651-a0b0-a407e50acb64.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "27db0b0f-602c-4651-a0b0-a407e50acb64",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/91629adc-04ca-4947-b71f-1996ed91061a/27db0b0f-602c-4651-a0b0-a407e50acb64.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-004",
+      "name": "Bed NORD Chenille IQ Gray",
+      "totalImages": 2,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/b04b0325-9076-4480-83d9-0405b047f0b8/323887d0-3ccf-4458-8747-eb6637c09748.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "323887d0-3ccf-4458-8747-eb6637c09748",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/b04b0325-9076-4480-83d9-0405b047f0b8/323887d0-3ccf-4458-8747-eb6637c09748.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "b421a6e6-3e14-409d-a0c6-9a7c34d3e114",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/b04b0325-9076-4480-83d9-0405b047f0b8/b421a6e6-3e14-409d-a0c6-9a7c34d3e114.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-006",
+      "name": "Bed Boss 160x200 Pro Velvet Monolit Latte",
+      "totalImages": 2,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/0d5fd987-8801-4bf4-a9b5-85835ee261f5/ae32f25e-4fa8-4f0c-b4cb-cafd90ba8e4c.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "ae32f25e-4fa8-4f0c-b4cb-cafd90ba8e4c",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/0d5fd987-8801-4bf4-a9b5-85835ee261f5/ae32f25e-4fa8-4f0c-b4cb-cafd90ba8e4c.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "f8378d70-81a0-4f40-83a7-6ad806291fe9",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/0d5fd987-8801-4bf4-a9b5-85835ee261f5/f8378d70-81a0-4f40-83a7-6ad806291fe9.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-BE001-MG",
+      "name": "Bed Bella 160x200 Velvet Monolit Gray",
+      "totalImages": 2,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/d836e9ec-a2a8-42d8-b2c0-f7b23e161540/5a523018-337d-4416-98ac-1f1f3bb4e4ac.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "5a523018-337d-4416-98ac-1f1f3bb4e4ac",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/d836e9ec-a2a8-42d8-b2c0-f7b23e161540/5a523018-337d-4416-98ac-1f1f3bb4e4ac.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "b0bce4be-6f14-496b-bab1-978b75149e93",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/d836e9ec-a2a8-42d8-b2c0-f7b23e161540/b0bce4be-6f14-496b-bab1-978b75149e93.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-BO001-VL",
+      "name": "Bed BOSS 160x200 Pro Velvet Monolit Latte",
+      "totalImages": 2,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/f1c32a78-21c7-4329-89b5-c2566b5150e4/8aeb0209-b5fc-484d-ac1b-9867605bb1dd.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "8aeb0209-b5fc-484d-ac1b-9867605bb1dd",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/f1c32a78-21c7-4329-89b5-c2566b5150e4/8aeb0209-b5fc-484d-ac1b-9867605bb1dd.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "1a03c2af-ea6d-438a-b1c2-72f8bdf57b24",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/f1c32a78-21c7-4329-89b5-c2566b5150e4/1a03c2af-ea6d-438a-b1c2-72f8bdf57b24.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-FR001-ML",
+      "name": "Bed Freya 160x200 with Lifting Mechanism Monolit Latte",
+      "totalImages": 3,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/400c774b-4db7-4cc2-b91f-a4cd5006608b/90a7a2f2-43c3-4efd-af57-e5949459ce4a.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "90a7a2f2-43c3-4efd-af57-e5949459ce4a",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/400c774b-4db7-4cc2-b91f-a4cd5006608b/90a7a2f2-43c3-4efd-af57-e5949459ce4a.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "b79d39ad-4208-47d3-8b59-b8e03d93cc38",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/400c774b-4db7-4cc2-b91f-a4cd5006608b/b79d39ad-4208-47d3-8b59-b8e03d93cc38.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "ad21b09c-340e-4597-aa92-bfca0361d9ae",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/400c774b-4db7-4cc2-b91f-a4cd5006608b/ad21b09c-340e-4597-aa92-bfca0361d9ae.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-LE001-CG",
+      "name": "Bed LEO 160 Velvet CORD Gray",
+      "totalImages": 2,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/6e1b4e70-8663-444e-9391-21ecf31e4e0e/f379a418-c992-4dde-80f4-580c6a356a3d.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "f379a418-c992-4dde-80f4-580c6a356a3d",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/6e1b4e70-8663-444e-9391-21ecf31e4e0e/f379a418-c992-4dde-80f4-580c6a356a3d.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "6960a685-75c6-448a-9981-9b811ee7857f",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/6e1b4e70-8663-444e-9391-21ecf31e4e0e/6960a685-75c6-448a-9981-9b811ee7857f.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0001",
+      "name": "Bed Freya 160*200 with Lifting Mechanism Monolit Latte",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8c5a5e3e-3bf2-483b-aab1-fe68bbe8b0b8/36795a6c-1040-4dfa-bd5e-300cebf75ef7.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "36795a6c-1040-4dfa-bd5e-300cebf75ef7",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8c5a5e3e-3bf2-483b-aab1-fe68bbe8b0b8/36795a6c-1040-4dfa-bd5e-300cebf75ef7.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "f1748dbd-bbc8-468b-9559-b8e46fcd6acb",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8c5a5e3e-3bf2-483b-aab1-fe68bbe8b0b8/f1748dbd-bbc8-468b-9559-b8e46fcd6acb.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "06d87652-10a1-49c7-a63a-bb28951b6486",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8c5a5e3e-3bf2-483b-aab1-fe68bbe8b0b8/06d87652-10a1-49c7-a63a-bb28951b6486.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "28308488-b02f-46c9-b4ce-22af2e29a273",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8c5a5e3e-3bf2-483b-aab1-fe68bbe8b0b8/28308488-b02f-46c9-b4ce-22af2e29a273.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0002",
+      "name": "Bed LEO 160 Velvet CORD gray",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/78a15211-8a36-44ed-b9d7-66a36d820123/7e14e1a1-c942-4293-9b6d-cd3c22911a01.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "7e14e1a1-c942-4293-9b6d-cd3c22911a01",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/78a15211-8a36-44ed-b9d7-66a36d820123/7e14e1a1-c942-4293-9b6d-cd3c22911a01.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "6fd2f2b1-721a-4a3c-8a32-6a2840611158",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/78a15211-8a36-44ed-b9d7-66a36d820123/6fd2f2b1-721a-4a3c-8a32-6a2840611158.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "3e7a052d-afbc-485d-a243-ee2fb1896abc",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/78a15211-8a36-44ed-b9d7-66a36d820123/3e7a052d-afbc-485d-a243-ee2fb1896abc.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "866e8831-3256-4ed0-8470-3b8cf835f309",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/78a15211-8a36-44ed-b9d7-66a36d820123/866e8831-3256-4ed0-8470-3b8cf835f309.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0003",
+      "name": "Bed LEO 160 Velvet CORD beige",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/82b2d5b5-5cb7-48af-8c59-7172099205ef/a147fb34-470d-4e13-9274-2c8455fcace6.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "a147fb34-470d-4e13-9274-2c8455fcace6",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/82b2d5b5-5cb7-48af-8c59-7172099205ef/a147fb34-470d-4e13-9274-2c8455fcace6.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "966e4d1e-aed3-46f2-8765-e1722cbe5465",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/82b2d5b5-5cb7-48af-8c59-7172099205ef/966e4d1e-aed3-46f2-8765-e1722cbe5465.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "5ba35e9e-5190-417f-9a3e-2f0dad242977",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/82b2d5b5-5cb7-48af-8c59-7172099205ef/5ba35e9e-5190-417f-9a3e-2f0dad242977.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "07c7eb42-82d1-463f-a0aa-e779c6f16d24",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/82b2d5b5-5cb7-48af-8c59-7172099205ef/07c7eb42-82d1-463f-a0aa-e779c6f16d24.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0004",
+      "name": "Bed Freya 160*200 Slim Monolit Gray",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/ef7600de-f0a0-4333-92ca-b4babd6f4bc8/97f1489d-f242-45c1-b867-53173abf893d.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "97f1489d-f242-45c1-b867-53173abf893d",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/ef7600de-f0a0-4333-92ca-b4babd6f4bc8/97f1489d-f242-45c1-b867-53173abf893d.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "85281989-f001-4835-91db-32e962cc08a9",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/ef7600de-f0a0-4333-92ca-b4babd6f4bc8/85281989-f001-4835-91db-32e962cc08a9.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "01b2082e-1474-459d-a286-4b8247158d4c",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/ef7600de-f0a0-4333-92ca-b4babd6f4bc8/01b2082e-1474-459d-a286-4b8247158d4c.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "fe505d1d-e31b-42da-bbf9-c0fa9b12d2c3",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/ef7600de-f0a0-4333-92ca-b4babd6f4bc8/fe505d1d-e31b-42da-bbf9-c0fa9b12d2c3.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0005",
+      "name": "Bed NORD Chenille IQ gray",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/fcf9342b-76b3-4df2-9730-de0b3af3063a/14c9f5c1-8fd8-4bf0-b8b0-72b201e3aafb.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "14c9f5c1-8fd8-4bf0-b8b0-72b201e3aafb",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/fcf9342b-76b3-4df2-9730-de0b3af3063a/14c9f5c1-8fd8-4bf0-b8b0-72b201e3aafb.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "dcf36111-54de-405b-9ebf-4348f0499f76",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/fcf9342b-76b3-4df2-9730-de0b3af3063a/dcf36111-54de-405b-9ebf-4348f0499f76.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "ece1570f-3357-48df-bd2f-bbb55b920fb7",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/fcf9342b-76b3-4df2-9730-de0b3af3063a/ece1570f-3357-48df-bd2f-bbb55b920fb7.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "71a897b2-fdfa-40f6-af37-05fa2e7397e9",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/fcf9342b-76b3-4df2-9730-de0b3af3063a/71a897b2-fdfa-40f6-af37-05fa2e7397e9.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0006",
+      "name": "Bed Bella 160*200 velvet Monolit gray",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/dfe36218-7043-4024-8dfa-ab2ece3e0632/181181dc-abee-4e2b-a5cd-81f05cdc6dec.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "181181dc-abee-4e2b-a5cd-81f05cdc6dec",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/dfe36218-7043-4024-8dfa-ab2ece3e0632/181181dc-abee-4e2b-a5cd-81f05cdc6dec.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "58717af7-0b59-4755-8e79-46818385f2fe",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/dfe36218-7043-4024-8dfa-ab2ece3e0632/58717af7-0b59-4755-8e79-46818385f2fe.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "68110044-d93a-4b84-97ca-4a9e3ad149f5",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/dfe36218-7043-4024-8dfa-ab2ece3e0632/68110044-d93a-4b84-97ca-4a9e3ad149f5.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "dfd7bd7a-f0ed-4f00-a213-6e7bca595849",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/dfe36218-7043-4024-8dfa-ab2ece3e0632/dfd7bd7a-f0ed-4f00-a213-6e7bca595849.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0007",
+      "name": "Bed Boss 160*200 Pro velvet Monolit latte",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/3c04bfc0-17c9-4fe8-9739-acfec75c5276/a0cc3da1-215e-4a1f-bbb2-bd6d3a8f05e0.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "a0cc3da1-215e-4a1f-bbb2-bd6d3a8f05e0",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/3c04bfc0-17c9-4fe8-9739-acfec75c5276/a0cc3da1-215e-4a1f-bbb2-bd6d3a8f05e0.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "12aef402-698a-48e5-816b-e97701113931",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/3c04bfc0-17c9-4fe8-9739-acfec75c5276/12aef402-698a-48e5-816b-e97701113931.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "895162ff-84d8-4bda-a7f3-dde48c7e633d",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/3c04bfc0-17c9-4fe8-9739-acfec75c5276/895162ff-84d8-4bda-a7f3-dde48c7e633d.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "acc4b254-0abd-4723-bc06-10039b789e88",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/3c04bfc0-17c9-4fe8-9739-acfec75c5276/acc4b254-0abd-4723-bc06-10039b789e88.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0008",
+      "name": "Bed Boss 160*200 Pro velvet Monolit mocha",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/ecdc7025-d4c5-4cce-9b26-fbbfe326abe8/83cc67f9-dfc3-468a-b278-206dbe5bd124.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "83cc67f9-dfc3-468a-b278-206dbe5bd124",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/ecdc7025-d4c5-4cce-9b26-fbbfe326abe8/83cc67f9-dfc3-468a-b278-206dbe5bd124.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "fff2e2bb-bbbc-45fa-add4-55cd7a28e15b",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/ecdc7025-d4c5-4cce-9b26-fbbfe326abe8/fff2e2bb-bbbc-45fa-add4-55cd7a28e15b.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "78d0271c-b8e5-450c-8059-6db1ded9a74a",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/ecdc7025-d4c5-4cce-9b26-fbbfe326abe8/78d0271c-b8e5-450c-8059-6db1ded9a74a.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "25066072-7214-41a0-9650-c59ac4f8ee04",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/ecdc7025-d4c5-4cce-9b26-fbbfe326abe8/25066072-7214-41a0-9650-c59ac4f8ee04.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0009",
+      "name": "Bed Boss 160*200 Pro velvet Monolit steel",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/87f59f3a-3199-47a4-be3d-d79d508d4b32/b38ea0ab-ce5d-4808-bb84-99483d0819ea.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "b38ea0ab-ce5d-4808-bb84-99483d0819ea",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/87f59f3a-3199-47a4-be3d-d79d508d4b32/b38ea0ab-ce5d-4808-bb84-99483d0819ea.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "e44eb392-8f93-49ad-8227-61f59653a338",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/87f59f3a-3199-47a4-be3d-d79d508d4b32/e44eb392-8f93-49ad-8227-61f59653a338.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "b4c9043c-7bda-410a-a03c-ea0f6858a905",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/87f59f3a-3199-47a4-be3d-d79d508d4b32/b4c9043c-7bda-410a-a03c-ea0f6858a905.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "8612bad5-2047-47e7-b4cc-9751e3b5d3e1",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/87f59f3a-3199-47a4-be3d-d79d508d4b32/8612bad5-2047-47e7-b4cc-9751e3b5d3e1.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0010",
+      "name": "Bed Bella 160*200 velvet Monolit latte",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a4788cfe-b9f0-4b3e-b02b-349116edee66/e7e237dc-fff0-41d5-9fc4-71e477da0455.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "e7e237dc-fff0-41d5-9fc4-71e477da0455",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a4788cfe-b9f0-4b3e-b02b-349116edee66/e7e237dc-fff0-41d5-9fc4-71e477da0455.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "76ff2d25-cd94-41bb-993e-896e50a38efd",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a4788cfe-b9f0-4b3e-b02b-349116edee66/76ff2d25-cd94-41bb-993e-896e50a38efd.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "f3657334-fc0a-4e82-a473-fb9da2fe855d",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a4788cfe-b9f0-4b3e-b02b-349116edee66/f3657334-fc0a-4e82-a473-fb9da2fe855d.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "683605c7-d6dd-4213-8f5d-c8958809615f",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a4788cfe-b9f0-4b3e-b02b-349116edee66/683605c7-d6dd-4213-8f5d-c8958809615f.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0011",
+      "name": "Bed Bella 160*200 velvet Monolit steel",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/bfbdec87-5db2-44fd-abdd-d71b42444571/ae6d0f58-ecba-41eb-b4c0-226795878f26.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "ae6d0f58-ecba-41eb-b4c0-226795878f26",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/bfbdec87-5db2-44fd-abdd-d71b42444571/ae6d0f58-ecba-41eb-b4c0-226795878f26.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "e7849b14-d7df-4245-b7be-784b052baae0",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/bfbdec87-5db2-44fd-abdd-d71b42444571/e7849b14-d7df-4245-b7be-784b052baae0.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "503b846a-428f-44ab-94e1-2451f4f01f09",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/bfbdec87-5db2-44fd-abdd-d71b42444571/503b846a-428f-44ab-94e1-2451f4f01f09.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "3bb1da20-92f9-4895-9713-968c4fc1ab75",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/bfbdec87-5db2-44fd-abdd-d71b42444571/3bb1da20-92f9-4895-9713-968c4fc1ab75.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0012",
+      "name": "Bed Boss 180*200 Pro velvet Monolit latte",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/cdae95e0-f063-46e5-bd12-c4af95880d53/b403a736-58c6-4b9c-9ae8-35a8af0f74a5.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "b403a736-58c6-4b9c-9ae8-35a8af0f74a5",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/cdae95e0-f063-46e5-bd12-c4af95880d53/b403a736-58c6-4b9c-9ae8-35a8af0f74a5.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "d7375fa0-f017-4369-91d5-b5835becfd21",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/cdae95e0-f063-46e5-bd12-c4af95880d53/d7375fa0-f017-4369-91d5-b5835becfd21.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "0531b446-3f37-4686-9c07-57449c542e86",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/cdae95e0-f063-46e5-bd12-c4af95880d53/0531b446-3f37-4686-9c07-57449c542e86.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "cb529d6b-479c-4a01-99ed-9adf6ff8faa9",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/cdae95e0-f063-46e5-bd12-c4af95880d53/cb529d6b-479c-4a01-99ed-9adf6ff8faa9.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0013",
+      "name": "Bed BOSS mini NEW velvet Monolit rose",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/9751981c-2d8c-4ba6-a9aa-772a7d03fef9/203a85fd-f394-4718-95b0-d71f1717ea56.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "203a85fd-f394-4718-95b0-d71f1717ea56",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/9751981c-2d8c-4ba6-a9aa-772a7d03fef9/203a85fd-f394-4718-95b0-d71f1717ea56.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "07557eb6-d2f5-4089-8471-71308d04625d",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/9751981c-2d8c-4ba6-a9aa-772a7d03fef9/07557eb6-d2f5-4089-8471-71308d04625d.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "581c11e3-c5ff-4104-8ef8-edb32a90f64f",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/9751981c-2d8c-4ba6-a9aa-772a7d03fef9/581c11e3-c5ff-4104-8ef8-edb32a90f64f.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "afc73a6f-69e0-49c3-83f0-1d642fdce1f2",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/9751981c-2d8c-4ba6-a9aa-772a7d03fef9/afc73a6f-69e0-49c3-83f0-1d642fdce1f2.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0014",
+      "name": "Bed Bella 140*200 with Lifting Mechanism velvet Monolit latte",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/91bbbc2a-1b51-4c69-aeb2-5b858d256f2f/0a2b57e9-6e2b-4620-9f6d-2c4b452f4d2e.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "0a2b57e9-6e2b-4620-9f6d-2c4b452f4d2e",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/91bbbc2a-1b51-4c69-aeb2-5b858d256f2f/0a2b57e9-6e2b-4620-9f6d-2c4b452f4d2e.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "f5a732a3-3cb0-4307-8c55-9419bcce041d",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/91bbbc2a-1b51-4c69-aeb2-5b858d256f2f/f5a732a3-3cb0-4307-8c55-9419bcce041d.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "41c0c928-f993-4314-8c0f-ce5ea78cb5b8",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/91bbbc2a-1b51-4c69-aeb2-5b858d256f2f/41c0c928-f993-4314-8c0f-ce5ea78cb5b8.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "a0bc2a90-9fe5-4b73-9566-7fba5e6a0b3c",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/91bbbc2a-1b51-4c69-aeb2-5b858d256f2f/a0bc2a90-9fe5-4b73-9566-7fba5e6a0b3c.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0015",
+      "name": "Bed Boss 180*200 Pro velvet Monolit gray",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/bbb8bf78-4d3b-4663-8e5c-408273f8edd0/e5abbc79-ad4d-45ee-8cef-5d7cea4da433.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "e5abbc79-ad4d-45ee-8cef-5d7cea4da433",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/bbb8bf78-4d3b-4663-8e5c-408273f8edd0/e5abbc79-ad4d-45ee-8cef-5d7cea4da433.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "d67c514b-a79c-44ad-8cfa-d5e0a8f42e7f",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/bbb8bf78-4d3b-4663-8e5c-408273f8edd0/d67c514b-a79c-44ad-8cfa-d5e0a8f42e7f.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "5905a94e-aa40-4744-8c2f-b301755ab08d",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/bbb8bf78-4d3b-4663-8e5c-408273f8edd0/5905a94e-aa40-4744-8c2f-b301755ab08d.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "1d95339b-8d94-4ff3-b9f8-4ab933e7f756",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/bbb8bf78-4d3b-4663-8e5c-408273f8edd0/1d95339b-8d94-4ff3-b9f8-4ab933e7f756.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0016",
+      "name": "Bed Bella 140*200 velvet Monolit gray",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/4acbfd2f-c5c4-42f2-b1b8-77c9fb9d635d/f13166ee-51d1-469e-af4b-e3964047f010.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "f13166ee-51d1-469e-af4b-e3964047f010",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/4acbfd2f-c5c4-42f2-b1b8-77c9fb9d635d/f13166ee-51d1-469e-af4b-e3964047f010.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "90fbcc0d-f35d-43c5-9697-07c95a409785",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/4acbfd2f-c5c4-42f2-b1b8-77c9fb9d635d/90fbcc0d-f35d-43c5-9697-07c95a409785.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "206a14f9-1f6f-491a-93ac-64be74674395",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/4acbfd2f-c5c4-42f2-b1b8-77c9fb9d635d/206a14f9-1f6f-491a-93ac-64be74674395.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "4a4abfc6-7936-45f2-91f3-6e3667af69a4",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/4acbfd2f-c5c4-42f2-b1b8-77c9fb9d635d/4a4abfc6-7936-45f2-91f3-6e3667af69a4.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0017",
+      "name": "Bed Bella 140*200 velvet Monolit latte",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1669610f-b7ff-429e-a8ee-f6b38e1595c4/fa7335ba-5994-4b13-9921-4a6dd212c1dd.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "fa7335ba-5994-4b13-9921-4a6dd212c1dd",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1669610f-b7ff-429e-a8ee-f6b38e1595c4/fa7335ba-5994-4b13-9921-4a6dd212c1dd.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "2a0abf82-79f6-45d4-8d12-5037d0321709",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1669610f-b7ff-429e-a8ee-f6b38e1595c4/2a0abf82-79f6-45d4-8d12-5037d0321709.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "815069c2-6c9a-4226-bcc8-4dcd8e1168cd",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1669610f-b7ff-429e-a8ee-f6b38e1595c4/815069c2-6c9a-4226-bcc8-4dcd8e1168cd.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "84740214-14da-49a1-a471-fe2c6015c45e",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1669610f-b7ff-429e-a8ee-f6b38e1595c4/84740214-14da-49a1-a471-fe2c6015c45e.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0018",
+      "name": "Bed Una mini burlap Malmo gray, Black",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/9638a851-5d0f-446c-b98f-e249c1226e18/4f164176-aedc-4c2b-a6f5-4d0333d08565.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "4f164176-aedc-4c2b-a6f5-4d0333d08565",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/9638a851-5d0f-446c-b98f-e249c1226e18/4f164176-aedc-4c2b-a6f5-4d0333d08565.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "73a2fc0c-1a35-47d3-8ef9-14e70379b37e",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/9638a851-5d0f-446c-b98f-e249c1226e18/73a2fc0c-1a35-47d3-8ef9-14e70379b37e.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "585fe128-bf78-4718-92e5-bfecb8381e4c",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/9638a851-5d0f-446c-b98f-e249c1226e18/585fe128-bf78-4718-92e5-bfecb8381e4c.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "97c87b3f-b744-4fc8-8163-ea7c23c95539",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/9638a851-5d0f-446c-b98f-e249c1226e18/97c87b3f-b744-4fc8-8163-ea7c23c95539.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0019",
+      "name": "Bed Boss 160*200 Pro velvet Monolit blue",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8f8cd842-51b1-4b59-9c36-52083cef7231/fe9cd12c-7197-474f-9778-d44b9c6f05e0.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "fe9cd12c-7197-474f-9778-d44b9c6f05e0",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8f8cd842-51b1-4b59-9c36-52083cef7231/fe9cd12c-7197-474f-9778-d44b9c6f05e0.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "0069964c-3d91-486a-b1e5-61ff2f623424",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8f8cd842-51b1-4b59-9c36-52083cef7231/0069964c-3d91-486a-b1e5-61ff2f623424.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "bfe0f9dd-00f0-444b-85ae-3c8b0627d1ca",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8f8cd842-51b1-4b59-9c36-52083cef7231/bfe0f9dd-00f0-444b-85ae-3c8b0627d1ca.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "c62785d4-851f-4a1f-b86b-dd83dcf89ea3",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8f8cd842-51b1-4b59-9c36-52083cef7231/c62785d4-851f-4a1f-b86b-dd83dcf89ea3.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0020",
+      "name": "Bed Bella 160*200 velvet Monolit aqua",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/f36f9de6-ff4c-42b6-892e-809586ce5183/c3f47f09-888e-4f9d-85ee-9952bfbcd3a9.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "c3f47f09-888e-4f9d-85ee-9952bfbcd3a9",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/f36f9de6-ff4c-42b6-892e-809586ce5183/c3f47f09-888e-4f9d-85ee-9952bfbcd3a9.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "48bc4faa-e574-4a6b-94fd-f4ec946e674e",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/f36f9de6-ff4c-42b6-892e-809586ce5183/48bc4faa-e574-4a6b-94fd-f4ec946e674e.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "b9c3c410-fd20-4be8-97fb-fc4d1c491f37",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/f36f9de6-ff4c-42b6-892e-809586ce5183/b9c3c410-fd20-4be8-97fb-fc4d1c491f37.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "eb9f73ce-2698-4a71-a797-61b9fcdc5730",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/f36f9de6-ff4c-42b6-892e-809586ce5183/eb9f73ce-2698-4a71-a797-61b9fcdc5730.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0021",
+      "name": "Bed Bella 140*200 with Lifting Mechanism velvet Monolit steel",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1b18120e-05b0-4c2c-86c0-ca1dbb51e659/117cf1c6-ce40-4ca0-ac02-7539807dd654.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "117cf1c6-ce40-4ca0-ac02-7539807dd654",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1b18120e-05b0-4c2c-86c0-ca1dbb51e659/117cf1c6-ce40-4ca0-ac02-7539807dd654.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "ef6a2e75-87a2-47d9-9e9d-9e1fc1c5c00c",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1b18120e-05b0-4c2c-86c0-ca1dbb51e659/ef6a2e75-87a2-47d9-9e9d-9e1fc1c5c00c.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "2ca74c30-144a-4ef3-915e-0183921f19aa",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1b18120e-05b0-4c2c-86c0-ca1dbb51e659/2ca74c30-144a-4ef3-915e-0183921f19aa.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "484cc42f-0b1b-4915-ae52-d4fa733d8255",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1b18120e-05b0-4c2c-86c0-ca1dbb51e659/484cc42f-0b1b-4915-ae52-d4fa733d8255.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0022",
+      "name": "Bed Bella 140*200 velvet Monolit aqua",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a73d298b-43ce-4188-8814-8545af214cce/f80abea7-5ba2-4a1d-a1d7-d77e9ebe9b3a.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "f80abea7-5ba2-4a1d-a1d7-d77e9ebe9b3a",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a73d298b-43ce-4188-8814-8545af214cce/f80abea7-5ba2-4a1d-a1d7-d77e9ebe9b3a.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "e311f580-da39-4074-97e4-109786f200bd",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a73d298b-43ce-4188-8814-8545af214cce/e311f580-da39-4074-97e4-109786f200bd.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "ecbe8bf7-dca2-43fd-9d96-f45dd6e46179",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a73d298b-43ce-4188-8814-8545af214cce/ecbe8bf7-dca2-43fd-9d96-f45dd6e46179.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "697edabd-5547-43ce-929c-55ed74338657",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a73d298b-43ce-4188-8814-8545af214cce/697edabd-5547-43ce-929c-55ed74338657.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0023",
+      "name": "Bed Bella 140*200 with Lifting Mechanism velvet Monolit gray",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2aca7497-91c5-4f49-a035-1fba4c6eb04a/6fcf52fe-6f5a-4e93-87d3-37d99072ecd4.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "6fcf52fe-6f5a-4e93-87d3-37d99072ecd4",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2aca7497-91c5-4f49-a035-1fba4c6eb04a/6fcf52fe-6f5a-4e93-87d3-37d99072ecd4.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "13728de1-8f00-4d27-ba4d-90eb4742e2f2",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2aca7497-91c5-4f49-a035-1fba4c6eb04a/13728de1-8f00-4d27-ba4d-90eb4742e2f2.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "2eb04cbd-3855-41c8-a04b-62523af685b1",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2aca7497-91c5-4f49-a035-1fba4c6eb04a/2eb04cbd-3855-41c8-a04b-62523af685b1.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "8764928a-0e5e-43da-8631-a59206735700",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2aca7497-91c5-4f49-a035-1fba4c6eb04a/8764928a-0e5e-43da-8631-a59206735700.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0024",
+      "name": "Bed Bella 160*200 burlap Malmo gray",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/c5f1197f-0036-494d-b6b8-a90c7a87bff1/f23149a8-20d3-4bc8-8bc5-4c898cc13846.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "f23149a8-20d3-4bc8-8bc5-4c898cc13846",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/c5f1197f-0036-494d-b6b8-a90c7a87bff1/f23149a8-20d3-4bc8-8bc5-4c898cc13846.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "425b67aa-2183-4149-ba4a-04ddac2058c4",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/c5f1197f-0036-494d-b6b8-a90c7a87bff1/425b67aa-2183-4149-ba4a-04ddac2058c4.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "a9205409-0a0c-44a9-a3b2-c07688e70037",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/c5f1197f-0036-494d-b6b8-a90c7a87bff1/a9205409-0a0c-44a9-a3b2-c07688e70037.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "ef8eedff-522f-4eb0-b5fa-1e5a7415d35c",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/c5f1197f-0036-494d-b6b8-a90c7a87bff1/ef8eedff-522f-4eb0-b5fa-1e5a7415d35c.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0025",
+      "name": "Bed LOFT Mini Walnut Select, Monolit Latte",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/10b0b8a2-7da8-4c8d-89e0-e43d254dcae7/36153d95-33be-420d-87fe-cf096e6f6cdb.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "36153d95-33be-420d-87fe-cf096e6f6cdb",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/10b0b8a2-7da8-4c8d-89e0-e43d254dcae7/36153d95-33be-420d-87fe-cf096e6f6cdb.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "52466c0a-a3a4-499e-b485-ee8267250e7d",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/10b0b8a2-7da8-4c8d-89e0-e43d254dcae7/52466c0a-a3a4-499e-b485-ee8267250e7d.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "21215de6-4f33-4975-bd64-7d069cfde3f2",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/10b0b8a2-7da8-4c8d-89e0-e43d254dcae7/21215de6-4f33-4975-bd64-7d069cfde3f2.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "47edf610-ce58-486e-8b0c-f38f53b8a37c",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/10b0b8a2-7da8-4c8d-89e0-e43d254dcae7/47edf610-ce58-486e-8b0c-f38f53b8a37c.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0026",
+      "name": "Bed RONDA 160*200 velvet Monolit latte",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/5c08dd00-f009-4561-9960-50ad04eb0e02/2a838ab0-a9bd-4518-9bdb-4cda585bf1b4.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "2a838ab0-a9bd-4518-9bdb-4cda585bf1b4",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/5c08dd00-f009-4561-9960-50ad04eb0e02/2a838ab0-a9bd-4518-9bdb-4cda585bf1b4.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "6bb29288-1aac-4fe6-b96e-c4e45daa27af",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/5c08dd00-f009-4561-9960-50ad04eb0e02/6bb29288-1aac-4fe6-b96e-c4e45daa27af.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "d6f8f471-eec4-4b86-bd6f-97ad33280be9",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/5c08dd00-f009-4561-9960-50ad04eb0e02/d6f8f471-eec4-4b86-bd6f-97ad33280be9.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "96ffa345-0eab-4967-962e-12f9d1de5481",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/5c08dd00-f009-4561-9960-50ad04eb0e02/96ffa345-0eab-4967-962e-12f9d1de5481.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0027",
+      "name": "Bed LOFT Mini Sonoma, Monolit aqua",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1ef6facc-b551-444b-9b0f-6d759fcb48ad/ec2637be-0617-4e36-ae44-492f12c698aa.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "ec2637be-0617-4e36-ae44-492f12c698aa",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1ef6facc-b551-444b-9b0f-6d759fcb48ad/ec2637be-0617-4e36-ae44-492f12c698aa.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "9e26594b-0c8c-4d4d-b806-5ab8f9db2fbd",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1ef6facc-b551-444b-9b0f-6d759fcb48ad/9e26594b-0c8c-4d4d-b806-5ab8f9db2fbd.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "121f0c71-744b-4584-8ce3-6741a2619939",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1ef6facc-b551-444b-9b0f-6d759fcb48ad/121f0c71-744b-4584-8ce3-6741a2619939.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "ef311c73-d47d-417b-802a-ce7711347f5c",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/1ef6facc-b551-444b-9b0f-6d759fcb48ad/ef311c73-d47d-417b-802a-ce7711347f5c.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0028",
+      "name": "Bed Una 160*200 burlap Malmo gray, black",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/79d1c908-5ce4-4393-b805-2ed553cc07f1/b9e1a192-b99a-4d6f-b8b9-4f334dc1b958.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "b9e1a192-b99a-4d6f-b8b9-4f334dc1b958",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/79d1c908-5ce4-4393-b805-2ed553cc07f1/b9e1a192-b99a-4d6f-b8b9-4f334dc1b958.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "2b2f8fe3-4c06-48ba-bf06-b0ee7573cb3b",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/79d1c908-5ce4-4393-b805-2ed553cc07f1/2b2f8fe3-4c06-48ba-bf06-b0ee7573cb3b.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "ef7818a7-9b1f-4d49-8b72-8904712aa795",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/79d1c908-5ce4-4393-b805-2ed553cc07f1/ef7818a7-9b1f-4d49-8b72-8904712aa795.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "c8dcf31a-e9c9-4ddf-8d5b-d3f4363a0523",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/79d1c908-5ce4-4393-b805-2ed553cc07f1/c8dcf31a-e9c9-4ddf-8d5b-d3f4363a0523.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0029",
+      "name": "Bed LOFT Mini Walnut Select, Monolit Серый",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/08d9e35c-fc84-4dfa-9695-83630c4306e6/714ea8df-1235-47d5-9dce-8bfafa2936df.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "714ea8df-1235-47d5-9dce-8bfafa2936df",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/08d9e35c-fc84-4dfa-9695-83630c4306e6/714ea8df-1235-47d5-9dce-8bfafa2936df.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "3e9dc5c0-3005-4e82-96d6-7b171344012b",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/08d9e35c-fc84-4dfa-9695-83630c4306e6/3e9dc5c0-3005-4e82-96d6-7b171344012b.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "3bfe6faa-c45e-42a8-9bb8-d4fcf03e6322",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/08d9e35c-fc84-4dfa-9695-83630c4306e6/3bfe6faa-c45e-42a8-9bb8-d4fcf03e6322.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "eb418dc6-f8f9-4002-b723-6c48341af10b",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/08d9e35c-fc84-4dfa-9695-83630c4306e6/eb418dc6-f8f9-4002-b723-6c48341af10b.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0030",
+      "name": "Bed Una mini burlap Malmo platinum, Black",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2e08f848-9a92-49c7-80e6-10a6e6fffa7d/c86fba63-170d-4186-a2d9-720e3b3f5aad.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "c86fba63-170d-4186-a2d9-720e3b3f5aad",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2e08f848-9a92-49c7-80e6-10a6e6fffa7d/c86fba63-170d-4186-a2d9-720e3b3f5aad.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "2d6f9cfa-9007-4ba2-9bdf-5a15f3f8db76",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2e08f848-9a92-49c7-80e6-10a6e6fffa7d/2d6f9cfa-9007-4ba2-9bdf-5a15f3f8db76.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "7bd4efca-7879-433f-85c8-361c2dccb273",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2e08f848-9a92-49c7-80e6-10a6e6fffa7d/7bd4efca-7879-433f-85c8-361c2dccb273.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "5074f89e-1388-41cf-9851-77ad28b0bb61",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2e08f848-9a92-49c7-80e6-10a6e6fffa7d/5074f89e-1388-41cf-9851-77ad28b0bb61.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0031",
+      "name": "Bed Bella 140*200 with Lifting Mechanism velvet Monolit aqua",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/122e0700-6695-4ab5-b910-16dfc3dcbbf9/6e5d29df-b43e-4c04-8f09-d1e2e41c4e09.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "6e5d29df-b43e-4c04-8f09-d1e2e41c4e09",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/122e0700-6695-4ab5-b910-16dfc3dcbbf9/6e5d29df-b43e-4c04-8f09-d1e2e41c4e09.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "3725abff-ff57-4470-b7bf-3a7a8fdb3705",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/122e0700-6695-4ab5-b910-16dfc3dcbbf9/3725abff-ff57-4470-b7bf-3a7a8fdb3705.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "896d32aa-1a85-4d46-9903-c5d0904011b6",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/122e0700-6695-4ab5-b910-16dfc3dcbbf9/896d32aa-1a85-4d46-9903-c5d0904011b6.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "b8d19998-609e-4d47-be58-a8573354de57",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/122e0700-6695-4ab5-b910-16dfc3dcbbf9/b8d19998-609e-4d47-be58-a8573354de57.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0032",
+      "name": "Bed Bella 140*200 velvet Monolit steel",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8df3442f-0046-46f4-9b9b-fce8b7087ee2/54653779-5f6a-4cc3-940e-55e9adc0e5b8.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "54653779-5f6a-4cc3-940e-55e9adc0e5b8",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8df3442f-0046-46f4-9b9b-fce8b7087ee2/54653779-5f6a-4cc3-940e-55e9adc0e5b8.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "c5b9f1b2-cf25-4f2b-9411-62e8da99bef5",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8df3442f-0046-46f4-9b9b-fce8b7087ee2/c5b9f1b2-cf25-4f2b-9411-62e8da99bef5.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "5d7bd267-dcf1-430a-834a-2baa5fd57d64",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8df3442f-0046-46f4-9b9b-fce8b7087ee2/5d7bd267-dcf1-430a-834a-2baa5fd57d64.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "c2fe171d-8153-458b-b39b-6d5ef769630a",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/8df3442f-0046-46f4-9b9b-fce8b7087ee2/c2fe171d-8153-458b-b39b-6d5ef769630a.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0033",
+      "name": "Bed Bella 140*200 burlap Malmo gray",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2a8bb5ba-30ba-4171-8b35-616800b34f39/965ba939-5a3e-4c68-b3e6-e390048aa4e4.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "965ba939-5a3e-4c68-b3e6-e390048aa4e4",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2a8bb5ba-30ba-4171-8b35-616800b34f39/965ba939-5a3e-4c68-b3e6-e390048aa4e4.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "958f4888-6081-40af-b831-5ae2803f5976",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2a8bb5ba-30ba-4171-8b35-616800b34f39/958f4888-6081-40af-b831-5ae2803f5976.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "757d8695-d9d5-4758-b720-b353d6d5f612",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2a8bb5ba-30ba-4171-8b35-616800b34f39/757d8695-d9d5-4758-b720-b353d6d5f612.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "de6f49d6-67cd-4214-8ccd-e1e6394134cf",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/2a8bb5ba-30ba-4171-8b35-616800b34f39/de6f49d6-67cd-4214-8ccd-e1e6394134cf.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0034",
+      "name": "Bed BOSS.XO 180*200 velvet Monolit steel",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/eb819a1d-7f54-450f-b7e4-bd89fbc7aaaf/ac59f5c3-5bfc-4010-b829-5df2dfe9f607.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "ac59f5c3-5bfc-4010-b829-5df2dfe9f607",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/eb819a1d-7f54-450f-b7e4-bd89fbc7aaaf/ac59f5c3-5bfc-4010-b829-5df2dfe9f607.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "983460ca-39ec-4fe8-8a92-eed2979605ac",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/eb819a1d-7f54-450f-b7e4-bd89fbc7aaaf/983460ca-39ec-4fe8-8a92-eed2979605ac.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "68cc653a-51fa-4ca5-9fc4-c00c46c07143",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/eb819a1d-7f54-450f-b7e4-bd89fbc7aaaf/68cc653a-51fa-4ca5-9fc4-c00c46c07143.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "46d093fb-7e61-4015-9e2b-adc9dc6cb4d9",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/eb819a1d-7f54-450f-b7e4-bd89fbc7aaaf/46d093fb-7e61-4015-9e2b-adc9dc6cb4d9.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0035",
+      "name": "Bed Boss 140*200 Pro velvet Monolit mocha",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/d289965d-f240-423b-ba0e-4e518020d909/d87dc237-373a-4bd6-84af-a621abb51b93.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "d87dc237-373a-4bd6-84af-a621abb51b93",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/d289965d-f240-423b-ba0e-4e518020d909/d87dc237-373a-4bd6-84af-a621abb51b93.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "f92e6a47-434b-4e23-8402-d6e91d7b8791",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/d289965d-f240-423b-ba0e-4e518020d909/f92e6a47-434b-4e23-8402-d6e91d7b8791.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "fbd5f00a-d19f-49b1-916e-2e2c3c520b66",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/d289965d-f240-423b-ba0e-4e518020d909/fbd5f00a-d19f-49b1-916e-2e2c3c520b66.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "0f0d8425-3b99-4534-9397-170afc3da364",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/d289965d-f240-423b-ba0e-4e518020d909/0f0d8425-3b99-4534-9397-170afc3da364.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0036",
+      "name": "Bed Boss Dream 180*200 Pro Velvet Royal champagne NEW",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/086554f9-b689-4fdd-8c86-b8e625fd779b/e8cc2ce7-f72b-4dea-88b8-9e169f3aee45.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "e8cc2ce7-f72b-4dea-88b8-9e169f3aee45",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/086554f9-b689-4fdd-8c86-b8e625fd779b/e8cc2ce7-f72b-4dea-88b8-9e169f3aee45.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "ee423d31-39af-4734-a0a7-a6150308134d",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/086554f9-b689-4fdd-8c86-b8e625fd779b/ee423d31-39af-4734-a0a7-a6150308134d.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "0e94d136-52d4-4d7a-b809-06b61359d654",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/086554f9-b689-4fdd-8c86-b8e625fd779b/0e94d136-52d4-4d7a-b809-06b61359d654.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "a28d1a63-56cc-493c-bd03-52abc47ac8fd",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/086554f9-b689-4fdd-8c86-b8e625fd779b/a28d1a63-56cc-493c-bd03-52abc47ac8fd.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0037",
+      "name": "Bed Boss Dream 180*200 Pro Velvet Royal agate",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/0d7a863f-0001-42d7-aca8-6eb447532d37/abbdb997-2386-4226-b47d-c456db57450f.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "abbdb997-2386-4226-b47d-c456db57450f",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/0d7a863f-0001-42d7-aca8-6eb447532d37/abbdb997-2386-4226-b47d-c456db57450f.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "833963e2-cd34-4c54-8363-3cfa58fc14bd",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/0d7a863f-0001-42d7-aca8-6eb447532d37/833963e2-cd34-4c54-8363-3cfa58fc14bd.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "b6cc8ced-4c65-486f-a35d-fd025d186599",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/0d7a863f-0001-42d7-aca8-6eb447532d37/b6cc8ced-4c65-486f-a35d-fd025d186599.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "c164dbe9-14a7-43e4-9a3b-f2a0e12094fa",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/0d7a863f-0001-42d7-aca8-6eb447532d37/c164dbe9-14a7-43e4-9a3b-f2a0e12094fa.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0038",
+      "name": "Bed Una 160*200 burlap Malmo platinum, black",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/0246fd6e-bb9a-4a4b-a6f1-3de8a5708b21/43ed514d-1320-45b9-aff7-31f13103fb79.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "43ed514d-1320-45b9-aff7-31f13103fb79",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/0246fd6e-bb9a-4a4b-a6f1-3de8a5708b21/43ed514d-1320-45b9-aff7-31f13103fb79.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "14f40a66-403a-4b52-ac66-e0f5422e7503",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/0246fd6e-bb9a-4a4b-a6f1-3de8a5708b21/14f40a66-403a-4b52-ac66-e0f5422e7503.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "d8e819ee-5d88-4246-8b7a-1233b692bcb9",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/0246fd6e-bb9a-4a4b-a6f1-3de8a5708b21/d8e819ee-5d88-4246-8b7a-1233b692bcb9.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "ca707783-8238-4a4b-941b-55513989487d",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/0246fd6e-bb9a-4a4b-a6f1-3de8a5708b21/ca707783-8238-4a4b-941b-55513989487d.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0039",
+      "name": "Bed LEO 160 Velvet CORD graphite",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/b69ec6e2-133b-42c9-93d5-3a1c7d424ad8/d637ebfa-5926-470e-a1ea-b51f2e41d1ea.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "d637ebfa-5926-470e-a1ea-b51f2e41d1ea",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/b69ec6e2-133b-42c9-93d5-3a1c7d424ad8/d637ebfa-5926-470e-a1ea-b51f2e41d1ea.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "cb1cbe87-d1c2-4ed0-9547-56c1f2b8fb3e",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/b69ec6e2-133b-42c9-93d5-3a1c7d424ad8/cb1cbe87-d1c2-4ed0-9547-56c1f2b8fb3e.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "ef1306bf-71b0-40b4-814d-7a22f4a1b209",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/b69ec6e2-133b-42c9-93d5-3a1c7d424ad8/ef1306bf-71b0-40b4-814d-7a22f4a1b209.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "378f0f7b-e752-4938-868e-af6ef64b5edb",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/b69ec6e2-133b-42c9-93d5-3a1c7d424ad8/378f0f7b-e752-4938-868e-af6ef64b5edb.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0040",
+      "name": "Bed Boss 180*200 Pro Velvet Royal champagne NEW",
+      "totalImages": 4,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a84a82a1-4852-4003-a58d-daf3a4db2da1/189de579-8482-4a7c-8488-22b4e515b023.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "189de579-8482-4a7c-8488-22b4e515b023",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a84a82a1-4852-4003-a58d-daf3a4db2da1/189de579-8482-4a7c-8488-22b4e515b023.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 1,
+          "imageId": "26cd2433-4667-4de2-9804-3486881ef8e3",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a84a82a1-4852-4003-a58d-daf3a4db2da1/26cd2433-4667-4de2-9804-3486881ef8e3.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 2,
+          "imageId": "ceb055b7-c23e-4dba-9a0f-2c276937804e",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a84a82a1-4852-4003-a58d-daf3a4db2da1/ceb055b7-c23e-4dba-9a0f-2c276937804e.png",
+          "isShared": false
+        },
+        {
+          "currentOrder": 3,
+          "imageId": "bb093ae0-fe2e-429d-98c2-f420d00b92c4",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a84a82a1-4852-4003-a58d-daf3a4db2da1/bb093ae0-fe2e-429d-98c2-f420d00b92c4.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0041",
+      "name": "Bed Boss Dream 160*200 Pro Velvet Royal agate",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/d3a/b9gkwd3el3cbx8pryh40aty5wpz65hv5/Frame-126.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "dd7041a6-69a2-4aa5-9fb2-7133df91724a",
+          "url": "https://mnogomebeli.com/upload/iblock/d3a/b9gkwd3el3cbx8pryh40aty5wpz65hv5/Frame-126.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0042",
+      "name": "Bed Boss Dream 160*200 Pro Velvet Royal topaz NEW",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/eab/lc5j85egwb6svumiabg5yl8x95k5412d/2560kh1188_0003_Bed_Dream_royal_topaz_0000.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "2688b244-97d1-4150-91b5-5a68fb876591",
+          "url": "https://mnogomebeli.com/upload/iblock/eab/lc5j85egwb6svumiabg5yl8x95k5412d/2560kh1188_0003_Bed_Dream_royal_topaz_0000.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0043",
+      "name": "Bed Boss Dream 160*200 Pro Velvet Royal taupe",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/c59/l7lmg384enkxk7jhahpqrixjoruodkic/2560kh1188_0006_Bed_Dream_royal_taup_0000.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "cca8d03f-bd32-4d24-8f81-69134ef66e72",
+          "url": "https://mnogomebeli.com/upload/iblock/c59/l7lmg384enkxk7jhahpqrixjoruodkic/2560kh1188_0006_Bed_Dream_royal_taup_0000.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0044",
+      "name": "Bed Boss Dream 160*200 Pro Velvet Royal peony NEW",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/570/a4vu4nbd6n6a1voaol4g9e7cnf7gbt2l/2560kh1188_0003_Bed_Dream_royal_pion_0000.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "e8cb4223-900d-413c-af16-e1687e1b4080",
+          "url": "https://mnogomebeli.com/upload/iblock/570/a4vu4nbd6n6a1voaol4g9e7cnf7gbt2l/2560kh1188_0003_Bed_Dream_royal_pion_0000.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0045",
+      "name": "Bed Boss Dream 160*200 Pro Velvet Royal champagne NEW",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/2a4/nq4ykpvmmnphvr7drutlz78cd98ouof2/2560kh1188_0000_Bed_Dream_royal_shampan_0000.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "893c7913-55d9-412e-95b5-a8083f607a94",
+          "url": "https://mnogomebeli.com/upload/iblock/2a4/nq4ykpvmmnphvr7drutlz78cd98ouof2/2560kh1188_0000_Bed_Dream_royal_shampan_0000.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0046",
+      "name": "Bed Freya 160*200 Slim MONOLIT Latte",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/331/oua9iql8354pmizc9q3imhxzhi85zlqj/Frame-82.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "de17047d-99ef-4a5b-aade-94a99df1102b",
+          "url": "https://mnogomebeli.com/upload/iblock/331/oua9iql8354pmizc9q3imhxzhi85zlqj/Frame-82.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0047",
+      "name": "Bed Freya 160*200 Slim MONOLIT Steel",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/331/oua9iql8354pmizc9q3imhxzhi85zlqj/Frame-82.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "42a0a9ef-3a70-45c0-9a24-0fa31da3d1c2",
+          "url": "https://mnogomebeli.com/upload/iblock/331/oua9iql8354pmizc9q3imhxzhi85zlqj/Frame-82.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0048",
+      "name": "Bed Freya 160*200 with Lifting Mechanism MONOLIT Gray",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/331/oua9iql8354pmizc9q3imhxzhi85zlqj/Frame-82.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "ba2ab097-7bed-4fdc-8f6e-6446f43d1a1b",
+          "url": "https://mnogomebeli.com/upload/iblock/331/oua9iql8354pmizc9q3imhxzhi85zlqj/Frame-82.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0049",
+      "name": "Bed Freya 160*200 with Lifting Mechanism MONOLIT Steel",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/331/oua9iql8354pmizc9q3imhxzhi85zlqj/Frame-82.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "ac6ebfcc-549a-4622-8f57-7fae6b981d35",
+          "url": "https://mnogomebeli.com/upload/iblock/331/oua9iql8354pmizc9q3imhxzhi85zlqj/Frame-82.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0050",
+      "name": "Bed Bella 160*200 velvet Monolit mocha",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/553/hxh39lepql1rcp1275bfu4drnlshwy20/krovat_bella_41.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "b6f0f565-35fa-4a21-abda-c7c32fb72a9b",
+          "url": "https://mnogomebeli.com/upload/iblock/553/hxh39lepql1rcp1275bfu4drnlshwy20/krovat_bella_41.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0051",
+      "name": "Bed Bella 140*200 velvet Monolit mocha",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/219/i9c427rqzvnptaleqyi3vmgzc7qlo0wz/krovat_bella_35.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "177430af-6448-468c-9875-cfec0a8dca3e",
+          "url": "https://mnogomebeli.com/upload/iblock/219/i9c427rqzvnptaleqyi3vmgzc7qlo0wz/krovat_bella_35.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0052",
+      "name": "Bed Bella 140*200 with Lifting Mechanism velvet Monolit mocha",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/9f3/v1ahqpdhqa0yso0ujg64kgoghqeso547/krovat_bella_140_15.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "9eb53d54-f21e-409d-bb78-b78c29fb316e",
+          "url": "https://mnogomebeli.com/upload/iblock/9f3/v1ahqpdhqa0yso0ujg64kgoghqeso547/krovat_bella_140_15.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0053",
+      "name": "Bed Boss 140*200 Pro velvet Monolit latte",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/6e0/ipjst29n5dzetbhz6oekmzqm7b6erkje/Frame-113.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "9eccc6ed-5897-44f3-8cfe-7d793f44a7f1",
+          "url": "https://mnogomebeli.com/upload/iblock/6e0/ipjst29n5dzetbhz6oekmzqm7b6erkje/Frame-113.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0054",
+      "name": "Bed Boss 140*200 Pro velvet Monolit gray",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/6e0/ipjst29n5dzetbhz6oekmzqm7b6erkje/Frame-113.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "44c4807e-ca37-44eb-afeb-32f7f0c86c0c",
+          "url": "https://mnogomebeli.com/upload/iblock/6e0/ipjst29n5dzetbhz6oekmzqm7b6erkje/Frame-113.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0055",
+      "name": "Bed Boss 140*200 Pro velvet Monolit steel",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/6e0/ipjst29n5dzetbhz6oekmzqm7b6erkje/Frame-113.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "7c436c10-f697-4e30-be17-b62ab2b46f86",
+          "url": "https://mnogomebeli.com/upload/iblock/6e0/ipjst29n5dzetbhz6oekmzqm7b6erkje/Frame-113.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0056",
+      "name": "Bed Boss 160*200 Pro velvet Monolit gray",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/6e0/ipjst29n5dzetbhz6oekmzqm7b6erkje/Frame-113.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "53d775b7-d003-449c-9524-ac63ff9b8684",
+          "url": "https://mnogomebeli.com/upload/iblock/6e0/ipjst29n5dzetbhz6oekmzqm7b6erkje/Frame-113.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0057",
+      "name": "Bed Boss 180*200 Pro velvet Monolit mocha",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/b65/zf8pyyvues749hycycuxrrq33lvbwyxl/Frame-110.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "3412e715-54eb-4afb-90da-a31bb1c1dbcf",
+          "url": "https://mnogomebeli.com/upload/iblock/b65/zf8pyyvues749hycycuxrrq33lvbwyxl/Frame-110.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0058",
+      "name": "Bed Boss 180*200 Pro velvet Monolit steel",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/b65/zf8pyyvues749hycycuxrrq33lvbwyxl/Frame-110.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "0ed0ca5d-e26d-4961-b9d1-7f63e7c0abd7",
+          "url": "https://mnogomebeli.com/upload/iblock/b65/zf8pyyvues749hycycuxrrq33lvbwyxl/Frame-110.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0059",
+      "name": "Bed BOSS mini NEW velvet Monolit lavender",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/72a/9nkkl5gafttaii0leg2oirt6wexq4jeu/krovat-BOSS-Kid-_-3.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "43af5fa3-294b-4a52-b9d7-701a0b5265d6",
+          "url": "https://mnogomebeli.com/upload/iblock/72a/9nkkl5gafttaii0leg2oirt6wexq4jeu/krovat-BOSS-Kid-_-3.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0060",
+      "name": "Bed BOSS mini NEW velvet Monolit gray",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/72a/9nkkl5gafttaii0leg2oirt6wexq4jeu/krovat-BOSS-Kid-_-3.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "a2426aeb-ec31-4929-876f-52bfec01e79f",
+          "url": "https://mnogomebeli.com/upload/iblock/72a/9nkkl5gafttaii0leg2oirt6wexq4jeu/krovat-BOSS-Kid-_-3.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0061",
+      "name": "Bed BOSS mini NEW velvet Monolit latte",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/72a/9nkkl5gafttaii0leg2oirt6wexq4jeu/krovat-BOSS-Kid-_-3.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "38eb45af-ce23-4169-beaa-7f3f2cacaf87",
+          "url": "https://mnogomebeli.com/upload/iblock/72a/9nkkl5gafttaii0leg2oirt6wexq4jeu/krovat-BOSS-Kid-_-3.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0062",
+      "name": "Bed RONDA 160*200 velvet MONOLIT gray",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/2ea/2341d1gx16feqyp8ea02ixvyphvxt4l5/krovat_RONDO_15.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "b36f19b9-1aa6-4f3f-badb-cdccd2ecf21a",
+          "url": "https://mnogomebeli.com/upload/iblock/2ea/2341d1gx16feqyp8ea02ixvyphvxt4l5/krovat_RONDO_15.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "BED-MNM-0063",
+      "name": "Bed RONDA 160*200 velvet MONOLIT steel",
+      "totalImages": 1,
+      "primaryImageUrl": "https://mnogomebeli.com/upload/iblock/2ea/2341d1gx16feqyp8ea02ixvyphvxt4l5/krovat_RONDO_15.jpg",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "0445a2ed-73a3-4510-97e3-19a294395b57",
+          "url": "https://mnogomebeli.com/upload/iblock/2ea/2341d1gx16feqyp8ea02ixvyphvxt4l5/krovat_RONDO_15.jpg",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "CH-DIN-003",
+      "name": "Dining Chair Set of 4",
+      "totalImages": 1,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a6216050-a660-41f6-a3fd-1c66d77d3ca1/a9e0df46-058b-4fe8-bae8-abba9d30b584.png",
+      "primaryDisplayOrder": 1,
+      "allImages": [
+        {
+          "currentOrder": 1,
+          "imageId": "a9e0df46-058b-4fe8-bae8-abba9d30b584",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a6216050-a660-41f6-a3fd-1c66d77d3ca1/a9e0df46-058b-4fe8-bae8-abba9d30b584.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "CH-OFF-004",
+      "name": "Executive Office Chair",
+      "totalImages": 1,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/b2d057fe-0cca-4378-8f9a-e83aaa36a5b5/10ef3b24-59c1-4aac-946d-3a12376a94f4.png",
+      "primaryDisplayOrder": 1,
+      "allImages": [
+        {
+          "currentOrder": 1,
+          "imageId": "10ef3b24-59c1-4aac-946d-3a12376a94f4",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/b2d057fe-0cca-4378-8f9a-e83aaa36a5b5/10ef3b24-59c1-4aac-946d-3a12376a94f4.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "SF-LTH-002",
+      "name": "Classic Leather Sectional",
+      "totalImages": 1,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/4f4bc2e5-3055-442a-b43e-b167b82803bc/a729a9fe-0ebe-4072-a557-d00a1895b2b2.png",
+      "primaryDisplayOrder": 1,
+      "allImages": [
+        {
+          "currentOrder": 1,
+          "imageId": "a729a9fe-0ebe-4072-a557-d00a1895b2b2",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/4f4bc2e5-3055-442a-b43e-b167b82803bc/a729a9fe-0ebe-4072-a557-d00a1895b2b2.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "SF-VEL-001",
+      "name": "Modern Velvet Sofa",
+      "totalImages": 1,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/e33def57-019a-47e5-b5ba-009dfedd95fc/a65fbdab-e180-491e-ba75-2be79e4e8045.png",
+      "primaryDisplayOrder": 1,
+      "allImages": [
+        {
+          "currentOrder": 1,
+          "imageId": "a65fbdab-e180-491e-ba75-2be79e4e8045",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/e33def57-019a-47e5-b5ba-009dfedd95fc/a65fbdab-e180-491e-ba75-2be79e4e8045.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "SKU-123",
+      "name": "Test Product",
+      "totalImages": 1,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/f65cb79f-3ba6-494e-87b4-9237e76a0700/f85eb4da-ddd8-43e6-995b-c83a8b437dc8.png",
+      "primaryDisplayOrder": 0,
+      "allImages": [
+        {
+          "currentOrder": 0,
+          "imageId": "f85eb4da-ddd8-43e6-995b-c83a8b437dc8",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/f65cb79f-3ba6-494e-87b4-9237e76a0700/f85eb4da-ddd8-43e6-995b-c83a8b437dc8.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "TB-COF-006",
+      "name": "Glass Coffee Table",
+      "totalImages": 1,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/702d0749-9e4d-4940-8d51-42924f0aa309/0cd8a0db-5414-4066-aca6-a8fc003d4548.png",
+      "primaryDisplayOrder": 1,
+      "allImages": [
+        {
+          "currentOrder": 1,
+          "imageId": "0cd8a0db-5414-4066-aca6-a8fc003d4548",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/702d0749-9e4d-4940-8d51-42924f0aa309/0cd8a0db-5414-4066-aca6-a8fc003d4548.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    },
+    {
+      "sku": "TB-DIN-005",
+      "name": "Rustic Dining Table",
+      "totalImages": 1,
+      "primaryImageUrl": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/e0cc6b27-0e7a-4c43-ba8d-1334ec5fcc8a/381e36a6-4aea-42e1-9bea-2d294f6e3724.png",
+      "primaryDisplayOrder": 1,
+      "allImages": [
+        {
+          "currentOrder": 1,
+          "imageId": "381e36a6-4aea-42e1-9bea-2d294f6e3724",
+          "url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/e0cc6b27-0e7a-4c43-ba8d-1334ec5fcc8a/381e36a6-4aea-42e1-9bea-2d294f6e3724.png",
+          "isShared": false
+        }
+      ],
+      "hasSharedPrimary": false,
+      "hasNonSharedImages": true
+    }
+  ],
+  "productsWithoutImages": []
+}
