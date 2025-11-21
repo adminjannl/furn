@@ -1,0 +1,73 @@
+{
+  "timestamp": "2025-10-27T08:28:14.348Z",
+  "totals": {
+    "images": 205,
+    "products": 78,
+    "primaryImages": 69
+  },
+  "distribution": {
+    "1": 32,
+    "2": 5,
+    "3": 1,
+    "4": 40
+  },
+  "sources": {
+    "supabaseStorage": 182,
+    "externalMnogomebeli": 23,
+    "other": 0
+  },
+  "externalDependencies": {
+    "count": 23,
+    "percentage": "11.2",
+    "samples": [
+      {
+        "product": "Bed RONDA 160*200 velvet MONOLIT steel",
+        "url": "https://mnogomebeli.com/upload/iblock/2ea/2341d1gx16feqyp8ea02ixvyphvxt4l5/krovat_RONDO_15.jpg"
+      },
+      {
+        "product": "Bed Freya 160*200 with Lifting Mechanism MONOLIT Gray",
+        "url": "https://mnogomebeli.com/upload/iblock/331/oua9iql8354pmizc9q3imhxzhi85zlqj/Frame-82.jpg"
+      },
+      {
+        "product": "Bed Bella 160*200 velvet Monolit mocha",
+        "url": "https://mnogomebeli.com/upload/iblock/553/hxh39lepql1rcp1275bfu4drnlshwy20/krovat_bella_41.jpg"
+      },
+      {
+        "product": "Bed Bella 140*200 velvet Monolit mocha",
+        "url": "https://mnogomebeli.com/upload/iblock/219/i9c427rqzvnptaleqyi3vmgzc7qlo0wz/krovat_bella_35.jpg"
+      },
+      {
+        "product": "Bed BOSS mini NEW velvet Monolit gray",
+        "url": "https://mnogomebeli.com/upload/iblock/72a/9nkkl5gafttaii0leg2oirt6wexq4jeu/krovat-BOSS-Kid-_-3.jpg"
+      },
+      {
+        "product": "Bed Boss 140*200 Pro velvet Monolit steel",
+        "url": "https://mnogomebeli.com/upload/iblock/6e0/ipjst29n5dzetbhz6oekmzqm7b6erkje/Frame-113.jpg"
+      },
+      {
+        "product": "Bed Boss 160*200 Pro velvet Monolit gray",
+        "url": "https://mnogomebeli.com/upload/iblock/6e0/ipjst29n5dzetbhz6oekmzqm7b6erkje/Frame-113.jpg"
+      },
+      {
+        "product": "Bed Boss 180*200 Pro velvet Monolit mocha",
+        "url": "https://mnogomebeli.com/upload/iblock/b65/zf8pyyvues749hycycuxrrq33lvbwyxl/Frame-110.jpg"
+      },
+      {
+        "product": "Bed Boss 140*200 Pro velvet Monolit gray",
+        "url": "https://mnogomebeli.com/upload/iblock/6e0/ipjst29n5dzetbhz6oekmzqm7b6erkje/Frame-113.jpg"
+      },
+      {
+        "product": "Bed Freya 160*200 with Lifting Mechanism MONOLIT Steel",
+        "url": "https://mnogomebeli.com/upload/iblock/331/oua9iql8354pmizc9q3imhxzhi85zlqj/Frame-82.jpg"
+      }
+    ]
+  },
+  "recommendations": [
+    "Migrate external images to Supabase Storage",
+    "Ensure primary image (display_order=0) is always front-view",
+    "Standardize image naming convention",
+    "Optimize all images for web (< 200KB)",
+    "Add consistent alt text for SEO",
+    "Maintain consistent lighting and angle across products"
+  ]
+}
