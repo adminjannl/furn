@@ -1,0 +1,50 @@
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/888/m5lq2nkf7gavi18arpv7w5kkto0i63ko/1310_610_1/Frame-11.jpg', 'Стул АСТИ NEW 2 шт. рогожка Malmo синий К., черный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0005' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/8a7/9j456gd628x8cwrx9x8xpvjej1rieemt/1310_610_1/Frame-14.jpg', 'Стул АСТИ NEW 2 шт. рогожка Malmo синий К., черный - View 4', 4
+FROM products WHERE sku = 'CHR-MNM-0005' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/6cd/5m80v3c21z10n14g8vd27d4kyv9spy29/1310_610_1/Frame-15.jpg', 'Стул АСТИ NEW 2 шт. рогожка Malmo синий К., черный - View 5', 5
+FROM products WHERE sku = 'CHR-MNM-0005' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/f16/p9nhv5vx044zn56z4p75w83h16lfaucm/Frame-1209.jpg', 'Стул АСТИ NEW 2 шт. рогожка Malmo серый К., черный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0006' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/ce9/gretpmdrdklz92i4yikx018lf5ok37ig/stul-ASTI_1-_-11.jpg', 'Стул АСТИ NEW 2 шт. рогожка Malmo серый К., черный - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0006' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/693/jamqim69n5hfnz95tby7biejk0n2pas0/stul-ASTI_1-_-12.jpg', 'Стул АСТИ NEW 2 шт. рогожка Malmo серый К., черный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0006' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/e62/e05j7piffhnnsfan4nqat8ovka66iusz/Frame-1206.jpg', 'Стул АСТИ NEW 2 шт. экокожа Латте, черный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0007' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/943/d86bmkpihx63pdps3nue53fvxhdc910m/stul-ASTI_1-_-13.jpg', 'Стул АСТИ NEW 2 шт. экокожа Латте, черный - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0007' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/7f8/wjg7edkhxo4kdmy70v03eimwrooahra4/stul-ASTI_1-_-14.jpg', 'Стул АСТИ NEW 2 шт. экокожа Латте, черный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0007' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/c61/83yx8h58moca8f0lr1217h57cvd5tzeh/jrujb8v0d3zihshao212ktxb340vr2g0.jpg', 'Стул АСТИ NEW 2 шт. экокожа Латте, черный - View 4', 4
+FROM products WHERE sku = 'CHR-MNM-0007' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/ce5/ciuhi3xg034rkuv5yh36bkb3573oz7fc/go1vfl2xhhwk5j8gbun0iqmpmbk9mfrp.jpg', 'Стул АСТИ NEW 2 шт. экокожа Латте, черный - View 5', 5
+FROM products WHERE sku = 'CHR-MNM-0007' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/d29/111seess72d61ns64hc3rf4v0umtcjo9/Frame-1207.jpg', 'Стул АСТИ NEW 2 шт. экокожа Табак, черный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0008' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/3c6/dz7ilopniednvvavnyn2dr58oofyv7qb/stul-ASTI_1-_-15.jpg', 'Стул АСТИ NEW 2 шт. экокожа Табак, черный - View 2', 2

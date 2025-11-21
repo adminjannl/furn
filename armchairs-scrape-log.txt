@@ -1,0 +1,45 @@
+
+> vite-react-typescript-starter@0.0.0 scrape:batch
+> tsx scripts/batch-scraper-cli.ts --batch --category armchairs --size 64
+
+[dotenv@17.2.3] injecting env (2) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🗂️ backup and recover secrets: https://dotenvx.com/ops
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ✅ audit secrets and track compliance: https://dotenvx.com/ops
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+
+══════════════════════════════════════════════════════════════════════
+  🚀 INITIALIZING BATCH SCRAPING
+══════════════════════════════════════════════════════════════════════
+
+  Category: Armchairs and Poufs
+  Batch Size: 64 products
+
+❌ Error during batch scraping: Error: Failed to launch the browser process:  Code: 127
+
+stderr:
+/root/.cache/puppeteer/chrome/linux-141.0.7390.122/chrome-linux64/chrome: error while loading shared libraries: libnspr4.so: cannot open shared object file: No such file or directory
+
+TROUBLESHOOTING: https://pptr.dev/troubleshooting
+
+    at ChildProcess.onClose (/tmp/cc-agent/59032201/project/node_modules/@puppeteer/browsers/src/launch.ts:520:11)
+    at ChildProcess.emit (node:events:531:35)
+    at ChildProcess._handle.onexit (node:internal/child_process:293:12)
+
+══════════════════════════════════════════════════════════════════════
+  BATCH SCRAPING PROGRESS REPORT
+══════════════════════════════════════════════════════════════════════
+
+Category: Armchairs and Poufs
+Session ID: 1762401044936
+Current Batch: 1
+Products per Batch: 64
+
+──────────────────────────────────────────────────────────────────────
+
+Total Clicks Performed: 0
+Total Products Scraped: 0
+Last Batch Time: 11/6/2025, 3:50:44 AM
+
+══════════════════════════════════════════════════════════════════════
+

@@ -1,0 +1,16 @@
+[dotenv@17.2.3] injecting env (2) from .env -- tip: 🗂️ backup and recover secrets: https://dotenvx.com/ops
+
+🖼️  Fixing Armchair Images - Clean Version...
+
+📦 Found 45 armchair products
+
+Error: Failed to launch the browser process:  Code: 127
+
+stderr:
+/root/.cache/puppeteer/chrome/linux-141.0.7390.122/chrome-linux64/chrome: error while loading shared libraries: libdbus-1.so.3: cannot open shared object file: No such file or directory
+
+TROUBLESHOOTING: https://pptr.dev/troubleshooting
+
+    at ChildProcess.onClose (/tmp/cc-agent/59032201/project/node_modules/@puppeteer/browsers/lib/cjs/launch.js:340:24)
+    at ChildProcess.emit (node:events:531:35)
+    at ChildProcess._handle.onexit (node:internal/child_process:293:12)

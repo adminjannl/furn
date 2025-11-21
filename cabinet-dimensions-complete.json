@@ -1,0 +1,842 @@
+[
+  {
+    "russianName": "Шкаф BOSS STANDART 120 - 3Д Кашемир серый",
+    "url": "https://mnogomebeli.com/shkafy/shkaf-boss-standart/boss-standart-120-3d/!shkaf-boss-standart-120-3d-shinshilla-seraya/",
+    "width_cm": 120,
+    "depth_cm": 59,
+    "height_cm": 240,
+    "dimensions_raw": "120x59x240 см"
+  },
+  {
+    "russianName": "Идея 180 шкаф распашной 4Д+ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-180/!ideya-180-shkaf-raspashnoy-4d-yashchiki-kashemir/",
+    "width_cm": 180,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "180x51x220 см"
+  },
+  {
+    "russianName": "Рим 120 шкаф распашной 3Д Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-120-shkaf-raspashnoy-3d/!rim-120-shkaf-raspashnoy-3d-kashemir-seryy/",
+    "width_cm": 120,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "120x53x220 см"
+  },
+  {
+    "russianName": "Идея 120 шкаф распашной 3Д Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-120/!ideya-120-shkaf-raspashnoy-3d-kashemir/",
+    "width_cm": 120,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "120x51x220 см"
+  },
+  {
+    "russianName": "Рим 120 шкаф распашной 3Д Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-120-shkaf-raspashnoy-3d/!rim-120-shkaf-raspashnoy-3d-orekh-selekt/",
+    "width_cm": 120,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "120x53x220 см"
+  },
+  {
+    "russianName": "Идея 135 шкаф распашной 3Д+ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-135-yashchiki/!ideya-135-shkaf-raspashnoy-3d-yashchiki-belyy/",
+    "width_cm": 135,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "135x51x220 см"
+  },
+  {
+    "russianName": "Рим 160 шкаф распашной 4Д Белый",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-160-shkaf-raspashnoy-4d/!rim-160-shkaf-raspashnoy-4d-belyy/",
+    "width_cm": 160,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "160x53x220 см"
+  },
+  {
+    "russianName": "Шкаф BOSS STANDART 180 - 4Д Шиншилла серая",
+    "url": "https://mnogomebeli.com/shkafy/shkaf-boss-standart/boss-standart-180-4d/!shkaf-boss-standart-180-4d-shinshilla-seraya/",
+    "width_cm": 180,
+    "depth_cm": 59,
+    "height_cm": 240,
+    "dimensions_raw": "180x59x240 см"
+  },
+  {
+    "russianName": "Рим 80 шкаф распашной 2Д Белый",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-80-shkaf-raspashnoy-2d/!rim-80-shkaf-raspashnoy-2d-belyy/",
+    "width_cm": 80,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "80x53x220 см"
+  },
+  {
+    "russianName": "Рим 180 шкаф распашной 4Д Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-180-shkaf-raspashnoy-4d/!rim-180-shkaf-raspashnoy-4d-kashemir-seryy/",
+    "width_cm": 180,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "180x53x220 см"
+  },
+  {
+    "russianName": "Рим 180 шкаф распашной 4Д Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-180-shkaf-raspashnoy-4d/!rim-180-shkaf-raspashnoy-4d-orekh-selekt/",
+    "width_cm": 180,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "180x53x220 см"
+  },
+  {
+    "russianName": "Шкаф BOSS STANDART 150 - 3Д Шиншилла серая",
+    "url": "https://mnogomebeli.com/shkafy/shkaf-boss-standart/boss-standart-150-3d/!shkaf-boss-standart-150-3d-shinshilla-seraya/",
+    "width_cm": 150,
+    "depth_cm": 59,
+    "height_cm": 240,
+    "dimensions_raw": "150x59x240 см"
+  },
+  {
+    "russianName": "Шкаф BOSS STANDART 180 - 4Д Кашемир серый",
+    "url": "https://mnogomebeli.com/shkafy/shkaf-boss-standart/boss-standart-180-4d/!shkaf-boss-standart-180-4d-kashemir-seryy/",
+    "width_cm": 180,
+    "depth_cm": 59,
+    "height_cm": 240,
+    "dimensions_raw": "180x59x240 см"
+  },
+  {
+    "russianName": "Рим 90 шкаф распашной 2Д Белый",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-90-shkaf-raspashnoy-2d/!rim-90-shkaf-raspashnoy-2d-belyy/",
+    "width_cm": 90,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "90x53x220 см"
+  },
+  {
+    "russianName": "Рим 160 шкаф распашной 4Д Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-160-shkaf-raspashnoy-4d/!rim-160-shkaf-raspashnoy-4d-kashemir-seryy/",
+    "width_cm": 160,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "160x53x220 см"
+  },
+  {
+    "russianName": "Рим 160 шкаф распашной 4Д Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-160-shkaf-raspashnoy-4d/!rim-160-shkaf-raspashnoy-4d-orekh-selekt/",
+    "width_cm": 160,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "160x53x220 см"
+  },
+  {
+    "russianName": "Шкаф BOSS STANDART 150 - 3Д Кашемир серый",
+    "url": "https://mnogomebeli.com/shkafy/shkaf-boss-standart/boss-standart-150-3d/!shkaf-boss-standart-150-3d-kashemir-seryy/",
+    "width_cm": 150,
+    "depth_cm": 59,
+    "height_cm": 240,
+    "dimensions_raw": "150x59x240 см"
+  },
+  {
+    "russianName": "Рим 135 шкаф распашной 3Д+ящики Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-135-shkaf-raspashnoy-3d-yashchiki/!rim-135-shkaf-raspashnoy-3d-yashchiki-orekh-selekt/",
+    "width_cm": 135,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "135x53x220 см"
+  },
+  {
+    "russianName": "Рим 135 шкаф распашной 3Д Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-135-shkaf-raspashnoy-3d/!rim-135-shkaf-raspashnoy-3d-orekh-selekt/",
+    "width_cm": 135,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "135x53x220 см"
+  },
+  {
+    "russianName": "Рим 120 шкаф распашной 3Д+ящики Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-120-shkaf-raspashnoy-3d-yashchiki/!rim-120-shkaf-raspashnoy-3d-yashchiki-orekh-selekt/",
+    "width_cm": 120,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "120x53x220 см"
+  },
+  {
+    "russianName": "Рим 90 шкаф распашной 2Д+ящики Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-90-shkaf-raspashnoy-2d-yashchiki/!rim-90-shkaf-raspashnoy-2d-yashchiki-orekh-selekt/",
+    "width_cm": 90,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "90x53x220 см"
+  },
+  {
+    "russianName": "Рим 90 шкаф распашной 2Д Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-90-shkaf-raspashnoy-2d/!rim-90-shkaf-raspashnoy-2d-orekh-selekt/",
+    "width_cm": 90,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "90x53x220 см"
+  },
+  {
+    "russianName": "Рим 160 шкаф распашной 4Д+ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-160-shkaf-raspashnoy-4d-yashchiki/!rim-160-shkaf-raspashnoy-4d-yashchiki-kashemir-seryy/",
+    "width_cm": 160,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "160x53x220 см"
+  },
+  {
+    "russianName": "Рим 80 шкаф распашной 2Д + ящики Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-80-shkaf-raspashnoy-2d-yashchiki/!rim-80-shkaf-raspashnoy-2d-yashchiki-orekh-selekt/",
+    "width_cm": 80,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "80x53x220 см"
+  },
+  {
+    "russianName": "Рим 80 шкаф распашной 2Д Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-80-shkaf-raspashnoy-2d/!rim-80-shkaf-raspashnoy-2d-orekh-selekt/",
+    "width_cm": 80,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "80x53x220 см"
+  },
+  {
+    "russianName": "Стеллаж 220 Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/stellazh-rim-2-0/!stellazh-rim-2-0-kashemir-seryy/",
+    "width_cm": 23,
+    "depth_cm": 23,
+    "height_cm": 220,
+    "dimensions_raw": "23x23x220 см"
+  },
+  {
+    "russianName": "Стеллаж 220 Белый",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/stellazh-rim-2-0/!stellazh-rim-2-0-belyy/",
+    "width_cm": 23,
+    "depth_cm": 23,
+    "height_cm": 220,
+    "dimensions_raw": "23x23x220 см"
+  },
+  {
+    "russianName": "Рим 180 шкаф распашной 4Д+ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-180-shkaf-raspashnoy-4d-yashchiki/!rim-180-shkaf-raspashnoy-4d-yashchiki-kashemir-seryy/",
+    "width_cm": 180,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "180x53x220 см"
+  },
+  {
+    "russianName": "Рим 180 шкаф распашной 4Д+ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-180-shkaf-raspashnoy-4d-yashchiki/!rim-180-shkaf-raspashnoy-4d-yashchiki-belyy/",
+    "width_cm": 180,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "180x53x220 см"
+  },
+  {
+    "russianName": "Рим 180 шкаф распашной 4Д Белый",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-180-shkaf-raspashnoy-4d/!rim-180-shkaf-raspashnoy-4d-belyy/",
+    "width_cm": 180,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "180x53x220 см"
+  },
+  {
+    "russianName": "Рим 90 шкаф распашной 2Д+ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-90-shkaf-raspashnoy-2d-yashchiki/!rim-90-shkaf-raspashnoy-2d-yashchiki-kashemir-seryy/",
+    "width_cm": 90,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "90x53x220 см"
+  },
+  {
+    "russianName": "Рим 160 шкаф распашной 4Д+ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-160-shkaf-raspashnoy-4d-yashchiki/!rim-160-shkaf-raspashnoy-4d-yashchiki-belyy/",
+    "width_cm": 160,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "160x53x220 см"
+  },
+  {
+    "russianName": "Рим 135 шкаф распашной 3Д+ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-135-shkaf-raspashnoy-3d-yashchiki/!rim-135-shkaf-raspashnoy-3d-yashchiki-kashemir-seryy/",
+    "width_cm": 135,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "135x53x220 см"
+  },
+  {
+    "russianName": "Рим 135 шкаф распашной 3Д+ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-135-shkaf-raspashnoy-3d-yashchiki/!rim-135-shkaf-raspashnoy-3d-yashchiki-belyy/",
+    "width_cm": 135,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "135x53x220 см"
+  },
+  {
+    "russianName": "Рим 135 шкаф распашной 3Д Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-135-shkaf-raspashnoy-3d/!rim-135-shkaf-raspashnoy-3d-kashemir-seryy/",
+    "width_cm": 135,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "135x53x220 см"
+  },
+  {
+    "russianName": "Рим 135 шкаф распашной 3Д Белый",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-135-shkaf-raspashnoy-3d/!rim-135-shkaf-raspashnoy-3d-belyy/",
+    "width_cm": 135,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "135x53x220 см"
+  },
+  {
+    "russianName": "Рим 120 шкаф распашной 3Д+ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-120-shkaf-raspashnoy-3d-yashchiki/!rim-120-shkaf-raspashnoy-3d-yashchiki-kashemir-seryy/",
+    "width_cm": 120,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "120x53x220 см"
+  },
+  {
+    "russianName": "Рим 120 шкаф распашной 3Д+ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-120-shkaf-raspashnoy-3d-yashchiki/!rim-120-shkaf-raspashnoy-3d-yashchiki-belyy/",
+    "width_cm": 120,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "120x53x220 см"
+  },
+  {
+    "russianName": "Рим 120 шкаф распашной 3Д Белый",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-120-shkaf-raspashnoy-3d/!rim-120-shkaf-raspashnoy-3d-belyy/",
+    "width_cm": 120,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "120x53x220 см"
+  },
+  {
+    "russianName": "Рим 90 шкаф распашной 2Д+ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-90-shkaf-raspashnoy-2d-yashchiki/!rim-90-shkaf-raspashnoy-2d-yashchiki-belyy/",
+    "width_cm": 90,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "90x53x220 см"
+  },
+  {
+    "russianName": "Рим 90 шкаф распашной 2Д Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-90-shkaf-raspashnoy-2d/!rim-90-shkaf-raspashnoy-2d-kashemir-seryy/",
+    "width_cm": 90,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "90x53x220 см"
+  },
+  {
+    "russianName": "Рим 80 шкаф распашной 2Д + ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-80-shkaf-raspashnoy-2d-yashchiki/!rim-80-shkaf-raspashnoy-2d-yashchiki-kashemir-seryy/",
+    "width_cm": 80,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "80x53x220 см"
+  },
+  {
+    "russianName": "Рим 80 шкаф распашной 2Д + ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-80-shkaf-raspashnoy-2d-yashchiki/!rim-80-shkaf-raspashnoy-2d-yashchiki-belyy/",
+    "width_cm": 80,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "80x53x220 см"
+  },
+  {
+    "russianName": "Рим 80 шкаф распашной 2Д Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-80-shkaf-raspashnoy-2d/!rim-80-shkaf-raspashnoy-2d-kashemir-seryy/",
+    "width_cm": 80,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "80x53x220 см"
+  },
+  {
+    "russianName": "Рим 160 шкаф распашной 4Д+ящики Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-160-shkaf-raspashnoy-4d-yashchiki/!rim-160-shkaf-raspashnoy-4d-yashchiki-orekh-selekt/",
+    "width_cm": 160,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "160x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 120*220 шкаф распашной 3Д + ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-120-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-120-220-shkaf-raspashnoy-3d-yashchiki-belyy/",
+    "width_cm": 120,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "120x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 80*220 шкаф распашной 2Д Белый",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-80-220-shkaf-raspashnoy-3d/!boss-standart-80-220-shkaf-raspashnoy-2d-belyy/",
+    "width_cm": 80,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "80x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 80*220 шкаф распашной 2Д + ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-80-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-80-220-shkaf-raspashnoy-3d-yashchiki-belyy/",
+    "width_cm": 80,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "80x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 80*220 шкаф распашной 2Д + ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-80-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-80-220-shkaf-raspashnoy-3d-yashchiki-kashemir/",
+    "width_cm": 80,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "80x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 80*220 шкаф распашной 2Д + ящики Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-80-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-80-220-shkaf-raspashnoy-3d-yashchiki-orekh-selekt/",
+    "width_cm": 80,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "80x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 135*220 шкаф распашной 3Д Белый",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-135-220-shkaf-raspashnoy-3d/!boss-standart-135-220-shkaf-raspashnoy-3d-belyy/",
+    "width_cm": 135,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "135x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 135*220 шкаф распашной 3Д Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-135-220-shkaf-raspashnoy-3d/!boss-standart-135-220-shkaf-raspashnoy-3d-kashemir/",
+    "width_cm": 135,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "135x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 135*220 шкаф распашной 3Д Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-135-220-shkaf-raspashnoy-3d/!boss-standart-135-220-shkaf-raspashnoy-3d-orekh-selekt/",
+    "width_cm": 135,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "135x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 80*220 шкаф распашной 2Д Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-80-220-shkaf-raspashnoy-3d/!boss-standart-80-220-shkaf-raspashnoy-2d-kashemir/",
+    "width_cm": 80,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "80x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 180*220 шкаф распашной 4Д + ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-180-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-180-220-shkaf-raspashnoy-3d-yashchiki-kashemir/",
+    "width_cm": 180,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "180x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 80*220 шкаф распашной 2Д Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-80-220-shkaf-raspashnoy-3d/!boss-standart-80-220-shkaf-raspashnoy-2d-orekh-selekt/",
+    "width_cm": 80,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "80x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 160*220 шкаф распашной 4Д Белый",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-160-220-shkaf-raspashnoy-3d/!boss-standart-160-220-shkaf-raspashnoy-4d-belyy/",
+    "width_cm": 160,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "160x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 160*220 шкаф распашной 4Д Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-160-220-shkaf-raspashnoy-3d/!boss-standart-160-220-shkaf-raspashnoy-4d-kashemir/",
+    "width_cm": 160,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "160x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 160*220 шкаф распашной 4Д Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-160-220-shkaf-raspashnoy-3d/!boss-standart-160-220-shkaf-raspashnoy-4d-orekh-selekt/",
+    "width_cm": 160,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "160x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 180*220 шкаф распашной 4Д Белый",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-180-220-shkaf-raspashnoy-3d/!boss-standart-180-220-shkaf-raspashnoy-4d-belyy/",
+    "width_cm": 180,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "180x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 180*220 шкаф распашной 4Д Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-180-220-shkaf-raspashnoy-3d/!boss-standart-180-220-shkaf-raspashnoy-4d-kashemir/",
+    "width_cm": 180,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "180x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 180*220 шкаф распашной 4Д + ящики Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-180-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-180-220-shkaf-raspashnoy-3d-yashchiki-orekh-selekt/",
+    "width_cm": 180,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "180x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 180*220 шкаф распашной 4Д + ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-180-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-180-220-shkaf-raspashnoy-3d-yashchiki/",
+    "width_cm": 180,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "180x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 120*220 шкаф распашной 3Д + ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-120-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-120-220-shkaf-raspashnoy-3d-yashchiki-kashemir/",
+    "width_cm": 120,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "120x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 90*220 шкаф распашной 2Д + ящики Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-90-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-90-220-shkaf-raspashnoy-3d-yashchiki-orekh-selekt/",
+    "width_cm": 90,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "90x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 120*220 шкаф распашной 3Д + ящики Орех селект",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-120-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-120-220-shkaf-raspashnoy-3d-yashchiki-orekh-selekt/",
+    "width_cm": 120,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "120x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 120*220 шкаф распашной 3Д Белый",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-120-220-shkaf-raspashnoy-3d/!boss-standart-120-220-shkaf-raspashnoy-3d-belyy/",
+    "width_cm": 120,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "120x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 120*220 шкаф распашной 3Д Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-120-220-shkaf-raspashnoy-3d/!boss-standart-120-220-shkaf-raspashnoy-3d-kashemir/",
+    "width_cm": 120,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "120x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 120*220 шкаф распашной 3Д Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-120-220-shkaf-raspashnoy-3d/!boss-standart-120-220-shkaf-raspashnoy-3d-orekh-selekt/",
+    "width_cm": 120,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "120x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 90*220 шкаф распашной 2Д + ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-90-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-90-220-shkaf-raspashnoy-3d-yashchiki-belyy/",
+    "width_cm": 90,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "90x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 90*220 шкаф распашной 2Д + ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-90-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-90-220-shkaf-raspashnoy-3d-yashchiki-kashemir/",
+    "width_cm": 90,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "90x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 90*220 шкаф распашной 2Д Белый",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-90-220-shkaf-raspashnoy-3d/!boss-standart-90-220-shkaf-raspashnoy-3d-belyy/",
+    "width_cm": 90,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "90x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 160*220 шкаф распашной 4Д + ящики Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-160-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-160-220-shkaf-raspashnoy-3d-yashchiki-orekh-selekt/",
+    "width_cm": 160,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "160x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 90*220 шкаф распашной 2Д Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-90-220-shkaf-raspashnoy-3d/!boss-standart-90-220-shkaf-raspashnoy-3d-kashemir/",
+    "width_cm": 90,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "90x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 90*220 шкаф распашной 2Д Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-90-220-shkaf-raspashnoy-3d/!boss-standart-90-220-shkaf-raspashnoy-3d-orekh-selekt/",
+    "width_cm": 90,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "90x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 135*220 шкаф распашной 3Д + ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-135-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-135-220-shkaf-raspashnoy-3d-yashchiki-belyy/",
+    "width_cm": 135,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "135x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 135*220 шкаф распашной 3Д + ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-135-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-135-220-shkaf-raspashnoy-3d-yashchiki-kashemir/",
+    "width_cm": 135,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "135x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 135*220 шкаф распашной 3Д + ящики Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-135-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-135-220-shkaf-raspashnoy-3d-yashchiki-orekh-selekt/",
+    "width_cm": 135,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "135x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 160*220 шкаф распашной 4Д + ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-160-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-160-220-shkaf-raspashnoy-3d-yashchiki-belyy/",
+    "width_cm": 160,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "160x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 160*220 шкаф распашной 4Д + ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-160-220-shkaf-raspashnoy-3d-yashchiki/!boss-standart-160-220-shkaf-raspashnoy-3d-yashchiki-kashemir/",
+    "width_cm": 160,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "160x53x220 см"
+  },
+  {
+    "russianName": "Босс Стандарт 180*220 шкаф распашной 4Д Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/boss-standart-220/boss-standart-180-220-shkaf-raspashnoy-3d/!boss-standart-180-220-shkaf-raspashnoy-4d-orekh-selekt/",
+    "width_cm": 180,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "180x53x220 см"
+  },
+  {
+    "russianName": "Шкаф-купе 2-дверный РИМ-180 Венге, Дуб",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-kupe/shkaf-kupe-rim-180-2/!shkaf-kupe-2-dvernyyrim-180-venge-dub/",
+    "width_cm": 177,
+    "depth_cm": 60,
+    "height_cm": 224,
+    "dimensions_raw": "177x60x224 см"
+  },
+  {
+    "russianName": "Шкаф-купе РИМ-140 Венге",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-kupe/shkaf-kupe-rim-140/!shkaf-kupe-rim-140-venge/",
+    "width_cm": 140,
+    "depth_cm": 60,
+    "height_cm": 224,
+    "dimensions_raw": "140x60x224 см"
+  },
+  {
+    "russianName": "Шкаф Рим-135 NEW Венге, Дуб",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/shkaf-rim-135-new/!shkaf-rim-135-new-venge-dub/",
+    "width_cm": 135,
+    "depth_cm": 55,
+    "height_cm": 224,
+    "dimensions_raw": "135x55x224 см"
+  },
+  {
+    "russianName": "Шкаф-купе РИМ-120 Шиншилла Серая",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-kupe/shkaf-kupe-rim-120-venge/!shkaf-kupe-rim-120-shinshilla-seraya/",
+    "width_cm": 118,
+    "depth_cm": 60,
+    "height_cm": 224,
+    "dimensions_raw": "118x60x224 см"
+  },
+  {
+    "russianName": "Шкаф-купе 3-дверный РИМ-180 Шиншилла Серая",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-kupe/shkaf-kupe-rim-180-3-dvernyy/!shkaf-kupe-3-dvernyy-rim-180-shinshilla-seraya/",
+    "width_cm": 177,
+    "depth_cm": 60,
+    "height_cm": 224,
+    "dimensions_raw": "177x60x224 см"
+  },
+  {
+    "russianName": "Шкаф BOSS STANDART 120 - 3Д Шиншилла серая",
+    "url": "https://mnogomebeli.com/shkafy/shkaf-boss-standart/boss-standart-120-3d/!shkaf-boss-standart-120-3d-kashemir-seryy/",
+    "width_cm": 120,
+    "depth_cm": 59,
+    "height_cm": 240,
+    "dimensions_raw": "120x59x240 см"
+  },
+  {
+    "russianName": "Идея 80 шкаф распашной 2Д+ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-80/!ideya-80-shkaf-raspashnoy-2d-yashchiki-belyy/",
+    "width_cm": 80,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "80x51x220 см"
+  },
+  {
+    "russianName": "Идея 80 шкаф распашной 2Д+ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-80/!ideya-80-shkaf-raspashnoy-2d-yashchiki-kashemir/",
+    "width_cm": 80,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "80x51x220 см"
+  },
+  {
+    "russianName": "Идея 90 шкаф распашной 2Д+ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-90/!ideya-90-shkaf-raspashnoy-2d-yashchiki-belyy/",
+    "width_cm": 90,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "90x51x220 см"
+  },
+  {
+    "russianName": "Идея 90 шкаф распашной 2Д+ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-90/!ideya-90-shkaf-raspashnoy-2d-yashchiki-kashemir/",
+    "width_cm": 90,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "90x51x220 см"
+  },
+  {
+    "russianName": "Идея 120 шкаф распашной 3Д Белый",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-120/!ideya-120-shkaf-raspashnoy-3d-belyy/",
+    "width_cm": 120,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "120x51x220 см"
+  },
+  {
+    "russianName": "Идея 120 шкаф распашной 3Д+ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-120-yashchiki/!ideya-120-shkaf-raspashnoy-3d-yashchiki-belyy/",
+    "width_cm": 120,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "120x51x220 см"
+  },
+  {
+    "russianName": "Идея 120 шкаф распашной 3Д+ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-120-yashchiki/!ideya-120-shkaf-raspashnoy-3d-yashchiki-kashemir/",
+    "width_cm": 120,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "120x51x220 см"
+  },
+  {
+    "russianName": "Идея 135 шкаф распашной 3Д Белый",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-135/!ideya-135-shkaf-raspashnoy-3d-belyy/",
+    "width_cm": 135,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "135x51x220 см"
+  },
+  {
+    "russianName": "Идея 135 шкаф распашной 3Д Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-135/!ideya-135-shkaf-raspashnoy-3d-kashemir/",
+    "width_cm": 135,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "135x51x220 см"
+  },
+  {
+    "russianName": "Идея 135 шкаф распашной 3Д+ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-135-yashchiki/!ideya-135-shkaf-raspashnoy-3d-yashchiki-kashemir/",
+    "width_cm": 135,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "135x51x220 см"
+  },
+  {
+    "russianName": "Идея 160 шкаф распашной 4Д+ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-160/!ideya-160-shkaf-raspashnoy-4d-yashchiki-belyy/",
+    "width_cm": 160,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "160x51x220 см"
+  },
+  {
+    "russianName": "Идея 160 шкаф распашной 4Д+ящики Кашемир",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-160/!ideya-160-shkaf-raspashnoy-4d-yashchiki-kashemir/",
+    "width_cm": 160,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "160x51x220 см"
+  },
+  {
+    "russianName": "Идея 180 шкаф распашной 4Д+ящики Белый",
+    "url": "https://mnogomebeli.com/shkafy/shkafy-ideya/shkaf-ideya-180/!ideya-180-shkaf-raspashnoy-4d-yashchiki-belyy/",
+    "width_cm": 180,
+    "depth_cm": 51,
+    "height_cm": 220,
+    "dimensions_raw": "180x51x220 см"
+  },
+  {
+    "russianName": "Стеллаж 220 Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/stellazh-rim-2-0/!stellazh-rim-2-0-orekh-selekt/",
+    "width_cm": 23,
+    "depth_cm": 23,
+    "height_cm": 220,
+    "dimensions_raw": "23x23x220 см"
+  },
+  {
+    "russianName": "Рим 180 шкаф распашной 4Д+ящики Орех Селект",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/rim-180-shkaf-raspashnoy-4d-yashchiki/!rim-180-shkaf-raspashnoy-4d-yashchiki-orekh-selekt/",
+    "width_cm": 180,
+    "depth_cm": 53,
+    "height_cm": 220,
+    "dimensions_raw": "180x53x220 см"
+  },
+  {
+    "russianName": "Стеллаж 220 Кашемир 2шт.",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/stellazh-rim-2-0-2sht/!stellazh-220-kashemir-2sht/",
+    "width_cm": 23,
+    "depth_cm": 23,
+    "height_cm": 220,
+    "dimensions_raw": "23x23x220 см"
+  },
+  {
+    "russianName": "Стеллаж 220 Орех Селект 2шт.",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/stellazh-rim-2-0-2sht/!stellazh-220-orekh-selekt-2sht/",
+    "width_cm": 23,
+    "depth_cm": 23,
+    "height_cm": 220,
+    "dimensions_raw": "23x23x220 см"
+  },
+  {
+    "russianName": "Стеллаж 220 Белый 2шт.",
+    "url": "https://mnogomebeli.com/shkafy/raspashnye/stellazh-rim-2-0-2sht/!stellazh-220-belyy-2sht/",
+    "width_cm": 23,
+    "depth_cm": 23,
+    "height_cm": 220,
+    "dimensions_raw": "23x23x220 см"
+  }
+]

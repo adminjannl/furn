@@ -1,0 +1,50 @@
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/297/k37ca2e0w8k41p0wsg5wqdiym14jp87h/Frame-18.jpg', 'Стул АСТИ NEW 2 шт. рогожка Malmo шоколад К., черный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0000' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/872/c39nk0o3ci630gpys1q2qoaf51znfixs/Frame-17.jpg', 'Стул АСТИ NEW 2 шт. рогожка Malmo шоколад К., черный - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0000' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/5db/zdgd3u0ysj19fqk4zjzquok81p5zkdcs/Frame-16.jpg', 'Стул АСТИ NEW 2 шт. рогожка Malmo шоколад К., черный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0000' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/2a7/rd08w7m4ujftxit3qol2qorhj71107rt/Frame-19.jpg', 'Стул АСТИ NEW 2 шт. рогожка Malmo шоколад К., черный - View 4', 4
+FROM products WHERE sku = 'CHR-MNM-0000' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/8f6/nv7yo7pu87qcz5j0g9vvycoht0i1xafw/Frame-20.jpg', 'Стул АСТИ NEW 2 шт. рогожка Malmo шоколад К., черный - View 5', 5
+FROM products WHERE sku = 'CHR-MNM-0000' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/f0e/r592c3oae69c1okcm64h1z09ej9c7gm9/Frame-1561.jpg', 'Стул Спин Velutto пепел, черный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0001' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/76d/htq3adkdi9k4zwv39zdybzrx9l0qbwev/Frame-1562.jpg', 'Стул Спин Velutto пепел, черный - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0001' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/48e/anj9bkb8oeplxuonflzu5wfin0czt8hd/Frame-1604.jpg', 'Стул Спин Velutto пепел, черный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0001' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/bc7/g7g06j26mo89tosctw38vxrzc38x1c0y/Frame-1560.jpg', 'Стул Спин Velutto пепел, черный - View 4', 4
+FROM products WHERE sku = 'CHR-MNM-0001' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/219/0rmkbusck8vbgjarxkezequxkiogv3yo/Frame-1603.jpg', 'Стул Спин Velutto пепел, черный - View 5', 5
+FROM products WHERE sku = 'CHR-MNM-0001' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/a6e/qztkvfiqoeb6x319lc0oq1bz1a9nvsc1/stul-BOSS-_-6.jpg', 'Стул ОРИЕНТ Velutto серый, черный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0002' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/db3/o0j632m27wemc0c3h7wnz6zkrjn1obvw/stul-BOSS-_-5.jpg', 'Стул ОРИЕНТ Velutto серый, черный - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0002' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/4f3/1aim2a5gwvphj2csy3tdqg2v7glcbveh/stul-BOSS-_-4.jpg', 'Стул ОРИЕНТ Velutto серый, черный - View 3', 3

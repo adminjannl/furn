@@ -1,0 +1,50 @@
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/0bb/oehztkxr9l98ew9tt8qvhekozujkc68v/1310_610_1/Stul-Turin_INT2.jpg', 'Стул Турин Velutto Синий, черный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0017' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/141/5bpycx4tbkaywsy771onfjsx3s61qfdb/1310_610_1/stul-BOSS-_-9.jpg', 'Стул ОРИЕНТ Velutto пепел, черный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0018' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/cfb/1mn1j6127m5e1m1o43wo1m4vr9galggq/1310_610_1/stul-BOSS-_-8.jpg', 'Стул ОРИЕНТ Velutto пепел, черный - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0018' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/5f0/7t4krumnh200nee3eu2wr0mv1ocnj42p/1310_610_1/stul-BOSS-_-7.jpg', 'Стул ОРИЕНТ Velutto пепел, черный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0018' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/fce/nhcsp83py6c0naas801wj1wrp2w7bwun/1310_610_1/stul-BOSS-_-14.jpg', 'Стул ОРИЕНТ Velutto пепел, черный - View 4', 4
+FROM products WHERE sku = 'CHR-MNM-0018' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/8a8/jbtfvpd1bd82122vs88g8ite00urmoas/1310_610_1/stul-BOSS-_-19.jpg', 'Стул ОРИЕНТ Velutto пепел, черный - View 5', 5
+FROM products WHERE sku = 'CHR-MNM-0018' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/ea1/k8kzja8pnstn0s8otxnpy1xy6lo4lsof/1310_610_1/stul-TYRIN-_-9.jpg', 'Стул Турин Velutto Серый, черный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0019' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/eba/jb72ingxpr8bsk7gdke47blhl3df2wab/1310_610_1/stul-TYRIN-_-10.jpg', 'Стул Турин Velutto Серый, черный - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0019' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/e19/iwvmi17wwm7lggovnvkqbuzbqs2otewx/1310_610_1/Stul-Turin_INT4.jpg', 'Стул Турин Velutto Серый, черный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0019' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/18a/nfro52vvc0bu07joz8qfk2yo29bsjcj9/stul-BOSS-_-3.jpg', 'Стул ОРИЕНТ Velutto сталь, черный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0020' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/76e/9zuqimrjzj6ko8wkxgdmpwpn559z0idm/stul-BOSS-_-2.jpg', 'Стул ОРИЕНТ Velutto сталь, черный - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0020' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/110/5d3e7idxgod1liueh31mdmesevwau408/stul-BOSS-_-1.jpg', 'Стул ОРИЕНТ Velutto сталь, черный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0020' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/bb9/1au9om2311dozyyctkbpyhysi9l6w8wi/stul-BOSS-_-12.jpg', 'Стул ОРИЕНТ Velutto сталь, черный - View 4', 4

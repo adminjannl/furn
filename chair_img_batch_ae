@@ -1,0 +1,50 @@
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/ff6/1310_610_1/o1uhh2hg06mzc2pkyfk2wr1ci5vk0x4d.jpg', 'Стул НОРД Рогожка Sherlocк серый - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0012' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/92a/1310_610_1/lnqdpt55zv9mfrtn4hfqj6dj3t8jkpkv.jpg', 'Стул НОРД Рогожка Sherlocк серый - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0012' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/03d/t91t2o43sbveb9i8pf4i12001lk0p2ek.jpg', 'Стул НОРД Рогожка Sherlocк серый - View 4', 4
+FROM products WHERE sku = 'CHR-MNM-0012' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/f6a/f3a01xxjoqq74ud96sqnxm1g3pdky8o7/Frame-1208.jpg', 'Стул АСТИ NEW 2 шт. велюр Monolit Латте К., Чёрный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0013' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/9b4/3rj7qww47chpzzdq7u36chzi3kngg7bm/stul-ASTI-_-2.jpg', 'Стул АСТИ NEW 2 шт. велюр Monolit Латте К., Чёрный - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0013' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/b9e/dnpld7yev0e67xoapdqudz8vnjjxovjl/stul-ASTI-_-1.jpg', 'Стул АСТИ NEW 2 шт. велюр Monolit Латте К., Чёрный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0013' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/3f4/d4wpdgctaicc3jdnc7yvf9wzbd9sjhe1/INT_chair_Asti_monolith_latte_0000_2560kh1188.jpg', 'Стул АСТИ NEW 2 шт. велюр Monolit Латте К., Чёрный - View 4', 4
+FROM products WHERE sku = 'CHR-MNM-0013' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/38f/flws8h45zaao3b9vt9eeqaelpbgkiyqn/INT_chair_Asti_monolith_latte_0001_2560kh1188.jpg', 'Стул АСТИ NEW 2 шт. велюр Monolit Латте К., Чёрный - View 5', 5
+FROM products WHERE sku = 'CHR-MNM-0013' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/bcc/p4y37kxbr6jt4zz49i8f3r4xnpnjf0fe/1310_610_1/Frame-1205.jpg', 'Стул АСТИ NEW 2 шт. велюр Monolit серый К., черный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0014' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/a6e/o1aaljh3qx0umsjleep746sxcifwlj2l/1310_610_1/stul_ASTI_1_5.jpg', 'Стул АСТИ NEW 2 шт. велюр Monolit серый К., черный - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0014' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/95c/lqz1c0fn19jnct9qbjv7af45si6xkfmo/1310_610_1/stul_ASTI_1_6.jpg', 'Стул АСТИ NEW 2 шт. велюр Monolit серый К., черный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0014' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/4f5/9sklu203ipj7ds41mjuvu6hjrurk0pre/1310_610_1/Stul_Asti_monolit_grey_int.jpg', 'Стул АСТИ NEW 2 шт. велюр Monolit серый К., черный - View 4', 4
+FROM products WHERE sku = 'CHR-MNM-0014' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/25a/o0w021kjxjcx2bld8s7fghj0474z9joq/1310_610_1/Stul_Asti_monolit_grey_int1.jpg', 'Стул АСТИ NEW 2 шт. велюр Monolit серый К., черный - View 5', 5

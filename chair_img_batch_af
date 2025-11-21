@@ -1,0 +1,50 @@
+FROM products WHERE sku = 'CHR-MNM-0014' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/496/h71d999zd06keodbmahb9tvcenp24y2p/Frame-1615.jpg', 'Стул Спин Velutto серый, черный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0015' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/5b4/a5u58pc3m45srioubi44bonl2fyzjlyn/Frame-1616.jpg', 'Стул Спин Velutto серый, черный - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0015' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/53b/62xud4jqa7f5mzh7o7pcz2yy4ng2hav1/Frame-1617.jpg', 'Стул Спин Velutto серый, черный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0015' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/118/p26m1y21hhsnhpls4y8fnia70g3ltoss/Frame-1614.jpg', 'Стул Спин Velutto серый, черный - View 4', 4
+FROM products WHERE sku = 'CHR-MNM-0015' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/d82/1cidp7bvkq9gg7v5pi136wot64rg1qq9/Frame-1618.jpg', 'Стул Спин Velutto серый, черный - View 5', 5
+FROM products WHERE sku = 'CHR-MNM-0015' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/cda/klf1tk1unfk6pk3n2otcdjh39gyp2t0f/1310_610_1/Frame-1622.jpg', 'Стул Спин Velutto сталь, черный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0016' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/cbb/sytvnviob23bbl9wsevvrrefpioyqrzt/1310_610_1/Frame-1623.jpg', 'Стул Спин Velutto сталь, черный - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0016' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/b52/v6ulkl56s3se30kiri5caxic2d13oolh/1310_610_1/Frame-1624.jpg', 'Стул Спин Velutto сталь, черный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0016' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/5f8/qkzciyfhi6w85j4rhhr6rrr3shwom1mw/1310_610_1/Frame-1621.jpg', 'Стул Спин Velutto сталь, черный - View 4', 4
+FROM products WHERE sku = 'CHR-MNM-0016' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/b63/qbaj297g3jg16umngegt05cfpdslbk25/1310_610_1/Frame-1555.jpg', 'Стул Спин Velutto сталь, черный - View 5', 5
+FROM products WHERE sku = 'CHR-MNM-0016' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/78d/bsbf2zvnpndk3wgms0m9h1wrvpu4czrl/1310_610_1/stul-TYRIN-_-1.jpg', 'Стул Турин Velutto Синий, черный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0017' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/8ec/0xfkqnp23bc10uizbzybbj8dd2qecpag/1310_610_1/stul-TYRIN-_-2.jpg', 'Стул Турин Velutto Синий, черный - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0017' LIMIT 1;
+

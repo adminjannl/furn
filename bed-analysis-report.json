@@ -1,0 +1,34 @@
+{
+  "generatedAt": "2025-10-27T08:26:56.905Z",
+  "database": {
+    "totalProducts": 78,
+    "totalImages": 205,
+    "productsWithImages": 78,
+    "productsWithoutImages": 0,
+    "averageImagesPerProduct": 2.628205128205128
+  },
+  "pricing": {
+    "average": 437.51141025641044,
+    "min": 98.99,
+    "max": 2499
+  },
+  "categories": {
+    "Boss Series": 28,
+    "RONDA Series": 3,
+    "Bella Series": 18,
+    "Freya Series": 7,
+    "LEO Series": 4,
+    "Una Series": 4,
+    "LOFT Series": 3,
+    "Other": 11
+  },
+  "imageSources": {
+    "Supabase Storage": 182,
+    "External (mnogomebeli.com)": 23
+  },
+  "gaps": {
+    "toTargetOf95": 17,
+    "missingImages": 0,
+    "externalImages": 23
+  }
+}

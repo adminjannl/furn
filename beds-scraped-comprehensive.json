@@ -1,0 +1,407 @@
+[
+  {
+    "id": 1,
+    "russianName": "Кровать Фрея 160*200 с ПМ MONOLIT Латте",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/331/oua9iql8354pmizc9q3imhxzhi85zlqj/Frame-82.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovat-freya/krovat-freya-160-200-s-pm/!krovat-freya-160-200-s-pm-monolit-latte/",
+    "price": 20000,
+    "scrapedAt": "2025-10-27T10:24:38.091Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 2,
+    "russianName": "Кровать ЛЕО 160 Вельвет CORD серая",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/93a/inl0cmqp4v552boui1d2ngk3wp2xdzbx/Frame-14.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovat-leo-160/krovat-leo-160-velvet-cord/!krovat-leo-160-velvet-cord-seraya/",
+    "price": 20000,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 3,
+    "russianName": "Кровать ЛЕО 160 Вельвет CORD бежевая",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/5cd/dltk8q6u9fsf2glzzwxqm7ztsbqmvzoe/Frame_3.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovat-leo-160/krovat-leo-160-velvet-cord/!krovat-leo-160-velvet-cord-bezhevaya/",
+    "price": 14999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 4,
+    "russianName": "Кровать Фрея 160*200 Слим MONOLIT Серая",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/946/37jh6v10eunolhbarhfuu951qi4yog41/Frame-67.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovat-freya/krovat-freya-160-200-slim/!krovat-freya-160-200-slim-monolit-seraya/",
+    "price": 14999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 5,
+    "russianName": "Кровать NORD Шенилл IQ серая",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/d4a/azs1lraocjbh1rjn6ixei63jk40qtl1i/Frame_3.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/dvuspalnye-krovati/krovat-nord-shenill-iq/!krovat-nord-shenill-iq-seraya/",
+    "price": 42999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 6,
+    "russianName": "Кровать Белла 160*200 велюр Monolit серая",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/b63/vtjxg39fltz11n42csfzxf3sqt1qrbvw/krovat_bella_56.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/s-podemnym-mehanizmom/krovat-bella-velyur-monolit/!krovat-bella-160-200-velyur-monolit-seryy/",
+    "price": 52999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 7,
+    "russianName": "Кровать Босс Дрим 160*200 Про Велюр Роял агат",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/d3a/b9gkwd3el3cbx8pryh40aty5wpz65hv5/Frame-126.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovati-boss/krovat-boss-dream-160-velyur-royal/!krovat-boss-drim-160-velyur-royal-agat/",
+    "price": 42999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 8,
+    "russianName": "Кровать Босс 160*200 Про велюр Monolit латте",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/6e0/ipjst29n5dzetbhz6oekmzqm7b6erkje/Frame-113.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/dvuspalnye-krovati/krovat-boss-velyur-monolit/!krovat-boss-velyur-monolit-latte/",
+    "price": 52999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 9,
+    "russianName": "Кровать Босс 160*200 Про велюр Monolit мокко",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/d51/fnm6ijpn850279fzfgbubkjae89ygcw1/Frame-114.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/dvuspalnye-krovati/krovat-boss-velyur-monolit/!krovat-boss-160-200-pro-velyur-monolit-mokko/",
+    "price": 42999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 10,
+    "russianName": "Кровать Босс 160*200 Про велюр Monolit сталь",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/1ee/3k3edblzyssg5o1bqhuswcpjzfvzhlbf/Frame-111.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/dvuspalnye-krovati/krovat-boss-velyur-monolit/!krovat-boss-160-velyur-monolit-stal/",
+    "price": 42999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 11,
+    "russianName": "Кровать Белла 160*200 велюр Monolit латте",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/553/hxh39lepql1rcp1275bfu4drnlshwy20/krovat_bella_41.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/s-podemnym-mehanizmom/krovat-bella-velyur-monolit/!krovat-bella-160-200-velyur-monolit-latte/",
+    "price": 42999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 12,
+    "russianName": "Кровать Белла 160*200 велюр Monolit сталь",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/f1a/5ivk3s854cdcmdqa11hj4lfugqu3nczf/krovat_Bella_monolith_steel_8.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/s-podemnym-mehanizmom/krovat-bella-velyur-monolit/!krovat-bella-160-200-velyur-monolit-stal/",
+    "price": 42999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 13,
+    "russianName": "Кровать Босс 180*200 Про велюр Monolit латте",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/b65/zf8pyyvues749hycycuxrrq33lvbwyxl/Frame-110.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/dvuspalnye-krovati/krovat-boss-180-velyur-monolit/!krovat-boss-180-velyur-monolit-latte/",
+    "price": 42999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 14,
+    "russianName": "Кровать BOSS mini NEW велюр Monolit роуз",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/72a/9nkkl5gafttaii0leg2oirt6wexq4jeu/krovat-BOSS-Kid-_-3.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/s-podemnym-mehanizmom/krovat-boss-mini-velyur-monolit/!krovat-boss-mini-velyur-monolit-roza/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 15,
+    "russianName": "Кровать Белла 140*200 с ПМ велюр Monolit латте",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/9f3/v1ahqpdhqa0yso0ujg64kgoghqeso547/krovat_bella_140_15.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/s-podemnym-mehanizmom/krovat-bella-140-200-s-pm-velyur-monolit/!krovat-bella-140-200-s-pm-velyur-monolit-latte/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 16,
+    "russianName": "Кровать Босс 180*200 Про велюр Monolit серая",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/838/5qfawls7r7okxe4gu2pz9eb1as4ogsf4/Frame-4.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/dvuspalnye-krovati/krovat-boss-180-velyur-monolit/!krovat-boss-180-velyur-monolit-seraya/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 17,
+    "russianName": "Кровать Белла 140*200 велюр Monolit серая",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/957/80rqfiszsl3ce1klnpef2irv0iyfiw2h/krovat_bella_50.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovati-bella/krovat-bella-bez-mekhanizma-velyur-monolit/!krovat-bella-140-200-velyur-monolit-seraya/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 18,
+    "russianName": "Кровать Белла 140*200 велюр Monolit латте",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/219/i9c427rqzvnptaleqyi3vmgzc7qlo0wz/krovat_bella_35.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovati-bella/krovat-bella-bez-mekhanizma-velyur-monolit/!krovat-bella-140-200-velyur-monolit-latte/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 19,
+    "russianName": "Кровать Уна мини рогожка Malmo серая, Чёрная",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/c9c/7slpk1wanmvj2tbdt7hp9atdnls6me33/krovat-UNA-_-2.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovat-una/krovat-una-mini/!krovat-una-mini-rogozhka-malmo-seraya-chyernaya/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 20,
+    "russianName": "Кровать Босс 160*200 Про велюр Monolit синяя",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/0d5/egckn4e7pafri1i3sxk1vsj9imiokurh/syw82i6r3dldxb4ajhrhbcnbnkpae8we.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/dvuspalnye-krovati/krovat-boss-velyur-monolit/!krovat-boss-velyur-monolit-indigo/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 21,
+    "russianName": "Кровать Белла 160*200 велюр Monolit аква",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/d8e/v4pq0qmw53l1d8ybeim39gxhfoc40jit/Monolit_Aqua_3.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/s-podemnym-mehanizmom/krovat-bella-velyur-monolit/!krovat-bella-velyur-monolit-akva/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 22,
+    "russianName": "Кровать Белла 140*200 с ПМ велюр Monolit сталь",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/aea/73fomhwhfzzkjvcqcm8niij8pcdfqz3n/krovat_bella_140_6.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/s-podemnym-mehanizmom/krovat-bella-140-200-s-pm-velyur-monolit/!krovat-bella-140-200-s-pm-velyur-monolit-stal/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 23,
+    "russianName": "Кровать Белла 140*200 велюр Monolit аква",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/312/h37stahp0b6b0s3jpx4wrkc1sfwp415k/140_Monolit_Aqua_2.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovati-bella/krovat-bella-bez-mekhanizma-velyur-monolit/!krovat-bella-bez-mekhanizma-velyur-monolit-akva/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 24,
+    "russianName": "Кровать Белла 140*200 с ПМ велюр Monolit серая",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/450/93hptey1mkdqk4ggf04wdl3iqukioiup/krovat_bella_140_24.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/s-podemnym-mehanizmom/krovat-bella-140-200-s-pm-velyur-monolit/!krovat-bella-140-200-s-pm-velyur-monolit-seryy/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 25,
+    "russianName": "Кровать Белла 160*200 рогожка Malmo серая",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/7a9/zt2829rzg8auc8n1w0exfytib74h4fn0/xsaw3edcxxluwab1lr02277lye8d3zzz.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/s-podemnym-mehanizmom/krovat-bella-rogozhka-malmo/!krovat-bella-rogozhka-malmo-seryy/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 26,
+    "russianName": "Кровать ЛОФТ Мини Орех Селект, MONOLIT Латте",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/3c6/1u2izu3byt9mce4v18quny8owxoauod2/Frame-1.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/loft-mini/loft-mini/!krovat-loft-mini-vyaz-naturalnyy-monolit-latte/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 27,
+    "russianName": "Кровать РОНДА 160*200 велюр MONOLIT латте",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/2ea/2341d1gx16feqyp8ea02ixvyphvxt4l5/krovat_RONDO_15.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/ronda/krovat-ronda-160-200-velyur-monolit/!krovat-ronda-160-200-velyur-monolit-latte/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 28,
+    "russianName": "Кровать ЛОФТ Мини Сонома, MONOLIT аква",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/39c/vmrbio1l04dixjaf7hyg7ofrkhvc89k1/Monolit-Aqua_2.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/loft-mini/loft-mini/!krovat-loft-sonoma-monolit-akva/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 29,
+    "russianName": "Кровать Уна 160*200 рогожка Malmo серая, черная",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/1cd/8thgl2i5dogp1qudx698s6coz3xk9c41/3f8jfb6ioiffm8qhdwlzxk9uhizqokng.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovat-una/krovat-una/!krovat-una-rogozhka-malmo-seryy-chernyy/",
+    "price": 37999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 30,
+    "russianName": "Кровать ЛОФТ Мини Орех Селект, MONOLIT Серый",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/239/79oobigpezj04ttf2alv82bs36ia2ztq/Frame-12.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/loft-mini/loft-mini/!krovat-loft-mini-orekh-selekt-monolit-seryy/",
+    "price": 36999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 31,
+    "russianName": "Кровать Уна мини рогожка Malmo платина, Чёрная",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/748/jeamqizoq7zv50lnk857lx8uoewjsv07/Krovat-UNA-Malbo_Platina_-_-18.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovat-una/krovat-una-mini/!krovat-una-mini-rogozhka-malmo-platina-chyernaya/",
+    "price": 44999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 32,
+    "russianName": "Кровать Белла 140*200 с ПМ велюр Monolit аква",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/ece/h9212x85vh0qklaefsjrefy8v3xqffek/krovat_bella_140_33.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/s-podemnym-mehanizmom/krovat-bella-140-200-s-pm-velyur-monolit/!krovat-bella-140-200-s-pm-velyur-monolit-akva/",
+    "price": 36999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 33,
+    "russianName": "Кровать Белла 140*200 велюр Monolit сталь",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/aa4/umjqsy1e28rgzybgvhzl050fuo1jiluf/krovat_Bella_monolith_steel_5.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovati-bella/krovat-bella-bez-mekhanizma-velyur-monolit/!krovat-bella-140-200-velyur-monolit-stal/",
+    "price": 44999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 34,
+    "russianName": "Кровать Белла 140*200 рогожка Malmo серая",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/d64/ah0fhsofwcjxqc6i1akfd3lb72hxqda9/w3angsp5h1xv71krl99vye0k8y36x4no.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovati-bella/krovat-bella-bez-mekhanizma-rogozhka-malmo/!krovat-bella-bez-mekhanizma-rogozhka-malmo-seraya/",
+    "price": 36999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 35,
+    "russianName": "Кровать BOSS.XO 180*200 велюр Monolit сталь",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/082/v8pl4gxegov8gsyf5gm277ehir6a53e7/krovat_BOSS_XO_monolit_steel_6.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/bez-mekhanizma/krovat-boss-xo-monolit/!krovat-boss-xo-velyur-monolit-stal/",
+    "price": 36999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 36,
+    "russianName": "Кровать Босс 140*200 Про велюр Monolit мокко",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/817/f3pwpbsu9orpxn2e8pcbegxo5h1623n1/Frame-13.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/dvuspalnye-krovati/krovat-boss-140-velyur-monolit/!krovat-boss-140-200-pro-velyur-monolit-mokko/",
+    "price": 36999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 37,
+    "russianName": "Кровать Босс Дрим 180*200 Про Велюр Royal шампань NEW",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/f4d/nbe3k6qy7zjhl7fo6g8u4ulfmbx06xzs/2560kh1188_0008_Bed_Dream_royal_shampan_0010.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovati-boss/krovat-boss-dream-180-velyur-royal/!krovat-boss-drim-180-velyur-royal-shampan/",
+    "price": 36999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 38,
+    "russianName": "Кровать Босс Дрим 180*200 Про Велюр Роял агат",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/cda/o60q1j29jf9wwj3txws39koc52oq78jt/2560kh1188_0000_Bed_Dream_royal_agat_0010.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovati-boss/krovat-boss-dream-180-velyur-royal/!krovat-boss-drim-180-velyur-royal-agat/",
+    "price": 36999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 39,
+    "russianName": "Кровать Уна 160*200 рогожка Malmo платина, черная",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/0c3/htsea484uqobcc8vmk8yh2tvwezpklci/Krovat_UNA_Malbo_Platina_12.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovat-una/krovat-una/!krovat-una-rogozhka-malmo-platina-chernaya/",
+    "price": 50999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 40,
+    "russianName": "Кровать Босс Дрим 160*200 Про Велюр Royal шампань NEW",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/2a4/nq4ykpvmmnphvr7drutlz78cd98ouof2/2560kh1188_0000_Bed_Dream_royal_shampan_0000.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovati-boss/krovat-boss-dream-160-velyur-royal/!krovat-boss-drim-160-velyur-royal-shampan/",
+    "price": 55999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 41,
+    "russianName": "Кровать Босс Дрим 160*200 Про Велюр Royal топаз NEW",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/eab/lc5j85egwb6svumiabg5yl8x95k5412d/2560kh1188_0003_Bed_Dream_royal_topaz_0000.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovati-boss/krovat-boss-dream-160-velyur-royal/!krovat-boss-drim-160-velyur-royal-topaz/",
+    "price": 45999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 42,
+    "russianName": "Кровать Босс Дрим 160*200 Про Велюр Роял тауп",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/c59/l7lmg384enkxk7jhahpqrixjoruodkic/2560kh1188_0006_Bed_Dream_royal_taup_0000.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovati-boss/krovat-boss-dream-160-velyur-royal/!krovat-boss-drim-160-velyur-royal-taup/",
+    "price": 56999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 43,
+    "russianName": "Кровать Босс Дрим 160*200 Про Велюр Royal пион NEW",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/570/a4vu4nbd6n6a1voaol4g9e7cnf7gbt2l/2560kh1188_0003_Bed_Dream_royal_pion_0000.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovati-boss/krovat-boss-dream-160-velyur-royal/!krovat-boss-drim-160-velyur-royal-pion/",
+    "price": 59999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 44,
+    "russianName": "Кровать ЛЕО 160 Вельвет CORD графит",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/faf/03znqww4tf08x0czdl1fa4tfxyaqkn59/Frame_12.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/krovat-leo-160/krovat-leo-160-velvet-cord/!krovat-leo-160-velvet-cord-grafit/",
+    "price": 59999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  },
+  {
+    "id": 45,
+    "russianName": "Кровать Босс 180*200 Про Велюр Royal шампань NEW",
+    "imageUrl": "https://mnogomebeli.com/upload/iblock/e67/3ainrwspyjhngy7c9w4se2zh0sublf0j/2560kh1188_0014_bed_Boss_royal_shampan_0080.jpg",
+    "productUrl": "https://mnogomebeli.com/krovati/dvuspalnye-krovati/krovat-boss-180-200-pro-velyur-royal/!krovat-boss-180-200-pro-velyur-royal-shampan-new/",
+    "price": 59999,
+    "scrapedAt": "2025-10-27T10:24:38.092Z",
+    "source": "existing_catalog"
+  }
+]

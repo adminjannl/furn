@@ -1,0 +1,50 @@
+FROM products WHERE sku = 'CHR-MNM-0008' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/ba5/chit5r8hr6gpbugo9fcimzby525exyvd/stul-ASTI_1-_-16.jpg', 'Стул АСТИ NEW 2 шт. экокожа Табак, черный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0008' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/19f/4v34rfch27as1ors69efm0h84hftkjsq/Stul-Asti-tabak_int.jpg', 'Стул АСТИ NEW 2 шт. экокожа Табак, черный - View 4', 4
+FROM products WHERE sku = 'CHR-MNM-0008' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/357/3u0awi279cp7bz4oodtm1qv2pwxq73aw/1310_610_1/stul-NORD-_-9.jpg', 'Стул НОРД велюр Velutto Бежевый, Белый - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0009' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/e80/1ynsgtq0isxhb279vzygx52cq9ks28q9/1310_610_1/stul-NORD-_-10.jpg', 'Стул НОРД велюр Velutto Бежевый, Белый - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0009' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/e5b/1310_610_1/q50ivp0ex216zqb51pugkaytp72gkiff.jpg', 'Стул НОРД велюр Velutto Бежевый, Белый - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0009' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/01f/pgnxnjnqwidm7hbqqunqnj5vwb4cxjld/1310_610_1/stul-NORD-_-13.jpg', 'Стул НОРД велюр Velutto Серый, Белый - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0010' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/847/7td8giriwh70qmi4jqa0czuh4hv09cu5/1310_610_1/stul-NORD-_-14.jpg', 'Стул НОРД велюр Velutto Серый, Белый - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0010' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/bc3/1310_610_1/l73ip23d0rtwhzlby2ovlmaa0dasuwbg.jpg', 'Стул НОРД велюр Velutto Серый, Белый - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0010' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/1c7/84ynpmqiujdr40zyaqq9jpjow14b0g7r/stul-NORD-_-3.jpg', 'Стул НОРД велюр Velutto Синий, Черный - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0011' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/001/tgqakqe1mx2qmqsjj9a9kixastyfmn6l/stul-NORD-_-4.jpg', 'Стул НОРД велюр Velutto Синий, Черный - View 2', 2
+FROM products WHERE sku = 'CHR-MNM-0011' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/iblock/efc/6y1ve2tiufj02bp7vg0gv21f8uycb8vt/Nord_blue_int.jpg', 'Стул НОРД велюр Velutto Синий, Черный - View 3', 3
+FROM products WHERE sku = 'CHR-MNM-0011' LIMIT 1;
+
+INSERT INTO product_images (product_id, image_url, alt_text, display_order)
+SELECT id, 'https://mnogomebeli.com/upload/resize_cache/iblock/92b/1310_610_1/3kf5joqojw5sv7qianlpce00lys62cur.jpg', 'Стул НОРД Рогожка Sherlocк серый - View 1', 1
+FROM products WHERE sku = 'CHR-MNM-0012' LIMIT 1;
+
