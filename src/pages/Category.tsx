@@ -57,46 +57,52 @@ export default function Category() {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-neutral-900 border-r-transparent"></div>
-        <p className="mt-4 text-neutral-600">Loading...</p>
+      <div className="pt-20 min-h-screen bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20 text-center">
+          <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-oak-700 border-r-transparent"></div>
+          <p className="mt-6 text-oak-600 font-medium">Loading...</p>
+        </div>
       </div>
     );
   }
 
   if (!category) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-        <h1 className="text-2xl font-bold text-neutral-900">Category not found</h1>
+      <div className="pt-20 min-h-screen bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20 text-center">
+          <h1 className="text-3xl font-serif font-bold text-oak-900">Category not found</h1>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-neutral-900 mb-4">{category.name}</h1>
-        {category.description && (
-          <p className="text-lg text-neutral-600">{category.description}</p>
+    <div className="pt-20 min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+        <div className="mb-12">
+          <h1 className="text-5xl font-serif font-bold text-oak-900 mb-4">{category.name}</h1>
+          {category.description && (
+            <p className="text-xl text-oak-600 leading-relaxed max-w-3xl">{category.description}</p>
+          )}
+        </div>
+
+        {products.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-oak-600 text-lg">No products available in this category yet.</p>
+          </div>
+        ) : (
+          <>
+            <p className="text-oak-600 mb-8 font-medium">
+              {products.length} {products.length === 1 ? 'product' : 'products'}
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          </>
         )}
       </div>
-
-      {products.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-neutral-600">No products available in this category.</p>
-        </div>
-      ) : (
-        <>
-          <p className="text-neutral-600 mb-6">
-            {products.length} {products.length === 1 ? 'product' : 'products'}
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </>
-      )}
     </div>
   );
 }
