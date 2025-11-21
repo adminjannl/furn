@@ -1,0 +1,89 @@
+{
+  "issues": [
+    {
+      "sku": "CH-DIN-003",
+      "name": "Dining Chair Set of 4",
+      "productId": "a6216050-a660-41f6-a3fd-1c66d77d3ca1",
+      "currentMinOrder": 1,
+      "totalImages": 1,
+      "images": [
+        {
+          "id": "a9e0df46-058b-4fe8-bae8-abba9d30b584",
+          "image_url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/a6216050-a660-41f6-a3fd-1c66d77d3ca1/a9e0df46-058b-4fe8-bae8-abba9d30b584.png",
+          "display_order": 1
+        }
+      ]
+    },
+    {
+      "sku": "CH-OFF-004",
+      "name": "Executive Office Chair",
+      "productId": "b2d057fe-0cca-4378-8f9a-e83aaa36a5b5",
+      "currentMinOrder": 1,
+      "totalImages": 1,
+      "images": [
+        {
+          "id": "10ef3b24-59c1-4aac-946d-3a12376a94f4",
+          "image_url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/b2d057fe-0cca-4378-8f9a-e83aaa36a5b5/10ef3b24-59c1-4aac-946d-3a12376a94f4.png",
+          "display_order": 1
+        }
+      ]
+    },
+    {
+      "sku": "SF-LTH-002",
+      "name": "Classic Leather Sectional",
+      "productId": "4f4bc2e5-3055-442a-b43e-b167b82803bc",
+      "currentMinOrder": 1,
+      "totalImages": 1,
+      "images": [
+        {
+          "id": "a729a9fe-0ebe-4072-a557-d00a1895b2b2",
+          "image_url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/4f4bc2e5-3055-442a-b43e-b167b82803bc/a729a9fe-0ebe-4072-a557-d00a1895b2b2.png",
+          "display_order": 1
+        }
+      ]
+    },
+    {
+      "sku": "SF-VEL-001",
+      "name": "Modern Velvet Sofa",
+      "productId": "e33def57-019a-47e5-b5ba-009dfedd95fc",
+      "currentMinOrder": 1,
+      "totalImages": 1,
+      "images": [
+        {
+          "id": "a65fbdab-e180-491e-ba75-2be79e4e8045",
+          "image_url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/e33def57-019a-47e5-b5ba-009dfedd95fc/a65fbdab-e180-491e-ba75-2be79e4e8045.png",
+          "display_order": 1
+        }
+      ]
+    },
+    {
+      "sku": "TB-COF-006",
+      "name": "Glass Coffee Table",
+      "productId": "702d0749-9e4d-4940-8d51-42924f0aa309",
+      "currentMinOrder": 1,
+      "totalImages": 1,
+      "images": [
+        {
+          "id": "0cd8a0db-5414-4066-aca6-a8fc003d4548",
+          "image_url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/702d0749-9e4d-4940-8d51-42924f0aa309/0cd8a0db-5414-4066-aca6-a8fc003d4548.png",
+          "display_order": 1
+        }
+      ]
+    },
+    {
+      "sku": "TB-DIN-005",
+      "name": "Rustic Dining Table",
+      "productId": "e0cc6b27-0e7a-4c43-ba8d-1334ec5fcc8a",
+      "currentMinOrder": 1,
+      "totalImages": 1,
+      "images": [
+        {
+          "id": "381e36a6-4aea-42e1-9bea-2d294f6e3724",
+          "image_url": "https://clwqwdeamfjzamulteui.supabase.co/storage/v1/object/public/product-images/e0cc6b27-0e7a-4c43-ba8d-1334ec5fcc8a/381e36a6-4aea-42e1-9bea-2d294f6e3724.png",
+          "display_order": 1
+        }
+      ]
+    }
+  ],
+  "totalIssues": 6
+}
