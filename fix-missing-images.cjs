@@ -1,193 +1,64 @@
-const sharp = require('sharp');
-const https = require('https');
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
 const { createClient } = require('@supabase/supabase-js');
-
+const fs = require('fs');
 require('dotenv').config();
 
-const supabase = createClient(
-  process.env.VITE_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY
-);
+const supabase = createClient(process.env.VITE_SUPABASE_URL, process.env.VITE_SUPABASE_ANON_KEY);
 
-const TEMP_DIR = path.join(__dirname, 'temp-images');
-const PROCESSED_DIR = path.join(__dirname, 'processed-images');
+const chairs = JSON.parse(fs.readFileSync('all-chairs-with-prices.json', 'utf8'));
+const tables = JSON.parse(fs.readFileSync('tables-complete.json', 'utf8'));
 
-if (!fs.existsSync(TEMP_DIR)) {
-  fs.mkdirSync(TEMP_DIR, { recursive: true });
-}
+async function fixImages() {
+  console.log('Fixing missing product images...\n');
 
-if (!fs.existsSync(PROCESSED_DIR)) {
-  fs.mkdirSync(PROCESSED_DIR, { recursive: true });
-}
+  // Fix chair images
+  console.log('Adding chair images...');
+  const { data: chairProducts } = await supabase
+    .from('products')
+    .select('id, sku, name')
+    .like('sku', 'CHR-%');
 
-function downloadImage(url, filepath) {
-  return new Promise((resolve, reject) => {
-    const protocol = url.startsWith('https') ? https : http;
-    const file = fs.createWriteStream(filepath);
-
-    protocol.get(url, (response) => {
-      if (response.statusCode === 200) {
-        response.pipe(file);
-        file.on('finish', () => {
-          file.close();
-          resolve(filepath);
+  let chairImagesAdded = 0;
+  for (const product of chairProducts || []) {
+    const chair = chairs.find(c => c.name === product.name);
+    if (chair && chair.images && chair.images.length > 0) {
+      for (let i = 0; i < Math.min(chair.images.length, 5); i++) {
+        const { error } = await supabase.from('product_images').insert({
+          product_id: product.id,
+          image_url: chair.images[i],
+          alt_text: product.name,
+          display_order: i + 1
         });
-      } else {
-        reject(new Error(`Failed to download: ${response.statusCode}`));
-      }
-    }).on('error', (err) => {
-      fs.unlink(filepath, () => {});
-      reject(err);
-    });
-  });
-}
-
-async function removeWhiteBackground(inputPath, outputPath) {
-  try {
-    const image = sharp(inputPath);
-    const { data, info } = await image
-      .ensureAlpha()
-      .raw()
-      .toBuffer({ resolveWithObject: true });
-
-    const pixels = Buffer.from(data);
-
-    for (let i = 0; i < pixels.length; i += info.channels) {
-      const r = pixels[i];
-      const g = pixels[i + 1];
-      const b = pixels[i + 2];
-
-      const whiteness = (r + g + b) / 3;
-      const colorVariance = Math.max(
-        Math.abs(r - g),
-        Math.abs(g - b),
-        Math.abs(r - b)
-      );
-
-      if (whiteness > 235 && colorVariance < 15) {
-        pixels[i + 3] = 0;
+        if (!error) chairImagesAdded++;
       }
     }
-
-    await sharp(pixels, {
-      raw: {
-        width: info.width,
-        height: info.height,
-        channels: info.channels
-      }
-    })
-    .png()
-    .toFile(outputPath);
-
-    return outputPath;
-  } catch (error) {
-    console.error('Error processing image:', error);
-    throw error;
   }
-}
+  console.log(`✓ Added ${chairImagesAdded} chair images`);
 
-async function uploadToSupabase(filePath, fileName) {
-  try {
-    const fileBuffer = fs.readFileSync(filePath);
+  // Fix table images
+  console.log('\nAdding table images...');
+  const { data: tableProducts } = await supabase
+    .from('products')
+    .select('id, sku, name')
+    .like('sku', 'TAB-%');
 
-    const { data, error } = await supabase.storage
-      .from('product-images')
-      .upload(fileName, fileBuffer, {
-        contentType: 'image/png',
-        upsert: true
-      });
-
-    if (error) {
-      throw error;
-    }
-
-    const { data: publicUrlData } = supabase.storage
-      .from('product-images')
-      .getPublicUrl(fileName);
-
-    return publicUrlData.publicUrl;
-  } catch (error) {
-    console.error('Error uploading to Supabase:', error);
-    throw error;
-  }
-}
-
-async function processAllImages() {
-  try {
-    console.log('Fetching all product images that need processing...');
-    const { data: images, error } = await supabase
-      .from('product_images')
-      .select('*')
-      .not('image_url', 'like', '%supabase%')
-      .order('product_id', { ascending: true })
-      .order('display_order', { ascending: true });
-
-    if (error) {
-      throw error;
-    }
-
-    console.log(`Found ${images.length} images to process`);
-
-    for (let i = 0; i < images.length; i++) {
-      const image = images[i];
-      console.log(`\nProcessing ${i + 1}/${images.length}: ${image.id}`);
-      console.log(`  Original URL: ${image.image_url.substring(0, 80)}...`);
-
-      try {
-        const tempFileName = `temp-${image.id}.jpg`;
-        const processedFileName = `processed-${image.id}.png`;
-        const tempPath = path.join(TEMP_DIR, tempFileName);
-        const processedPath = path.join(PROCESSED_DIR, processedFileName);
-
-        console.log('  Downloading...');
-        await downloadImage(image.image_url, tempPath);
-
-        console.log('  Removing white background...');
-        await removeWhiteBackground(tempPath, processedPath);
-
-        console.log('  Uploading to Supabase Storage...');
-        const storageFileName = `${image.product_id}/${image.id}.png`;
-        const newUrl = await uploadToSupabase(processedPath, storageFileName);
-
-        console.log('  Updating database...');
-        console.log(`  New URL: ${newUrl.substring(0, 80)}...`);
-
-        const { data: updateData, error: updateError } = await supabase
-          .from('product_images')
-          .update({ image_url: newUrl })
-          .eq('id', image.id)
-          .select();
-
-        if (updateError) {
-          console.error('  ❌ Error updating database:', updateError);
-        } else if (updateData && updateData.length > 0) {
-          console.log('  ✓ Database updated successfully!');
-        } else {
-          console.error('  ❌ No rows updated in database');
-        }
-
-        fs.unlinkSync(tempPath);
-        fs.unlinkSync(processedPath);
-
-      } catch (error) {
-        console.error(`  ❌ Error processing image ${image.id}:`, error.message);
+  let tableImagesAdded = 0;
+  for (const product of tableProducts || []) {
+    const table = tables.find(t => t.name === product.name);
+    if (table && table.images && table.images.length > 0) {
+      for (let i = 0; i < Math.min(table.images.length, 5); i++) {
+        const { error } = await supabase.from('product_images').insert({
+          product_id: product.id,
+          image_url: table.images[i],
+          alt_text: product.name,
+          display_order: i + 1
+        });
+        if (!error) tableImagesAdded++;
       }
-
-      await new Promise(resolve => setTimeout(resolve, 500));
     }
-
-    console.log('\n✓ All images processed!');
-
-    fs.rmSync(TEMP_DIR, { recursive: true, force: true });
-    fs.rmSync(PROCESSED_DIR, { recursive: true, force: true });
-
-  } catch (error) {
-    console.error('Fatal error:', error);
-    process.exit(1);
   }
+  console.log(`✓ Added ${tableImagesAdded} table images`);
+
+  console.log('\n✅ Image fix complete!');
 }
 
-processAllImages();
+fixImages().catch(console.error);

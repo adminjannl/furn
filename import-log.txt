@@ -1,0 +1,17 @@
+[dotenv@17.2.3] injecting env (2) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+Starting bulk product import...
+
+Importing 45 beds...
+✓ Imported 0 beds
+
+Importing 105 cabinets...
+✓ Imported 0 cabinets
+
+Importing 5 tables...
+✓ Imported 0 tables
+
+Importing 22 chairs...
+✓ Imported 0 chairs
+
+✅ Total products in database: 8
+Import complete!
