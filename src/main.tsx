@@ -5,7 +5,6 @@ import App from './App.tsx';
 import i18n from './i18n/config';
 import './index.css';
 
-// Render app
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <I18nextProvider i18n={i18n}>
