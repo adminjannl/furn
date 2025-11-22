@@ -1,0 +1,387 @@
+{
+  "backup_info": {
+    "version": "v8",
+    "timestamp": "2025-10-26T19:22:34Z",
+    "backup_name": "v8_20251026_192234",
+    "description": "Complete production-ready backup before ultra-premium visual enhancements",
+    "status": "stable",
+    "total_files": 115
+  },
+  "project_info": {
+    "name": "Meubelmakerij Harts Furniture E-Commerce",
+    "type": "Multi-million Euro Furniture Company Website",
+    "domain": "Luxury Furniture E-Commerce",
+    "target_market": "Premium European Furniture Market",
+    "established": "1947 (Company Heritage)",
+    "languages": ["en", "nl", "de", "fr"],
+    "currencies": ["EUR", "USD", "GBP", "CHF"]
+  },
+  "technology_stack": {
+    "frontend": {
+      "framework": "React 18.3.1",
+      "language": "TypeScript 5.5.3",
+      "build_tool": "Vite 5.4.2",
+      "routing": "React Router 6.22.0",
+      "styling": "TailwindCSS 3.4.1",
+      "i18n": "i18next 25.6.0",
+      "state_management": "React Context API",
+      "icons": "Lucide React 0.344.0"
+    },
+    "backend": {
+      "database": "Supabase (PostgreSQL)",
+      "authentication": "Supabase Auth",
+      "storage": "Supabase Storage",
+      "api": "Supabase Client 2.57.4",
+      "real_time": "Supabase Realtime"
+    },
+    "development": {
+      "linter": "ESLint 9.9.1",
+      "css_processing": "PostCSS 8.4.35",
+      "auto_prefixer": "Autoprefixer 10.4.18"
+    }
+  },
+  "features": {
+    "core": [
+      "Product catalog with advanced filtering",
+      "Multi-language support (i18n)",
+      "Multi-currency support",
+      "Shopping cart with persistence",
+      "Guest checkout",
+      "User authentication",
+      "Order management",
+      "Order tracking system",
+      "Admin dashboard"
+    ],
+    "advanced": [
+      "Back-order management",
+      "Delivery scheduling with time slots",
+      "Multiple payment methods",
+      "Supply chain transparency",
+      "Production process visualization",
+      "Quality control checkpoints",
+      "Dynamic hero banners",
+      "Craftsmanship highlights",
+      "Recently viewed products",
+      "Product quick view",
+      "Advanced search with history",
+      "Real-time inventory"
+    ],
+    "design": [
+      "Premium visual design",
+      "Sophisticated animations",
+      "Parallax effects",
+      "Gradient meshes",
+      "Texture overlays",
+      "Custom typography",
+      "Micro-interactions",
+      "Responsive design",
+      "Accessibility features",
+      "Performance optimized"
+    ]
+  },
+  "database": {
+    "migrations": [
+      "20251022091602_create_furniture_ecommerce_schema.sql",
+      "20251022121839_fix_profiles_rls_infinite_recursion.sql",
+      "20251022124737_add_payment_method_to_orders.sql",
+      "20251022133321_create_hero_dynamic_content_tables.sql",
+      "20251022174750_add_search_and_backorder_features.sql",
+      "20251023104340_add_delivery_date_to_orders.sql",
+      "20251023131149_add_order_tracking_system.sql",
+      "20251024111010_fix_guest_checkout_rls.sql"
+    ],
+    "tables": [
+      "profiles",
+      "categories",
+      "products",
+      "product_images",
+      "product_colors",
+      "cart_items",
+      "orders",
+      "order_items",
+      "order_status_history",
+      "order_tracking_events",
+      "shipping_addresses",
+      "back_orders",
+      "search_history",
+      "hero_slides",
+      "hero_features",
+      "craftsmanship_highlights",
+      "production_stages",
+      "quality_checkpoints",
+      "material_sources",
+      "team_members",
+      "workshop_facilities"
+    ],
+    "row_level_security": "Enabled on all tables",
+    "authentication": "Supabase Auth with email/password"
+  },
+  "file_structure": {
+    "root_files": [
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "tsconfig.app.json",
+      "tsconfig.node.json",
+      "vite.config.ts",
+      "tailwind.config.js",
+      "postcss.config.js",
+      "eslint.config.js",
+      "index.html",
+      "README.md",
+      "SETUP_GUIDE.md",
+      ".env (template, credentials not included)"
+    ],
+    "directories": {
+      "src": {
+        "description": "Main application source code",
+        "subdirectories": [
+          "components (38 React components)",
+          "contexts (3 context providers)",
+          "hooks (2 custom hooks)",
+          "i18n (internationalization config + 4 language files)",
+          "lib (Supabase client, types, query client)",
+          "pages (24 pages including admin)",
+          "utils (currency and pricing utilities)"
+        ]
+      },
+      "public": {
+        "description": "Static assets",
+        "contents": [
+          "IDEAL_Logo_2020.svg.png",
+          "manifest.json"
+        ]
+      },
+      "supabase": {
+        "description": "Database migrations",
+        "contents": "8 migration files"
+      }
+    }
+  },
+  "design_system": {
+    "color_palette": {
+      "oak": "Primary wood tones (9 shades)",
+      "cream": "Secondary warm neutrals (9 shades)",
+      "champagne": "Accent metallic gold (9 shades)",
+      "slate": "UI grays (9 shades)",
+      "forest": "Nature greens (3 shades)"
+    },
+    "typography": {
+      "serif": "Cormorant Garamond (headings, elegant)",
+      "sans": "Inter (body, modern)",
+      "scales": "8 responsive sizes with optimized line heights"
+    },
+    "spacing": "8px base unit with golden ratio extensions",
+    "animations": [
+      "fade-in-up",
+      "elegant-shimmer",
+      "spring-in",
+      "parallax-float",
+      "gentle-pulse",
+      "gradient-shift",
+      "And 20+ more sophisticated animations"
+    ]
+  },
+  "pages_included": {
+    "public": [
+      "Home",
+      "Products (catalog with filters)",
+      "Product Detail",
+      "Categories",
+      "Category Page",
+      "Collections",
+      "Cart",
+      "Checkout (5-step process)",
+      "Order Confirmation",
+      "Track Order",
+      "Orders (history)",
+      "About",
+      "Supply Chain",
+      "Production Process",
+      "Quality Control",
+      "Delivery Info",
+      "Warranty",
+      "FAQ",
+      "Search",
+      "Login",
+      "Signup",
+      "Forgot Password",
+      "Profile",
+      "404 Not Found"
+    ],
+    "admin": [
+      "Dashboard",
+      "Products Management",
+      "Product Form (Create/Edit)",
+      "Orders Management",
+      "Categories Management",
+      "Back Orders",
+      "Hero Slides Management",
+      "Hero Features Management",
+      "Craftsmanship Highlights"
+    ]
+  },
+  "components": {
+    "layout": [
+      "Navbar",
+      "Footer",
+      "UtilityHeader",
+      "Breadcrumb"
+    ],
+    "product": [
+      "ProductOfTheMonth",
+      "RecentlyViewed",
+      "QuickViewModal",
+      "ProductImageZoom",
+      "PriceBreakdown"
+    ],
+    "ui": [
+      "Button",
+      "LoadingSpinner",
+      "SkeletonLoader",
+      "Toast",
+      "DatePicker",
+      "SearchBar",
+      "EnhancedSearch"
+    ],
+    "visual_effects": [
+      "AmbientShapes",
+      "FurnitureParticles",
+      "GradientMesh",
+      "MeshGradient",
+      "Snowfall",
+      "SpotlightCursor",
+      "FlyingCartAnimation"
+    ],
+    "content": [
+      "HeroBanner",
+      "HeroFeatures",
+      "CraftsmanshipHighlights",
+      "TrustBadges",
+      "PromotionBanner",
+      "OrnamentalDivider"
+    ],
+    "specialized": [
+      "BackOrderModal",
+      "OrderTimeline",
+      "ImageZoom",
+      "LazyImage",
+      "PremiumBadge",
+      "PasswordStrengthMeter",
+      "LanguageCurrencySwitcher"
+    ]
+  },
+  "environment_variables": {
+    "required": [
+      "VITE_SUPABASE_URL",
+      "VITE_SUPABASE_ANON_KEY"
+    ],
+    "note": "Environment file not included in backup for security. Must be created during restoration."
+  },
+  "scripts": {
+    "dev": "Start development server with Vite",
+    "build": "Build production-optimized bundle",
+    "lint": "Run ESLint for code quality",
+    "preview": "Preview production build locally",
+    "typecheck": "Check TypeScript types without building"
+  },
+  "backup_contents": {
+    "project_files_archive": {
+      "filename": "project-files.tar.gz",
+      "size": "185KB",
+      "format": "tar.gz compressed archive",
+      "includes": "All source files, configs, assets (excluding node_modules)"
+    },
+    "database_schema": {
+      "filename": "complete_database_schema.sql",
+      "format": "SQL",
+      "description": "All migrations combined into single file"
+    },
+    "documentation": [
+      "00-START-HERE.txt (Quick overview)",
+      "RESTORE_INSTRUCTIONS.md (Detailed restoration guide)",
+      "QUICK_RESTORE.md (5-minute quick start)",
+      "BACKUP_METADATA.json (This file)",
+      "SETUP_GUIDE.md (Project setup guide)",
+      "README.md (Project readme)"
+    ]
+  },
+  "compatibility": {
+    "node_version": "18.0.0 or higher",
+    "npm_version": "9.0.0 or higher",
+    "browsers": [
+      "Chrome 90+",
+      "Firefox 88+",
+      "Safari 14+",
+      "Edge 90+"
+    ],
+    "platforms": [
+      "Bolt.new",
+      "Local development",
+      "Vercel",
+      "Netlify",
+      "Any static hosting with SPA support"
+    ]
+  },
+  "security": {
+    "authentication": "Supabase Auth with Row Level Security",
+    "data_protection": "RLS policies on all tables",
+    "env_variables": "Not included in backup",
+    "api_keys": "Not included in backup",
+    "guest_checkout": "Supported with temporary data storage",
+    "admin_access": "Role-based with is_admin flag in profiles"
+  },
+  "performance": {
+    "lazy_loading": "Images and routes lazy loaded",
+    "code_splitting": "Automatic with React Router",
+    "caching": "Browser caching for static assets",
+    "optimization": "Vite production build optimizations",
+    "animations": "Hardware-accelerated CSS animations"
+  },
+  "testing_checklist": [
+    "Homepage loads correctly",
+    "Product catalog displays items",
+    "Product detail pages work",
+    "Cart functionality operational",
+    "Checkout process completes",
+    "Order confirmation shown",
+    "Admin panel accessible",
+    "Multi-language switching works",
+    "Multi-currency switching works",
+    "Responsive design on mobile",
+    "Authentication flow works",
+    "Guest checkout works",
+    "Search functionality works",
+    "Filters work correctly",
+    "Images load properly"
+  ],
+  "restoration_time_estimates": {
+    "bolt_new": "10-15 minutes",
+    "local_development": "15-20 minutes",
+    "production_deployment": "30-45 minutes"
+  },
+  "support_resources": {
+    "supabase_docs": "https://supabase.com/docs",
+    "react_docs": "https://react.dev",
+    "vite_docs": "https://vitejs.dev",
+    "tailwind_docs": "https://tailwindcss.com/docs",
+    "i18next_docs": "https://www.i18next.com"
+  },
+  "version_history": {
+    "v1-v3": "Initial development iterations",
+    "v4": "Core features stable",
+    "v5": "Multi-language and currency added",
+    "v7": "Order tracking and admin features",
+    "v8": "Current stable release (this backup)"
+  },
+  "notes": [
+    "This backup represents a production-ready stable version",
+    "All features have been tested and are functional",
+    "Database schema is complete with proper RLS",
+    "Design is sophisticated with premium aesthetics",
+    "Ready for ultra-premium visual enhancements",
+    "Can be deployed to production as-is",
+    "Suitable for portfolio demonstration",
+    "Client-ready presentation quality"
+  ]
+}

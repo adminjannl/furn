@@ -1,0 +1,128 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║           FURNITURE E-COMMERCE WEBSITE - COMPLETE BACKUP v8                  ║
+║                   Created: October 26, 2025 at 19:22:34                      ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+BACKUP CONTENTS:
+├── project-files.tar.gz        → Complete compressed project archive
+├── complete_database_schema.sql → All database migrations combined
+├── src/                        → Full source code directory
+├── public/                     → Public assets and images
+├── supabase/                   → Database migrations
+├── package.json                → Dependencies and scripts
+├── All configuration files     → TypeScript, Vite, Tailwind, ESLint configs
+└── Documentation files         → Setup guides and restoration instructions
+
+═══════════════════════════════════════════════════════════════════════════════
+
+QUICK RESTORATION STEPS:
+
+1. EXTRACT FILES:
+   tar -xzf project-files.tar.gz
+
+2. INSTALL DEPENDENCIES:
+   npm install
+
+3. SETUP ENVIRONMENT:
+   - Copy .env file and update with your Supabase credentials
+   - Get credentials from: https://app.supabase.com/project/_/settings/api
+
+4. APPLY DATABASE MIGRATIONS:
+   - Run all SQL files in supabase/migrations/ folder in order
+   - Or use complete_database_schema.sql for full setup
+
+5. START DEVELOPMENT SERVER:
+   npm run dev
+
+═══════════════════════════════════════════════════════════════════════════════
+
+KEY FEATURES IN THIS VERSION:
+
+✓ Premium furniture e-commerce with sophisticated design
+✓ Multi-language support (EN, NL, DE, FR)
+✓ Multi-currency support (EUR, USD, GBP, CHF)
+✓ Advanced product catalog with filtering and search
+✓ Dynamic hero banners and featured products
+✓ Craftsmanship highlights showcase
+✓ Complete shopping cart and checkout flow
+✓ Order tracking system with timeline visualization
+✓ Guest checkout support
+✓ Back-order management system
+✓ Admin dashboard for content management
+✓ Supply chain transparency features
+✓ Production process visualization
+✓ Quality control checkpoints
+✓ 10-year warranty information
+✓ Delivery scheduling with time slots
+✓ Multiple payment methods (Bank Transfer, iDEAL, Credit Card)
+✓ Responsive design with mobile optimization
+✓ Advanced animations and micro-interactions
+✓ Premium visual effects (parallax, gradients, textures)
+✓ Sophisticated color system with oak, cream, champagne palettes
+✓ Custom typography with Cormorant Garamond serif font
+✓ Trust badges and quality certifications
+
+═══════════════════════════════════════════════════════════════════════════════
+
+TECHNOLOGY STACK:
+
+Frontend:
+- React 18.3.1 with TypeScript
+- Vite 5.4.2 for build tooling
+- React Router 6.22.0 for navigation
+- TailwindCSS 3.4.1 for styling
+- i18next for internationalization
+- Lucide React for icons
+
+Backend:
+- Supabase for database and authentication
+- PostgreSQL with Row Level Security
+- Real-time subscriptions
+- Edge Functions support
+
+Build Tools:
+- TypeScript 5.5.3
+- ESLint 9.9.1
+- PostCSS 8.4.35
+- Autoprefixer 10.4.18
+
+═══════════════════════════════════════════════════════════════════════════════
+
+IMPORTANT NOTES:
+
+⚠️  This backup contains the PRODUCTION-READY version before applying
+    ultra-premium visual enhancements planned in the latest session.
+
+⚠️  Database migrations are numbered chronologically. Always apply them
+    in order to maintain data integrity.
+
+⚠️  The .env file is not included for security. You must create it with
+    your own Supabase credentials.
+
+⚠️  Binary files (images) are included in public/ directory and the
+    compressed archive.
+
+⚠️  This version has been tested and is fully functional. It represents
+    a stable baseline for future development.
+
+═══════════════════════════════════════════════════════════════════════════════
+
+SUPPORT DOCUMENTATION:
+
+For detailed restoration instructions: → Read RESTORE_INSTRUCTIONS.md
+For project setup and configuration:  → Read SETUP_GUIDE.md
+For quick reference guide:             → Read QUICK_RESTORE.md
+For backup metadata and file list:    → Read BACKUP_METADATA.json
+
+═══════════════════════════════════════════════════════════════════════════════
+
+This backup can be used to:
+• Restore the project to this exact state at any time
+• Import into a new development environment
+• Clone to a different Bolt.new account
+• Share with team members or contractors
+• Archive for compliance or version control
+
+═══════════════════════════════════════════════════════════════════════════════
