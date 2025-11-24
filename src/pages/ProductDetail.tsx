@@ -142,10 +142,6 @@ export default function ProductDetail() {
     alt: img.alt_text || product.name
   }));
 
-  const hasDimensionImages = product.product_images.some(img =>
-    img.alt_text?.toLowerCase().includes('dimension')
-  );
-
   const breadcrumbItems = [
     { label: 'Products', path: '/products' },
     ...(product.categories
@@ -166,18 +162,25 @@ export default function ProductDetail() {
               images={galleryImages}
               productName={product.name}
             />
-            {hasDimensionImages && (
-              <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl">📏</span>
-                  <div>
-                    <h4 className="font-semibold text-blue-900 mb-1">
-                      Dimension Information
+            {product.categories?.slug === 'sofas' && (
+              <div className="mt-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl p-5 shadow-lg">
+                <div className="flex items-start gap-4">
+                  <div className="text-4xl">📏</div>
+                  <div className="flex-1">
+                    <h4 className="font-bold text-xl mb-2">
+                      Dimensions Guide
                     </h4>
-                    <p className="text-sm text-blue-700">
-                      All measurements shown in images are in centimeters (cm).<br />
-                      Note: Russian "см" = English "cm"
-                    </p>
+                    <div className="space-y-2 text-sm">
+                      <p className="font-semibold">
+                        All measurements are in <span className="bg-white/20 px-2 py-1 rounded">centimeters (cm)</span>
+                      </p>
+                      <p className="text-blue-100">
+                        Product images show actual dimensions with measurement indicators
+                      </p>
+                      <p className="text-xs text-blue-200 border-t border-white/20 pt-2 mt-2">
+                        Note: Text in images may show "см" (Cyrillic) which equals "cm" (English) = centimeters
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
