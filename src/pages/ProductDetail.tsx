@@ -162,29 +162,6 @@ export default function ProductDetail() {
               images={galleryImages}
               productName={product.name}
             />
-            {product.categories?.slug === 'sofas' && (
-              <div className="mt-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl p-5 shadow-lg">
-                <div className="flex items-start gap-4">
-                  <div className="text-4xl">📏</div>
-                  <div className="flex-1">
-                    <h4 className="font-bold text-xl mb-2">
-                      Dimensions Guide
-                    </h4>
-                    <div className="space-y-2 text-sm">
-                      <p className="font-semibold">
-                        All measurements are in <span className="bg-white/20 px-2 py-1 rounded">centimeters (cm)</span>
-                      </p>
-                      <p className="text-blue-100">
-                        Product images show actual dimensions with measurement indicators
-                      </p>
-                      <p className="text-xs text-blue-200 border-t border-white/20 pt-2 mt-2">
-                        Note: Text in images may show "см" (Cyrillic) which equals "cm" (English) = centimeters
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
 
           <div>
