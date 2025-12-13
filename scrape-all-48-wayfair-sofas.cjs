@@ -56,7 +56,7 @@ async function scrapeWayfairSofas() {
 
       productCards.forEach((card, index) => {
         try {
-          const nameEl = card.querySelector('h2, [class*="ProductCard-name"], [class*="ProductCard__name"]');
+          const nameEl = card.querySelector('h2[data-test-id="ListingCard-ListingCardName-Text"]');
           const name = nameEl?.textContent?.trim();
 
           const imgEl = card.querySelector('img');
