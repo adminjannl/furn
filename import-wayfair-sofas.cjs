@@ -55,10 +55,19 @@ async function importWayfairSofas() {
   console.log('============================================================\n');
 
   const wayfairData = JSON.parse(
-    fs.readFileSync('./wayfair-products-complete.json', 'utf8')
+    fs.readFileSync('./wayfair-sofas-all-48.json', 'utf8')
   );
 
   console.log(`Found ${wayfairData.length} Wayfair sofas to import\n`);
+
+  const { data: existingProducts } = await supabase
+    .from('products')
+    .select('sku')
+    .ilike('sku', 'SOF-%');
+
+  const existingCount = existingProducts?.length || 0;
+  console.log(`Found ${existingCount} existing sofas in database`);
+  console.log(`Will import ${wayfairData.length} new sofas\n`);
 
   let startingSKU = await getNextSofaSKU();
   let skuNum = parseInt(startingSKU.match(/(\d+)/)[1]);
