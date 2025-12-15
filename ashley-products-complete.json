@@ -1,0 +1,207 @@
+[
+  {
+    "name": "Mahoney Sofa",
+    "colors": [
+      { "name": "Pebble", "code": "#D4C4B0" },
+      { "name": "Chocolate", "code": "#3E2723" }
+    ]
+  },
+  {
+    "name": "Altari Sofa",
+    "colors": [
+      { "name": "Slate", "code": "#708090" },
+      { "name": "Alloy", "code": "#989898" }
+    ]
+  },
+  {
+    "name": "Maimz Sofa",
+    "colors": [
+      { "name": "Charcoal", "code": "#36454F" }
+    ]
+  },
+  {
+    "name": "Whitlock Sofa",
+    "colors": [
+      { "name": "Caramel", "code": "#C68642" },
+      { "name": "Umber", "code": "#635147" }
+    ]
+  },
+  {
+    "name": "Larce 2-Piece Next-Gen Nuvella™ Performance Fabric Sofa Chaise",
+    "colors": [
+      { "name": "Stone", "code": "#9E9E9E" },
+      { "name": "Dune", "code": "#DCC9AA" }
+    ]
+  },
+  {
+    "name": "Darcy Sofa",
+    "colors": [
+      { "name": "Cobblestone", "code": "#A19A8B" },
+      { "name": "Black", "code": "#000000" },
+      { "name": "Sky", "code": "#87CEEB" }
+    ]
+  },
+  {
+    "name": "Navi Sofa",
+    "colors": [
+      { "name": "Smoke", "code": "#848482" },
+      { "name": "Fossil", "code": "#8B7D6B" },
+      { "name": "Chestnut", "code": "#954535" }
+    ]
+  },
+  {
+    "name": "Vayda Sofa",
+    "colors": [
+      { "name": "Cream", "code": "#FFFDD0" }
+    ]
+  },
+  {
+    "name": "Stonemeade Sofa Chaise",
+    "colors": [
+      { "name": "Taupe", "code": "#B38B6D" },
+      { "name": "Nutmeg", "code": "#8B4513" }
+    ]
+  },
+  {
+    "name": "Belvoir Next-Gen Nuvella™ Performance Fabric Sofa",
+    "colors": [
+      { "name": "Denim", "code": "#1560BD" },
+      { "name": "Snow", "code": "#FFFAFA" }
+    ]
+  },
+  {
+    "name": "Aviemore Sofa",
+    "colors": [
+      { "name": "Ink", "code": "#2C3539" },
+      { "name": "Spice", "code": "#8B4513" },
+      { "name": "Stone", "code": "#9E9E9E" }
+    ]
+  },
+  {
+    "name": "Emilia 3-Piece Leather Modular Sofa",
+    "colors": [
+      { "name": "Caramel", "code": "#C68642" },
+      { "name": "Black", "code": "#000000" }
+    ]
+  },
+  {
+    "name": "SimpleJoy Sofa",
+    "colors": [
+      { "name": "Sand", "code": "#C2B280" },
+      { "name": "Onyx", "code": "#353839" },
+      { "name": "Navy", "code": "#000080" }
+    ]
+  },
+  {
+    "name": "Midnight-Madness 2-Piece Sofa with Chaise",
+    "colors": [
+      { "name": "Onyx", "code": "#353839" },
+      { "name": "Chocolate", "code": "#3E2723" }
+    ]
+  },
+  {
+    "name": "Greaves Sofa Chaise",
+    "colors": [
+      { "name": "Pewter", "code": "#899499" }
+    ]
+  },
+  {
+    "name": "Maggie Sofa",
+    "colors": [
+      { "name": "Birch", "code": "#ECE5D8" },
+      { "name": "Flax", "code": "#EED9C4" }
+    ]
+  },
+  {
+    "name": "Cashton Sofa",
+    "colors": [
+      { "name": "Blue", "code": "#0066CC" },
+      { "name": "Ice", "code": "#D3E5EF" }
+    ]
+  },
+  {
+    "name": "Stonemeade Sofa",
+    "colors": [
+      { "name": "Taupe", "code": "#B38B6D" },
+      { "name": "Nutmeg", "code": "#8B4513" }
+    ]
+  },
+  {
+    "name": "Leesworth Power Reclining Leather Sofa",
+    "colors": [
+      { "name": "Dark Brown", "code": "#654321" },
+      { "name": "Ocean", "code": "#006994" }
+    ]
+  },
+  {
+    "name": "Tasselton Next-Gen Nuvella™ Performance Fabric Sofa Chaise",
+    "colors": [
+      { "name": "Graphite", "code": "#383428" }
+    ]
+  },
+  {
+    "name": "Adlai Sofa",
+    "colors": [
+      { "name": "Walnut", "code": "#773F1A" }
+    ]
+  },
+  {
+    "name": "Modmax 3-Piece Modular Next-Gen Nuvella™ Performance Fabric Sofa Chaise",
+    "colors": [
+      { "name": "Ink", "code": "#2C3539" },
+      { "name": "Granite", "code": "#676767" },
+      { "name": "Spice", "code": "#8B4513" },
+      { "name": "Oyster", "code": "#D9D4C4" }
+    ]
+  },
+  {
+    "name": "Belcaro Place Next-Gen Nuvella™ Performance Fabric Sofa",
+    "colors": [
+      { "name": "Ash", "code": "#B2BEB5" }
+    ]
+  },
+  {
+    "name": "Bixler Sofa",
+    "colors": [
+      { "name": "Navy", "code": "#000080" }
+    ]
+  },
+  {
+    "name": "Colleton Leather Sofa",
+    "colors": [
+      { "name": "Espresso", "code": "#4E312D" }
+    ]
+  },
+  {
+    "name": "Lonoke Sofa",
+    "colors": [
+      { "name": "Mocha", "code": "#967969" }
+    ]
+  },
+  {
+    "name": "Elissa Court 3-Piece Next-Gen Nuvella™ Performance Fabric Modular Sofa",
+    "colors": [
+      { "name": "Khaki", "code": "#C3B091" }
+    ]
+  },
+  {
+    "name": "Bolsena Leather Sofa",
+    "colors": [
+      { "name": "Caramel", "code": "#C68642" }
+    ]
+  },
+  {
+    "name": "Stoneland Manual Reclining Sofa",
+    "colors": [
+      { "name": "Chocolate", "code": "#3E2723" },
+      { "name": "Fossil", "code": "#8B7D6B" }
+    ]
+  },
+  {
+    "name": "Lombardia Leather Sofa",
+    "colors": [
+      { "name": "Fossil", "code": "#8B7D6B" },
+      { "name": "Tumbleweed", "code": "#DEAA88" }
+    ]
+  }
+]
