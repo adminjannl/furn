@@ -83,6 +83,17 @@ export default function AdminLayout() {
               Import Products
             </Link>
             <Link
+              to="/admin/scraper"
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                isActive('/admin/scraper')
+                  ? 'bg-white text-slate-900'
+                  : 'text-slate-300 hover:bg-slate-800'
+              }`}
+            >
+              <Package className="w-5 h-5" />
+              Sofa Scraper
+            </Link>
+            <Link
               to="/admin/image-ordering"
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                 isActive('/admin/image-ordering')

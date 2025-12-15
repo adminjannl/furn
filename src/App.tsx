@@ -51,6 +51,7 @@ const BackOrders = lazy(() => import('./pages/admin/BackOrders'));
 const ImportProducts = lazy(() => import('./pages/admin/ImportProducts'));
 const ImageOrdering = lazy(() => import('./pages/admin/ImageOrdering'));
 const MediaUpload = lazy(() => import('./pages/admin/MediaUpload'));
+const SofaScraper = lazy(() => import('./pages/admin/SofaScraper'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -128,6 +129,7 @@ function AppRoutes() {
         <Route path="import" element={<ImportProducts />} />
         <Route path="image-ordering" element={<ImageOrdering />} />
         <Route path="media-upload" element={<MediaUpload />} />
+        <Route path="scraper" element={<SofaScraper />} />
       </Route>
 
       <Route path="/search" element={<><Navbar /><Search /><Footer /></>} />
