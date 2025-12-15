@@ -55,18 +55,27 @@ export default function SofaScraper() {
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, 'text/html');
 
-      const productCards = doc.querySelectorAll('.product-tile, .product, [data-product-tile], [class*="ProductTile"]');
+      console.log('HTML Preview:', html.substring(0, 1000));
+
+      const productCards = doc.querySelectorAll('.product-tile, .product, [data-product-tile], [class*="ProductTile"], .grid-tile, [class*="grid-tile"]');
+
+      console.log(`Found ${productCards.length} product cards`);
 
       let succeeded = 0;
       let failed = 0;
 
       for (const card of Array.from(productCards)) {
         try {
+          console.log('Card HTML:', card.outerHTML.substring(0, 500));
+
           const nameEl = card.querySelector('.product-name, .product-title, [class*="name"], [class*="title"], a[href*="/p/"]');
           const priceEl = card.querySelector('.price, [class*="price"], .sales, [class*="Sales"]');
           const imageEl = card.querySelector('img');
 
+          console.log('Name element:', nameEl?.textContent, 'Price element:', priceEl?.textContent);
+
           if (!nameEl || !priceEl) {
+            console.log('Missing name or price element');
             failed++;
             continue;
           }
