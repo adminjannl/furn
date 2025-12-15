@@ -9,7 +9,6 @@ import { calculateDiscountedPrice, hasDiscount } from '../utils/pricing';
 import BackOrderModal from '../components/BackOrderModal';
 import { useRecentlyViewed } from '../hooks/useRecentlyViewed';
 import Breadcrumb from '../components/Breadcrumb';
-import GradientMesh from '../components/GradientMesh';
 import ColorSwatchSelector from '../components/ColorSwatchSelector';
 import ImageGalleryZoom from '../components/ImageGalleryZoom';
 
@@ -152,7 +151,6 @@ export default function ProductDetail() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-cream-50 via-slate-50/20 to-white relative">
-      <GradientMesh opacity={0.08} speed={0.001} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
         <Breadcrumb items={breadcrumbItems} className="mb-8" />
 

@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import type { Database } from '../lib/database.types';
-import GradientMesh from '../components/GradientMesh';
 import ReviewSubmissionModal from '../components/ReviewSubmissionModal';
 
 type Review = Database['public']['Tables']['product_reviews']['Row'] & {
@@ -142,7 +141,6 @@ export default function Reviews() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-cream-50 via-white to-cream-50/30 relative">
-      <GradientMesh opacity={0.08} speed={0.001} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-serif text-oak-900 mb-4">Customer Reviews</h1>

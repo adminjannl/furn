@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Clock, Sparkles, Tag } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Snowfall from './Snowfall';
 
 const PROMOTION_END_KEY = 'promotion_end_time';
 const PROMOTION_DURATION = 21 * 24 * 60 * 60 * 1000 + 8 * 60 * 60 * 1000 + 51 * 60 * 1000 + 43 * 1000;
@@ -55,19 +54,16 @@ export default function PromotionBanner() {
   return (
     <div className="relative bg-gradient-to-r from-oak-700 via-oak-800 to-slate-900 text-white py-6 shadow-md overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none"></div>
-      <div className="absolute inset-0">
-        <Snowfall intensity="light" count={8} />
-      </div>
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-champagne-400/40 to-transparent"></div>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
         <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-12">
           <div className="text-center lg:text-left">
             <div className="flex items-center justify-center lg:justify-start gap-4 mb-2">
-              <Sparkles className="w-5 h-5 text-champagne-300/60 animate-sparkle" />
+              <Sparkles className="w-5 h-5 text-champagne-300/60" />
               <h3 className="text-2xl md:text-3xl font-serif font-semibold tracking-tight">
                 {t('promotion.title')}
               </h3>
-              <Sparkles className="w-5 h-5 text-champagne-300/60 animate-sparkle" style={{ animationDelay: '1.5s' }} />
+              <Sparkles className="w-5 h-5 text-champagne-300/60" />
             </div>
             <p className="text-base md:text-lg font-medium text-cream-100 tracking-wide mb-4">
               {t('promotion.subtitle')}

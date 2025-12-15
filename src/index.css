@@ -496,39 +496,36 @@
   }
 
   .animate-float {
-    animation: float 3s ease-in-out infinite;
+    transform: translateY(-3px);
   }
 
   .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(180, 83, 9, 0.3);
   }
 
   .animate-snowfall {
-    animation: snowfall linear infinite;
+    opacity: 0.5;
   }
 
   .animate-sparkle {
-    animation: sparkle 3s ease-in-out infinite;
+    opacity: 0.2;
   }
 
   .animate-elegant-shimmer {
-    animation: elegant-shimmer 4s ease-in-out infinite;
+    opacity: 0.4;
   }
 
   .animate-metallic-shine {
     background: linear-gradient(90deg, transparent, rgba(206, 212, 218, 0.3), transparent);
-    background-size: 200% 100%;
-    animation: metallic-shine 3s linear infinite;
   }
 
   .animate-luxury-glow {
-    animation: luxury-glow 3s ease-in-out infinite;
+    box-shadow: 0 4px 20px rgba(206, 212, 218, 0.2), 0 0 40px rgba(203, 213, 225, 0.15);
   }
 
   .animate-shimmer {
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
     background-size: 200% 100%;
-    animation: shimmer 2s linear infinite;
   }
 
   .animate-frost-spread {
@@ -536,15 +533,15 @@
   }
 
   .animate-icicle-drip {
-    animation: icicle-drip 3s ease-in-out infinite;
+    transform: scaleY(1.05);
   }
 
   .animate-winter-glow {
-    animation: winter-glow 2s ease-in-out infinite;
+    box-shadow: 0 0 15px rgba(206, 212, 218, 0.2), 0 0 25px rgba(14, 165, 233, 0.1);
   }
 
   .animate-confetti-fall {
-    animation: confetti-fall linear infinite;
+    opacity: 0;
   }
 
   .animate-slide-in-right {
@@ -622,7 +619,7 @@
   }
 
   .animate-premium-glow {
-    animation: premium-glow 3s ease-in-out infinite;
+    box-shadow: 0 4px 24px rgba(146, 128, 109, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 
   .animate-blur-load {
@@ -761,29 +758,28 @@
   }
 
   .animate-parallax-float {
-    animation: parallax-float 8s ease-in-out infinite;
+    transform: translateY(-5px);
   }
 
   .animate-ambient-drift {
-    animation: ambient-drift 15s ease-in-out infinite;
+    opacity: 0.4;
   }
 
   .animate-gentle-pulse {
-    animation: gentle-pulse 3s ease-in-out infinite;
+    opacity: 0.6;
   }
 
   .animate-reveal-from-bottom {
-    animation: reveal-from-bottom 0.8s ease-out forwards;
+    animation: reveal-from-bottom 0.6s ease-out forwards;
     opacity: 0;
   }
 
   .group:hover .group-hover-glow {
-    animation: card-hover-glow 0.3s ease-out forwards;
+    box-shadow: 0 8px 32px rgba(92, 81, 69, 0.12);
   }
 
   .animated-gradient {
-    background-size: 200% 200%;
-    animation: gradient-shift 8s ease infinite;
+    background-size: 100% 100%;
   }
 
   /* Decorative Elements */
@@ -1047,16 +1043,16 @@
   }
 
   .animate-morphing-blob {
-    animation: morphing-blob 20s ease-in-out infinite;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   }
 
   .animate-gradient-flow {
     background-size: 200% 200%;
-    animation: gradient-flow 8s ease infinite;
+    background-position: 50% 50%;
   }
 
   .animate-icon-bounce {
-    animation: icon-bounce 2s ease-in-out infinite;
+    transform: translateY(-4px);
   }
 
   .animate-badge-reveal {
@@ -1338,7 +1334,7 @@
   }
 
   .bg-blob-animated {
-    animation: morphing-blob 20s ease-in-out infinite;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   }
 
   /* Responsive typography enhancements */
@@ -1413,39 +1409,31 @@
 
   /* Gradient Text Effects */
   .gradient-text-premium {
-    background: linear-gradient(135deg, #d1b27f 0%, #b58a4d 25%, #d1b27f 50%, #9d7f5a 75%, #d1b27f 100%);
-    background-size: 200% 100%;
+    background: linear-gradient(135deg, #d1b27f 0%, #b58a4d 50%, #d1b27f 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradient-shimmer 4s ease-in-out infinite;
   }
 
   .gradient-text-gold {
-    background: linear-gradient(135deg, #d4af37 0%, #f4e5bc 25%, #d4af37 50%, #c5a028 75%, #d4af37 100%);
-    background-size: 200% 100%;
+    background: linear-gradient(135deg, #d4af37 0%, #f4e5bc 50%, #d4af37 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradient-shimmer 3s ease-in-out infinite;
   }
 
   .gradient-text-bronze {
-    background: linear-gradient(135deg, #cd7f32 0%, #e8c39e 25%, #cd7f32 50%, #a0522d 75%, #cd7f32 100%);
-    background-size: 200% 100%;
+    background: linear-gradient(135deg, #cd7f32 0%, #e8c39e 50%, #cd7f32 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradient-shimmer 3.5s ease-in-out infinite;
   }
 
   .gradient-text-elegant {
-    background: linear-gradient(135deg, #5c5145 0%, #9d7f5a 25%, #d1b27f 50%, #9d7f5a 75%, #5c5145 100%);
-    background-size: 300% 100%;
+    background: linear-gradient(135deg, #5c5145 0%, #9d7f5a 50%, #5c5145 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradient-shimmer 5s ease-in-out infinite;
   }
 
   @keyframes gradient-shimmer {
