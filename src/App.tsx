@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -8,48 +8,49 @@ import { CurrencyProvider } from './contexts/CurrencyContext';
 import { ToastProvider } from './components/Toast';
 import { LoadingPage } from './components/LoadingSpinner';
 import { queryClient } from './lib/queryClient';
-import PageTransitionWrapper from './components/PageTransitionWrapper';
 import './i18n/config';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import ForgotPassword from './pages/ForgotPassword';
-import ProductsPage from './pages/Products';
-import ProductDetail from './pages/ProductDetail';
-import CategoriesPage from './pages/CategoriesPage';
-import CategoryPage from './pages/CategoryPage';
-import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
-import OrderConfirmation from './pages/OrderConfirmation';
-import Profile from './pages/Profile';
-import Orders from './pages/Orders';
-import AdminLayout from './pages/admin/AdminLayout';
-import Dashboard from './pages/admin/Dashboard';
-import Categories from './pages/admin/Categories';
-import AdminProducts from './pages/admin/Products';
-import ProductForm from './pages/admin/ProductForm';
-import AdminOrders from './pages/admin/Orders';
-import HeroSlidesAdmin from './pages/admin/HeroSlides';
-import HeroFeaturesAdmin from './pages/admin/HeroFeatures';
-import CraftsmanshipAdmin from './pages/admin/CraftsmanshipAdmin';
-import BackOrders from './pages/admin/BackOrders';
-import ImportProducts from './pages/admin/ImportProducts';
-import ImageOrdering from './pages/admin/ImageOrdering';
-import MediaUpload from './pages/admin/MediaUpload';
-import About from './pages/About';
-import FAQ from './pages/FAQ';
-import Collections from './pages/Collections';
-import Search from './pages/Search';
-import TrackOrder from './pages/TrackOrder';
 import NotFound from './pages/NotFound';
-import SupplyChain from './pages/SupplyChain';
-import Warranty from './pages/Warranty';
-import ProductionProcess from './pages/ProductionProcess';
-import QualityControl from './pages/QualityControl';
-import Delivery from './pages/Delivery';
-import Reviews from './pages/Reviews';
+
+const Login = lazy(() => import('./pages/Login'));
+const Signup = lazy(() => import('./pages/Signup'));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+const ProductsPage = lazy(() => import('./pages/Products'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const CategoriesPage = lazy(() => import('./pages/CategoriesPage'));
+const CategoryPage = lazy(() => import('./pages/CategoryPage'));
+const Cart = lazy(() => import('./pages/Cart'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+const OrderConfirmation = lazy(() => import('./pages/OrderConfirmation'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Orders = lazy(() => import('./pages/Orders'));
+const About = lazy(() => import('./pages/About'));
+const FAQ = lazy(() => import('./pages/FAQ'));
+const Collections = lazy(() => import('./pages/Collections'));
+const Search = lazy(() => import('./pages/Search'));
+const TrackOrder = lazy(() => import('./pages/TrackOrder'));
+const SupplyChain = lazy(() => import('./pages/SupplyChain'));
+const Warranty = lazy(() => import('./pages/Warranty'));
+const ProductionProcess = lazy(() => import('./pages/ProductionProcess'));
+const QualityControl = lazy(() => import('./pages/QualityControl'));
+const Delivery = lazy(() => import('./pages/Delivery'));
+const Reviews = lazy(() => import('./pages/Reviews'));
+
+const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
+const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
+const Categories = lazy(() => import('./pages/admin/Categories'));
+const AdminProducts = lazy(() => import('./pages/admin/Products'));
+const ProductForm = lazy(() => import('./pages/admin/ProductForm'));
+const AdminOrders = lazy(() => import('./pages/admin/Orders'));
+const HeroSlidesAdmin = lazy(() => import('./pages/admin/HeroSlides'));
+const HeroFeaturesAdmin = lazy(() => import('./pages/admin/HeroFeatures'));
+const CraftsmanshipAdmin = lazy(() => import('./pages/admin/CraftsmanshipAdmin'));
+const BackOrders = lazy(() => import('./pages/admin/BackOrders'));
+const ImportProducts = lazy(() => import('./pages/admin/ImportProducts'));
+const ImageOrdering = lazy(() => import('./pages/admin/ImageOrdering'));
+const MediaUpload = lazy(() => import('./pages/admin/MediaUpload'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -98,7 +99,7 @@ function AppRoutes() {
   return (
     <div key={currentLanguage}>
       <ScrollToTop />
-      <PageTransitionWrapper>
+      <Suspense fallback={<LoadingPage />}>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -151,7 +152,7 @@ function AppRoutes() {
       <Route path="/delivery" element={<><Navbar /><Delivery /><Footer /></>} />
       <Route path="*" element={<NotFound />} />
         </Routes>
-      </PageTransitionWrapper>
+      </Suspense>
     </div>
   );
 }

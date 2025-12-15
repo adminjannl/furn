@@ -11,22 +11,11 @@ export default function HeroBanner() {
   const [slides, setSlides] = useState<HeroSlide[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [parallaxOffset, setParallaxOffset] = useState(0);
   const [loading, setLoading] = useState(true);
   const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
     loadSlides();
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const offset = window.scrollY * 0.5;
-      setParallaxOffset(offset);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
@@ -122,21 +111,11 @@ export default function HeroBanner() {
                   index === currentSlide ? 'opacity-100' : 'opacity-0'
                 }`}
               >
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    transform: `translateY(${parallaxOffset * 0.8}px)`,
-                  }}
-                >
-                  <img
-                    src={s.background_image_url}
-                    alt=""
-                    className="w-full h-full object-cover"
-                    style={{
-                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-                    }}
-                  />
-                </div>
+                <img
+                  src={s.background_image_url}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
               </div>
             ))}
 
