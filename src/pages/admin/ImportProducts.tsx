@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Upload, Download, AlertCircle, CheckCircle, Loader, ClipboardPaste, Eye, Database } from 'lucide-react';
+import {
+  Upload, AlertCircle, CheckCircle, Loader, Play,
+  RefreshCw, Database, ChevronRight, Package
+} from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import Button from '../../components/Button';
 
@@ -14,14 +17,16 @@ interface ParsedProduct {
   sourceUrl?: string;
 }
 
-interface ImportedProduct {
-  name: string;
-  price: number;
-  status: 'pending' | 'success' | 'error';
+interface BatchStatus {
+  page: number;
+  status: 'idle' | 'fetching' | 'parsing' | 'importing' | 'completed' | 'error';
+  productsFound: number;
+  productsImported: number;
   error?: string;
 }
 
-type ImportMode = 'manual-html' | 'manual-json' | 'url';
+const ASHLEY_SOFA_BASE_URL = 'https://www.ashleyfurniture.com/c/furniture/living-room/sofas/';
+const PRODUCTS_PER_PAGE = 48;
 
 function generateSlug(name: string): string {
   return name
@@ -30,603 +35,693 @@ function generateSlug(name: string): string {
     .replace(/(^-|-$)/g, '');
 }
 
-function generateSKU(name: string, index: number): string {
-  const prefix = name.substring(0, 3).toUpperCase().replace(/[^A-Z]/g, 'X');
-  return `${prefix}-${String(index + 1).padStart(4, '0')}`;
+function generateSKU(prefix: string, index: number, page: number): string {
+  const num = (page - 1) * PRODUCTS_PER_PAGE + index + 1;
+  return `${prefix}-${String(num).padStart(4, '0')}`;
 }
 
-function parseAshleyHtml(html: string): ParsedProduct[] {
+function parseAshleyHtml(html: string, page: number): ParsedProduct[] {
   const products: ParsedProduct[] = [];
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
 
-  const productCards = doc.querySelectorAll('[data-ref="productCard"], .product-card, [class*="ProductCard"], article[class*="product"]');
-
-  if (productCards.length === 0) {
-    const gridItems = doc.querySelectorAll('[class*="grid"] > div, [class*="Grid"] > div, .products-grid > *, ul[class*="product"] > li');
-    gridItems.forEach((item, index) => {
-      const product = extractProductFromElement(item as HTMLElement, index);
-      if (product) products.push(product);
-    });
-  } else {
-    productCards.forEach((card, index) => {
-      const product = extractProductFromElement(card as HTMLElement, index);
-      if (product) products.push(product);
-    });
-  }
-
-  if (products.length === 0) {
-    const jsonScripts = doc.querySelectorAll('script[type="application/ld+json"], script[type="application/json"]');
-    jsonScripts.forEach(script => {
-      try {
-        const data = JSON.parse(script.textContent || '');
-        if (Array.isArray(data)) {
-          data.forEach((item, index) => {
-            if (item.name && (item.price || item.offers)) {
-              products.push({
-                name: item.name,
-                price: parseFloat(item.price || item.offers?.price || '0'),
-                imageUrl: item.image || '',
-                colors: [],
-                sku: item.sku || generateSKU(item.name, index),
-              });
-            }
-          });
-        } else if (data['@graph']) {
-          data['@graph'].forEach((item: any, index: number) => {
-            if (item['@type'] === 'Product') {
-              products.push({
-                name: item.name,
-                price: parseFloat(item.offers?.price || '0'),
-                imageUrl: item.image || '',
-                colors: [],
-                sku: item.sku || generateSKU(item.name, index),
-              });
-            }
-          });
-        }
-      } catch (e) {
-      }
-    });
-  }
-
-  const nextDataScript = doc.querySelector('script#__NEXT_DATA__');
-  if (nextDataScript && products.length === 0) {
+  // Method 1: Parse __NEXT_DATA__ JSON (most reliable for Next.js sites)
+  const nextDataMatch = html.match(/<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/);
+  if (nextDataMatch) {
     try {
-      const nextData = JSON.parse(nextDataScript.textContent || '');
-      const props = nextData.props?.pageProps;
-      if (props?.products) {
-        props.products.forEach((item: any, index: number) => {
-          products.push({
-            name: item.name || item.title,
-            price: parseFloat(item.price || item.salePrice || '0'),
-            originalPrice: item.originalPrice ? parseFloat(item.originalPrice) : undefined,
-            imageUrl: item.image || item.imageUrl || item.thumbnail || '',
-            colors: (item.colors || []).map((c: any) => ({
-              name: typeof c === 'string' ? c : c.name,
-              code: typeof c === 'string' ? '#888888' : (c.code || '#888888')
-            })),
-            sku: item.sku || generateSKU(item.name || item.title, index),
-          });
+      const nextData = JSON.parse(nextDataMatch[1]);
+      const pageProps = nextData?.props?.pageProps;
+
+      // Try different paths where products might be
+      const productList =
+        pageProps?.plpData?.products ||
+        pageProps?.products ||
+        pageProps?.initialData?.products ||
+        pageProps?.data?.products ||
+        [];
+
+      if (productList.length > 0) {
+        productList.forEach((item: any, index: number) => {
+          const product = extractProductFromNextData(item, index, page);
+          if (product) products.push(product);
+        });
+
+        if (products.length > 0) {
+          console.log(`Parsed ${products.length} products from __NEXT_DATA__`);
+          return products;
+        }
+      }
+    } catch (e) {
+      console.log('__NEXT_DATA__ parsing failed:', e);
+    }
+  }
+
+  // Method 2: Parse structured data (JSON-LD)
+  const jsonLdMatches = html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g);
+  for (const match of jsonLdMatches) {
+    try {
+      const data = JSON.parse(match[1]);
+      if (data['@type'] === 'ItemList' && data.itemListElement) {
+        data.itemListElement.forEach((item: any, index: number) => {
+          if (item.item || item['@type'] === 'Product') {
+            const productData = item.item || item;
+            products.push({
+              name: productData.name || 'Unknown',
+              price: parseFloat(productData.offers?.price || productData.price || '0'),
+              imageUrl: productData.image || '',
+              colors: [],
+              sku: generateSKU('SOF', index, page),
+              sourceUrl: productData.url,
+            });
+          }
+        });
+      }
+      if (data['@graph']) {
+        data['@graph'].forEach((item: any, index: number) => {
+          if (item['@type'] === 'Product') {
+            products.push({
+              name: item.name,
+              price: parseFloat(item.offers?.price || '0'),
+              imageUrl: Array.isArray(item.image) ? item.image[0] : item.image,
+              colors: [],
+              sku: generateSKU('SOF', index, page),
+              sourceUrl: item.url,
+            });
+          }
         });
       }
     } catch (e) {
+      // Continue to next method
     }
   }
 
-  return products;
-}
-
-function extractProductFromElement(element: HTMLElement, index: number): ParsedProduct | null {
-  const nameSelectors = [
-    '[data-ref="productName"]',
-    '.product-name',
-    '.product-title',
-    '[class*="ProductName"]',
-    '[class*="productName"]',
-    'h2',
-    'h3',
-    '[class*="title"]',
-    'a[href*="/p/"]',
-  ];
-
-  let name = '';
-  for (const selector of nameSelectors) {
-    const el = element.querySelector(selector);
-    if (el?.textContent?.trim()) {
-      name = el.textContent.trim();
-      break;
-    }
+  if (products.length > 0) {
+    console.log(`Parsed ${products.length} products from JSON-LD`);
+    return products;
   }
 
-  if (!name) return null;
-
-  const priceSelectors = [
-    '[data-ref="productPrice"]',
-    '.product-price',
-    '[class*="Price"]',
-    '[class*="price"]',
-    'span[class*="sale"]',
-    '[data-price]',
+  // Method 3: Regex extraction for product data embedded in HTML
+  const productPatterns = [
+    // Pattern for product names and prices in various formats
+    /"name"\s*:\s*"([^"]+)"[^}]*"price"\s*:\s*["{]?(\d+(?:\.\d+)?)/g,
+    /"productName"\s*:\s*"([^"]+)"[^}]*"salePrice"\s*:\s*["{]?(\d+(?:\.\d+)?)/g,
   ];
 
-  let price = 0;
-  for (const selector of priceSelectors) {
-    const el = element.querySelector(selector);
-    const priceText = el?.textContent || el?.getAttribute('data-price') || '';
-    const match = priceText.match(/[\d,]+\.?\d*/);
-    if (match) {
-      price = parseFloat(match[0].replace(',', ''));
-      break;
-    }
-  }
+  for (const pattern of productPatterns) {
+    let match;
+    while ((match = pattern.exec(html)) !== null) {
+      const name = match[1];
+      const price = parseFloat(match[2]);
 
-  const imageSelectors = [
-    'img[data-ref="productImage"]',
-    'img.product-image',
-    'img[class*="ProductImage"]',
-    'img[src*="product"]',
-    'img[data-src]',
-    'img',
-  ];
-
-  let imageUrl = '';
-  for (const selector of imageSelectors) {
-    const img = element.querySelector(selector) as HTMLImageElement;
-    if (img) {
-      imageUrl = img.src || img.dataset.src || img.getAttribute('data-lazy-src') || '';
-      if (imageUrl && !imageUrl.startsWith('data:')) {
-        break;
+      // Skip if already have this product
+      if (!products.find(p => p.name === name) && name.length > 3 && price > 0) {
+        products.push({
+          name,
+          price,
+          imageUrl: '',
+          colors: [],
+          sku: generateSKU('SOF', products.length, page),
+        });
       }
     }
   }
 
-  const colors: { name: string; code: string }[] = [];
-  const swatches = element.querySelectorAll('[class*="swatch"], [class*="color"], [data-color]');
-  swatches.forEach(swatch => {
-    const colorName = swatch.getAttribute('data-color') ||
-                      swatch.getAttribute('title') ||
-                      swatch.getAttribute('aria-label') || '';
-    if (colorName) {
-      const style = (swatch as HTMLElement).style;
-      const bgColor = style.backgroundColor || '#888888';
-      colors.push({ name: colorName, code: bgColor });
+  // Method 4: Extract from Apollo state or Redux state
+  const stateMatch = html.match(/__APOLLO_STATE__|__REDUX_STATE__|window\.__INITIAL_STATE__\s*=\s*({[\s\S]*?});/);
+  if (stateMatch) {
+    try {
+      const stateStr = stateMatch[0].replace(/^[^{]*/, '').replace(/;$/, '');
+      const state = JSON.parse(stateStr);
+
+      Object.values(state).forEach((item: any, index: number) => {
+        if (item?.name && item?.price && !products.find(p => p.name === item.name)) {
+          products.push({
+            name: item.name,
+            price: parseFloat(item.price),
+            imageUrl: item.image || item.imageUrl || '',
+            colors: [],
+            sku: generateSKU('SOF', index, page),
+          });
+        }
+      });
+    } catch (e) {
+      // Continue
     }
-  });
+  }
+
+  console.log(`Parsed ${products.length} products total`);
+  return products;
+}
+
+function extractProductFromNextData(item: any, index: number, page: number): ParsedProduct | null {
+  if (!item) return null;
+
+  const name = item.name || item.title || item.productName;
+  if (!name) return null;
+
+  const price = parseFloat(
+    item.price ||
+    item.salePrice ||
+    item.currentPrice ||
+    item.prices?.sale ||
+    item.prices?.current ||
+    item.priceInfo?.salePrice ||
+    '0'
+  );
+
+  const originalPrice = parseFloat(
+    item.originalPrice ||
+    item.regularPrice ||
+    item.prices?.regular ||
+    item.priceInfo?.regularPrice ||
+    '0'
+  ) || undefined;
+
+  let imageUrl = '';
+  if (item.image) {
+    imageUrl = typeof item.image === 'string' ? item.image : item.image.url || item.image.src || '';
+  } else if (item.images && item.images.length > 0) {
+    const firstImage = item.images[0];
+    imageUrl = typeof firstImage === 'string' ? firstImage : firstImage.url || firstImage.src || '';
+  } else if (item.thumbnail) {
+    imageUrl = item.thumbnail;
+  } else if (item.imageUrl) {
+    imageUrl = item.imageUrl;
+  }
+
+  // Extract colors if available
+  const colors: { name: string; code: string }[] = [];
+  const colorData = item.colors || item.variants || item.swatches || [];
+
+  if (Array.isArray(colorData)) {
+    colorData.forEach((c: any) => {
+      if (typeof c === 'string') {
+        colors.push({ name: c, code: getColorCode(c) });
+      } else if (c.name || c.colorName) {
+        colors.push({
+          name: c.name || c.colorName,
+          code: c.code || c.hex || c.colorCode || getColorCode(c.name || c.colorName)
+        });
+      }
+    });
+  }
 
   return {
     name,
     price: price || 999,
+    originalPrice,
     imageUrl,
     colors,
-    sku: generateSKU(name, index),
+    sku: item.sku || item.productId || item.id || generateSKU('SOF', index, page),
+    sourceUrl: item.url || item.pdpUrl || item.link,
   };
 }
 
-function parseJsonInput(jsonStr: string): ParsedProduct[] {
-  try {
-    const data = JSON.parse(jsonStr);
-    const items = Array.isArray(data) ? data : (data.products || data.items || [data]);
+function getColorCode(colorName: string): string {
+  const colorMap: Record<string, string> = {
+    'black': '#000000',
+    'white': '#FFFFFF',
+    'gray': '#808080',
+    'grey': '#808080',
+    'charcoal': '#36454F',
+    'slate': '#708090',
+    'beige': '#F5F5DC',
+    'cream': '#FFFDD0',
+    'ivory': '#FFFFF0',
+    'tan': '#D2B48C',
+    'brown': '#8B4513',
+    'chocolate': '#3E2723',
+    'espresso': '#3C2415',
+    'walnut': '#5D432C',
+    'navy': '#000080',
+    'blue': '#0000FF',
+    'denim': '#1560BD',
+    'teal': '#008080',
+    'green': '#008000',
+    'sage': '#9CAF88',
+    'olive': '#808000',
+    'red': '#FF0000',
+    'burgundy': '#800020',
+    'orange': '#FFA500',
+    'yellow': '#FFFF00',
+    'gold': '#FFD700',
+    'pink': '#FFC0CB',
+    'purple': '#800080',
+    'pebble': '#D4C4B0',
+    'stone': '#9E9E9E',
+    'sand': '#C2B280',
+    'taupe': '#B38B6D',
+    'caramel': '#C68642',
+    'smoke': '#848482',
+    'fossil': '#8B7D6B',
+    'chestnut': '#954535',
+    'nutmeg': '#8B4513',
+    'alloy': '#989898',
+    'ink': '#2C3539',
+    'spice': '#8B4513',
+    'onyx': '#353839',
+    'cobblestone': '#A19A8B',
+    'sky': '#87CEEB',
+    'snow': '#FFFAFA',
+    'dune': '#DCC9AA',
+    'umber': '#635147',
+  };
 
-    return items.map((item: any, index: number) => ({
-      name: item.name || item.title || item.productName || 'Unknown Product',
-      price: parseFloat(item.price || item.salePrice || item.currentPrice || '0'),
-      originalPrice: item.originalPrice ? parseFloat(item.originalPrice) : undefined,
-      imageUrl: item.image || item.imageUrl || item.thumbnail || item.img || '',
-      colors: (item.colors || item.variants || []).map((c: any) => ({
-        name: typeof c === 'string' ? c : (c.name || c.colorName || 'Default'),
-        code: typeof c === 'string' ? '#888888' : (c.code || c.hex || '#888888')
-      })),
-      sku: item.sku || item.productId || generateSKU(item.name || item.title, index),
-      sourceUrl: item.url || item.sourceUrl || item.link,
-    }));
-  } catch (e) {
-    throw new Error('Invalid JSON format. Please check your input.');
+  const lowerName = colorName.toLowerCase();
+  for (const [key, value] of Object.entries(colorMap)) {
+    if (lowerName.includes(key)) {
+      return value;
+    }
   }
+  return '#888888';
 }
 
 export default function ImportProducts() {
   const navigate = useNavigate();
-  const [importMode, setImportMode] = useState<ImportMode>('manual-html');
-  const [htmlInput, setHtmlInput] = useState('');
-  const [jsonInput, setJsonInput] = useState('');
-  const [sourceUrl, setSourceUrl] = useState('');
   const [categorySlug, setCategorySlug] = useState('sofas');
-  const [parsedProducts, setParsedProducts] = useState<ParsedProduct[]>([]);
-  const [isImporting, setIsImporting] = useState(false);
-  const [importResults, setImportResults] = useState<ImportedProduct[]>([]);
-  const [importStats, setImportStats] = useState({ total: 0, success: 0, failed: 0 });
-  const [parseError, setParseError] = useState('');
+  const [totalPages, setTotalPages] = useState(5);
+  const [batches, setBatches] = useState<BatchStatus[]>(() =>
+    Array.from({ length: 5 }, (_, i) => ({
+      page: i + 1,
+      status: 'idle',
+      productsFound: 0,
+      productsImported: 0,
+    }))
+  );
+  const [currentProducts, setCurrentProducts] = useState<ParsedProduct[]>([]);
+  const [isRunning, setIsRunning] = useState(false);
+  const [logs, setLogs] = useState<string[]>([]);
 
-  const handleParseHtml = () => {
-    setParseError('');
+  const addLog = useCallback((message: string) => {
+    const timestamp = new Date().toLocaleTimeString();
+    setLogs(prev => [...prev, `[${timestamp}] ${message}`]);
+  }, []);
+
+  const updateBatch = useCallback((page: number, updates: Partial<BatchStatus>) => {
+    setBatches(prev => prev.map(b =>
+      b.page === page ? { ...b, ...updates } : b
+    ));
+  }, []);
+
+  const updateTotalPages = (num: number) => {
+    setTotalPages(num);
+    setBatches(Array.from({ length: num }, (_, i) => ({
+      page: i + 1,
+      status: 'idle',
+      productsFound: 0,
+      productsImported: 0,
+    })));
+  };
+
+  const fetchPage = async (page: number): Promise<string | null> => {
+    const url = page === 1
+      ? ASHLEY_SOFA_BASE_URL
+      : `${ASHLEY_SOFA_BASE_URL}?page=${page}`;
+
+    addLog(`Fetching page ${page}: ${url}`);
+
     try {
-      if (!htmlInput.trim()) {
-        setParseError('Please paste HTML content first');
-        return;
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/page-fetcher`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ url }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error);
       }
-      const products = parseAshleyHtml(htmlInput);
-      if (products.length === 0) {
-        setParseError('No products found in the HTML. Try the JSON method or check the HTML structure.');
+
+      if (!data.success) {
+        throw new Error(`HTTP ${data.status}`);
       }
-      setParsedProducts(products);
-    } catch (e: any) {
-      setParseError(e.message);
+
+      addLog(`Page ${page} fetched: ${data.contentLength.toLocaleString()} bytes`);
+      return data.html;
+    } catch (error: any) {
+      addLog(`Error fetching page ${page}: ${error.message}`);
+      throw error;
     }
   };
 
-  const handleParseJson = () => {
-    setParseError('');
-    try {
-      if (!jsonInput.trim()) {
-        setParseError('Please paste JSON content first');
-        return;
-      }
-      const products = parseJsonInput(jsonInput);
-      setParsedProducts(products);
-    } catch (e: any) {
-      setParseError(e.message);
-    }
-  };
+  const importProducts = async (products: ParsedProduct[], page: number): Promise<number> => {
+    const { data: category } = await supabase
+      .from('categories')
+      .select('id')
+      .eq('slug', categorySlug)
+      .maybeSingle();
 
-  const handleImport = async () => {
-    if (parsedProducts.length === 0) {
-      alert('No products to import. Please parse HTML or JSON first.');
-      return;
+    if (!category) {
+      throw new Error(`Category "${categorySlug}" not found`);
     }
 
-    setIsImporting(true);
-    setImportResults([]);
-    setImportStats({ total: 0, success: 0, failed: 0 });
+    let importedCount = 0;
 
-    try {
-      const { data: category } = await supabase
-        .from('categories')
-        .select('id')
-        .eq('slug', categorySlug)
-        .maybeSingle();
+    for (const product of products) {
+      try {
+        // Check for existing product
+        const { data: existing } = await supabase
+          .from('products')
+          .select('id')
+          .eq('sku', product.sku)
+          .maybeSingle();
 
-      if (!category) {
-        throw new Error(`Category "${categorySlug}" not found. Please create it first.`);
-      }
-
-      const results: ImportedProduct[] = [];
-      let successCount = 0;
-      let failedCount = 0;
-
-      for (let i = 0; i < parsedProducts.length; i++) {
-        const product = parsedProducts[i];
-        const result: ImportedProduct = {
-          name: product.name,
-          price: product.price,
-          status: 'pending'
-        };
-
-        try {
-          const { data: existingProduct } = await supabase
-            .from('products')
-            .select('id')
-            .eq('sku', product.sku)
-            .maybeSingle();
-
-          if (existingProduct) {
-            result.status = 'error';
-            result.error = 'Product already exists (duplicate SKU)';
-            failedCount++;
-          } else {
-            const slug = generateSlug(product.name) + '-' + Date.now();
-
-            const { data: newProduct, error: productError } = await supabase
-              .from('products')
-              .insert({
-                category_id: category.id,
-                name: product.name,
-                slug,
-                description: `Premium ${product.name} from our exclusive collection.`,
-                price: product.price,
-                original_price: product.originalPrice,
-                sku: product.sku,
-                source_url: product.sourceUrl || sourceUrl,
-                stock_quantity: 10,
-                status: 'active',
-                materials: 'Premium upholstery',
-              })
-              .select()
-              .single();
-
-            if (productError) {
-              result.status = 'error';
-              result.error = productError.message;
-              failedCount++;
-            } else {
-              if (product.imageUrl) {
-                await supabase
-                  .from('product_images')
-                  .insert({
-                    product_id: newProduct.id,
-                    image_url: product.imageUrl,
-                    display_order: 0,
-                    alt_text: product.name
-                  });
-              }
-
-              if (product.colors.length > 0) {
-                const colorInserts = product.colors.map(color => ({
-                  product_id: newProduct.id,
-                  color_name: color.name,
-                  color_code: color.code
-                }));
-
-                await supabase
-                  .from('product_colors')
-                  .insert(colorInserts);
-              }
-
-              result.status = 'success';
-              successCount++;
-            }
-          }
-        } catch (error: any) {
-          result.status = 'error';
-          result.error = error.message;
-          failedCount++;
+        if (existing) {
+          addLog(`Skipped duplicate: ${product.name}`);
+          continue;
         }
 
-        results.push(result);
-        setImportResults([...results]);
-        setImportStats({
-          total: parsedProducts.length,
-          success: successCount,
-          failed: failedCount
-        });
+        const slug = generateSlug(product.name) + '-' + Date.now();
+
+        const { data: newProduct, error } = await supabase
+          .from('products')
+          .insert({
+            category_id: category.id,
+            name: product.name,
+            slug,
+            description: `Premium ${product.name} from our exclusive collection.`,
+            price: product.price,
+            original_price: product.originalPrice,
+            sku: product.sku,
+            source_url: product.sourceUrl,
+            stock_quantity: 10,
+            status: 'active',
+            materials: 'Premium upholstery',
+          })
+          .select()
+          .single();
+
+        if (error) {
+          addLog(`Failed to import ${product.name}: ${error.message}`);
+          continue;
+        }
+
+        // Add image
+        if (product.imageUrl) {
+          await supabase
+            .from('product_images')
+            .insert({
+              product_id: newProduct.id,
+              image_url: product.imageUrl,
+              display_order: 0,
+              alt_text: product.name
+            });
+        }
+
+        // Add colors
+        if (product.colors.length > 0) {
+          await supabase
+            .from('product_colors')
+            .insert(product.colors.map(color => ({
+              product_id: newProduct.id,
+              color_name: color.name,
+              color_code: color.code
+            })));
+        }
+
+        importedCount++;
+      } catch (error: any) {
+        addLog(`Error importing ${product.name}: ${error.message}`);
+      }
+    }
+
+    return importedCount;
+  };
+
+  const runBatch = async (page: number) => {
+    if (isRunning) return;
+
+    setIsRunning(true);
+    updateBatch(page, { status: 'fetching', error: undefined });
+
+    try {
+      // Step 1: Fetch HTML
+      const html = await fetchPage(page);
+      if (!html) {
+        throw new Error('No HTML received');
       }
 
-      alert(`Import completed! ${successCount} products imported, ${failedCount} failed.`);
+      // Step 2: Parse products
+      updateBatch(page, { status: 'parsing' });
+      addLog(`Parsing page ${page}...`);
+
+      const products = parseAshleyHtml(html, page);
+
+      if (products.length === 0) {
+        // Save HTML for debugging
+        console.log('HTML sample (first 5000 chars):', html.substring(0, 5000));
+        throw new Error('No products found in HTML. Check console for HTML sample.');
+      }
+
+      updateBatch(page, { productsFound: products.length });
+      setCurrentProducts(products);
+      addLog(`Found ${products.length} products on page ${page}`);
+
+      // Step 3: Import to database
+      updateBatch(page, { status: 'importing' });
+      addLog(`Importing ${products.length} products...`);
+
+      const imported = await importProducts(products, page);
+
+      updateBatch(page, {
+        status: 'completed',
+        productsImported: imported
+      });
+      addLog(`Page ${page} completed: ${imported}/${products.length} products imported`);
+
     } catch (error: any) {
-      alert(`Import failed: ${error.message}`);
+      updateBatch(page, { status: 'error', error: error.message });
+      addLog(`Batch ${page} failed: ${error.message}`);
     } finally {
-      setIsImporting(false);
+      setIsRunning(false);
+    }
+  };
+
+  const runAllBatches = async () => {
+    for (let i = 0; i < batches.length; i++) {
+      if (batches[i].status !== 'completed') {
+        await runBatch(batches[i].page);
+        // Wait 2 seconds between batches to avoid rate limiting
+        if (i < batches.length - 1) {
+          addLog('Waiting 2 seconds before next batch...');
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+      }
+    }
+  };
+
+  const resetAll = () => {
+    setBatches(prev => prev.map(b => ({
+      ...b,
+      status: 'idle',
+      productsFound: 0,
+      productsImported: 0,
+      error: undefined,
+    })));
+    setCurrentProducts([]);
+    setLogs([]);
+  };
+
+  const getStatusIcon = (status: BatchStatus['status']) => {
+    switch (status) {
+      case 'fetching':
+      case 'parsing':
+      case 'importing':
+        return <Loader className="w-5 h-5 text-blue-500 animate-spin" />;
+      case 'completed':
+        return <CheckCircle className="w-5 h-5 text-green-500" />;
+      case 'error':
+        return <AlertCircle className="w-5 h-5 text-red-500" />;
+      default:
+        return <Package className="w-5 h-5 text-neutral-400" />;
+    }
+  };
+
+  const getStatusText = (status: BatchStatus['status']) => {
+    switch (status) {
+      case 'fetching': return 'Fetching HTML...';
+      case 'parsing': return 'Parsing products...';
+      case 'importing': return 'Importing to DB...';
+      case 'completed': return 'Completed';
+      case 'error': return 'Error';
+      default: return 'Ready';
     }
   };
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-light text-neutral-900 mb-2">Import Products</h1>
-        <p className="text-neutral-600">Import products using manual HTML/JSON paste (guaranteed to work)</p>
+        <h1 className="text-3xl font-light text-neutral-900 mb-2">Batch Scraper</h1>
+        <p className="text-neutral-600">
+          One-click batch import from Ashley Furniture. Each batch = 1 page ({PRODUCTS_PER_PAGE} products).
+        </p>
       </div>
 
+      {/* Configuration */}
       <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
-        <div className="flex gap-4 mb-6">
-          <button
-            onClick={() => setImportMode('manual-html')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
-              importMode === 'manual-html'
-                ? 'bg-neutral-900 text-white'
-                : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
-            }`}
-          >
-            <ClipboardPaste className="w-4 h-4" />
-            Paste HTML
-          </button>
-          <button
-            onClick={() => setImportMode('manual-json')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
-              importMode === 'manual-json'
-                ? 'bg-neutral-900 text-white'
-                : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
-            }`}
-          >
-            <Database className="w-4 h-4" />
-            Paste JSON
-          </button>
+        <h2 className="text-lg font-medium text-neutral-900 mb-4">Configuration</h2>
+
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 mb-2">
+              Target Category
+            </label>
+            <select
+              value={categorySlug}
+              onChange={(e) => setCategorySlug(e.target.value)}
+              className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-neutral-900"
+              disabled={isRunning}
+            >
+              <option value="sofas">Sofas</option>
+              <option value="beds">Beds</option>
+              <option value="tables">Tables</option>
+              <option value="chairs">Chairs</option>
+              <option value="cabinets">Cabinets</option>
+              <option value="armchairs">Armchairs</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 mb-2">
+              Number of Pages (Batches)
+            </label>
+            <select
+              value={totalPages}
+              onChange={(e) => updateTotalPages(parseInt(e.target.value))}
+              className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-neutral-900"
+              disabled={isRunning}
+            >
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                <option key={n} value={n}>{n} pages (~{n * PRODUCTS_PER_PAGE} products)</option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-neutral-700 mb-2">
-            Target Category
-          </label>
-          <select
-            value={categorySlug}
-            onChange={(e) => setCategorySlug(e.target.value)}
-            className="w-full max-w-xs px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-neutral-900 focus:border-transparent"
+        <div className="flex gap-4 mt-6">
+          <Button
+            onClick={runAllBatches}
+            disabled={isRunning}
+            className="flex items-center gap-2"
           >
-            <option value="sofas">Sofas</option>
-            <option value="beds">Beds</option>
-            <option value="tables">Tables</option>
-            <option value="chairs">Chairs</option>
-            <option value="cabinets">Cabinets</option>
-            <option value="armchairs">Armchairs</option>
-          </select>
+            <Play className="w-4 h-4" />
+            Run All Batches
+          </Button>
+          <Button
+            variant="outline"
+            onClick={resetAll}
+            disabled={isRunning}
+            className="flex items-center gap-2"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Reset All
+          </Button>
         </div>
-
-        {importMode === 'manual-html' && (
-          <div className="space-y-4">
-            <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 mb-4">
-              <h3 className="font-medium text-emerald-800 mb-2">How to get the HTML:</h3>
-              <ol className="list-decimal list-inside text-sm text-emerald-700 space-y-1">
-                <li>Open the product listing page in your browser (e.g., Ashley sofas page)</li>
-                <li>Scroll down to load all products you want</li>
-                <li>Right-click anywhere on the page</li>
-                <li>Select "View Page Source" (or press Ctrl+U / Cmd+Option+U)</li>
-                <li>Select All (Ctrl+A / Cmd+A) and Copy (Ctrl+C / Cmd+C)</li>
-                <li>Paste it in the box below</li>
-              </ol>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-2">
-                Page HTML Source
-              </label>
-              <textarea
-                value={htmlInput}
-                onChange={(e) => setHtmlInput(e.target.value)}
-                placeholder="Paste the entire page HTML here..."
-                className="w-full h-64 px-4 py-3 border border-neutral-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-neutral-900 focus:border-transparent"
-              />
-              <p className="mt-1 text-sm text-neutral-500">
-                {htmlInput.length.toLocaleString()} characters
-              </p>
-            </div>
-
-            <Button onClick={handleParseHtml} className="flex items-center gap-2">
-              <Eye className="w-4 h-4" />
-              Parse HTML & Preview
-            </Button>
-          </div>
-        )}
-
-        {importMode === 'manual-json' && (
-          <div className="space-y-4">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-              <h3 className="font-medium text-blue-800 mb-2">JSON Format:</h3>
-              <pre className="text-xs text-blue-700 bg-blue-100 p-2 rounded overflow-x-auto">
-{`[
-  {
-    "name": "Product Name",
-    "price": 999.99,
-    "imageUrl": "https://...",
-    "colors": [
-      { "name": "Gray", "code": "#888888" }
-    ],
-    "sku": "PROD-001"
-  }
-]`}
-              </pre>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-2">
-                JSON Data
-              </label>
-              <textarea
-                value={jsonInput}
-                onChange={(e) => setJsonInput(e.target.value)}
-                placeholder='[{"name": "Product", "price": 999, ...}]'
-                className="w-full h-64 px-4 py-3 border border-neutral-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-neutral-900 focus:border-transparent"
-              />
-            </div>
-
-            <Button onClick={handleParseJson} className="flex items-center gap-2">
-              <Eye className="w-4 h-4" />
-              Parse JSON & Preview
-            </Button>
-          </div>
-        )}
-
-        {parseError && (
-          <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <div className="flex items-center gap-2 text-red-700">
-              <AlertCircle className="w-5 h-5" />
-              <span>{parseError}</span>
-            </div>
-          </div>
-        )}
       </div>
 
-      {parsedProducts.length > 0 && (
-        <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-medium text-neutral-900">
-              Preview: {parsedProducts.length} Products Found
-            </h2>
-            <Button
-              onClick={handleImport}
-              disabled={isImporting}
-              className="flex items-center gap-2"
-            >
-              {isImporting ? (
-                <>
-                  <Loader className="w-4 h-4 animate-spin" />
-                  Importing...
-                </>
-              ) : (
-                <>
-                  <Upload className="w-4 h-4" />
-                  Import All to Database
-                </>
-              )}
-            </Button>
-          </div>
+      {/* Batch List */}
+      <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
+        <h2 className="text-lg font-medium text-neutral-900 mb-4">Batches</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
-            {parsedProducts.map((product, index) => (
-              <div key={index} className="border border-neutral-200 rounded-lg p-3">
+        <div className="space-y-3">
+          {batches.map((batch) => (
+            <div
+              key={batch.page}
+              className={`flex items-center justify-between p-4 rounded-lg border ${
+                batch.status === 'completed' ? 'bg-green-50 border-green-200' :
+                batch.status === 'error' ? 'bg-red-50 border-red-200' :
+                batch.status !== 'idle' ? 'bg-blue-50 border-blue-200' :
+                'bg-neutral-50 border-neutral-200'
+              }`}
+            >
+              <div className="flex items-center gap-4">
+                {getStatusIcon(batch.status)}
+                <div>
+                  <div className="font-medium text-neutral-900">
+                    Batch {batch.page} - Page {batch.page}
+                  </div>
+                  <div className="text-sm text-neutral-600">
+                    {batch.status === 'error' && batch.error ? (
+                      <span className="text-red-600">{batch.error}</span>
+                    ) : (
+                      <>
+                        {getStatusText(batch.status)}
+                        {batch.productsFound > 0 && (
+                          <span className="ml-2">
+                            ({batch.productsImported}/{batch.productsFound} imported)
+                          </span>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <Button
+                size="sm"
+                onClick={() => runBatch(batch.page)}
+                disabled={isRunning || batch.status === 'completed'}
+                className="flex items-center gap-2"
+              >
+                {batch.status === 'completed' ? (
+                  <CheckCircle className="w-4 h-4" />
+                ) : (
+                  <ChevronRight className="w-4 h-4" />
+                )}
+                {batch.status === 'completed' ? 'Done' : 'Start'}
+              </Button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Preview */}
+      {currentProducts.length > 0 && (
+        <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
+          <h2 className="text-lg font-medium text-neutral-900 mb-4">
+            Latest Batch Products ({currentProducts.length})
+          </h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-h-64 overflow-y-auto">
+            {currentProducts.slice(0, 12).map((product, index) => (
+              <div key={index} className="border border-neutral-200 rounded-lg p-2">
                 {product.imageUrl && (
                   <img
                     src={product.imageUrl}
                     alt={product.name}
-                    className="w-full h-32 object-cover rounded mb-2"
+                    className="w-full h-20 object-cover rounded mb-1"
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.display = 'none';
                     }}
                   />
                 )}
-                <h3 className="font-medium text-neutral-900 text-sm truncate">{product.name}</h3>
-                <p className="text-neutral-600">${product.price.toLocaleString()}</p>
-                <p className="text-xs text-neutral-400">SKU: {product.sku}</p>
-                {product.colors.length > 0 && (
-                  <div className="flex gap-1 mt-1">
-                    {product.colors.slice(0, 5).map((color, i) => (
-                      <div
-                        key={i}
-                        className="w-4 h-4 rounded-full border border-neutral-300"
-                        style={{ backgroundColor: color.code }}
-                        title={color.name}
-                      />
-                    ))}
-                    {product.colors.length > 5 && (
-                      <span className="text-xs text-neutral-400">+{product.colors.length - 5}</span>
-                    )}
-                  </div>
-                )}
+                <div className="text-xs font-medium text-neutral-900 truncate">{product.name}</div>
+                <div className="text-xs text-neutral-600">${product.price}</div>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {importResults.length > 0 && (
-        <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
-          <h2 className="text-xl font-medium text-neutral-900 mb-4">Import Results</h2>
+      {/* Logs */}
+      <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
+        <h2 className="text-lg font-medium text-neutral-900 mb-4">Activity Log</h2>
 
-          <div className="grid grid-cols-3 gap-4 mb-6">
-            <div className="bg-neutral-50 rounded-lg p-4">
-              <div className="text-2xl font-bold text-neutral-900">{importStats.total}</div>
-              <div className="text-sm text-neutral-600">Total</div>
-            </div>
-            <div className="bg-green-50 rounded-lg p-4">
-              <div className="text-2xl font-bold text-green-600">{importStats.success}</div>
-              <div className="text-sm text-green-600">Success</div>
-            </div>
-            <div className="bg-red-50 rounded-lg p-4">
-              <div className="text-2xl font-bold text-red-600">{importStats.failed}</div>
-              <div className="text-sm text-red-600">Failed</div>
-            </div>
-          </div>
-
-          <div className="space-y-2 max-h-64 overflow-y-auto">
-            {importResults.map((result, index) => (
-              <div
-                key={index}
-                className={`flex items-center gap-3 p-3 rounded-lg ${
-                  result.status === 'success' ? 'bg-green-50' :
-                  result.status === 'error' ? 'bg-red-50' : 'bg-neutral-50'
-                }`}
-              >
-                {result.status === 'success' && <CheckCircle className="w-5 h-5 text-green-600" />}
-                {result.status === 'error' && <AlertCircle className="w-5 h-5 text-red-600" />}
-                {result.status === 'pending' && <Loader className="w-5 h-5 text-neutral-400 animate-spin" />}
-                <div className="flex-1 min-w-0">
-                  <div className="font-medium text-neutral-900 truncate">{result.name}</div>
-                  <div className="text-sm text-neutral-600">${result.price}</div>
-                  {result.error && <div className="text-sm text-red-600">{result.error}</div>}
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="bg-neutral-900 rounded-lg p-4 font-mono text-xs text-green-400 h-48 overflow-y-auto">
+          {logs.length === 0 ? (
+            <div className="text-neutral-500">Waiting for activity...</div>
+          ) : (
+            logs.map((log, index) => (
+              <div key={index}>{log}</div>
+            ))
+          )}
         </div>
-      )}
+      </div>
 
       <div className="flex gap-4">
         <Button variant="outline" onClick={() => navigate('/admin/products')}>
