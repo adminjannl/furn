@@ -27,15 +27,29 @@ export default function SofaScraper() {
     );
 
     try {
-      const response = await fetch(
-        `https://mebelmaximum.ua/ru/divany?page=${pageNum}`
-      );
+      const pageFetcherUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/page-fetcher`;
+      const targetUrl = `https://mebelmaximum.ua/ru/divany?page=${pageNum}`;
+
+      const response = await fetch(pageFetcherUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({ url: targetUrl }),
+      });
 
       if (!response.ok) {
         throw new Error('Failed to fetch page');
       }
 
-      const html = await response.text();
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error('Page fetch failed');
+      }
+
+      const html = result.html;
 
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, 'text/html');

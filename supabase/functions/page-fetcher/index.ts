@@ -49,6 +49,7 @@ Deno.serve(async (req: Request) => {
       "www.ashleyfurniture.com",
       "wayfair.com",
       "www.wayfair.com",
+      "mebelmaximum.ua",
     ];
 
     const urlObj = new URL(url);
