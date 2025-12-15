@@ -28,7 +28,8 @@ export default function SofaScraper() {
 
     try {
       const pageFetcherUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/page-fetcher`;
-      const targetUrl = `https://mebelmaximum.ua/ru/divany?page=${pageNum}`;
+      const startParam = (pageNum - 1) * 30;
+      const targetUrl = `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${startParam}&sz=30`;
 
       const response = await fetch(pageFetcherUrl, {
         method: 'POST',
@@ -54,15 +55,15 @@ export default function SofaScraper() {
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, 'text/html');
 
-      const productCards = doc.querySelectorAll('.product-card, [class*="product"]');
+      const productCards = doc.querySelectorAll('.product-tile, .product, [data-product-tile], [class*="ProductTile"]');
 
       let succeeded = 0;
       let failed = 0;
 
       for (const card of Array.from(productCards)) {
         try {
-          const nameEl = card.querySelector('h3, h2, .product-title, [class*="title"]');
-          const priceEl = card.querySelector('.price, [class*="price"]');
+          const nameEl = card.querySelector('.product-name, .product-title, [class*="name"], [class*="title"], a[href*="/p/"]');
+          const priceEl = card.querySelector('.price, [class*="price"], .sales, [class*="Sales"]');
           const imageEl = card.querySelector('img');
 
           if (!nameEl || !priceEl) {
@@ -73,7 +74,11 @@ export default function SofaScraper() {
           const name = nameEl.textContent?.trim() || '';
           const priceText = priceEl.textContent?.trim() || '';
           const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
-          const imageUrl = imageEl?.src || '';
+
+          let imageUrl = imageEl?.getAttribute('src') || imageEl?.getAttribute('data-src') || '';
+          if (imageUrl && imageUrl.startsWith('//')) {
+            imageUrl = 'https:' + imageUrl;
+          }
 
           if (!name || isNaN(price)) {
             failed++;
@@ -85,7 +90,7 @@ export default function SofaScraper() {
             .replace(/[^a-z0-9]+/g, '-')
             .replace(/^-|-$/g, '');
 
-          const sku = `SOF-${pageNum}${String(succeeded + 1).padStart(3, '0')}`;
+          const sku = `ASHLEY-SOF-${String(startParam + succeeded + 1).padStart(4, '0')}`;
 
           const { data: existingProduct } = await supabase
             .from('products')
@@ -170,7 +175,7 @@ export default function SofaScraper() {
     <div className="p-6">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-oak-900 mb-2">Sofa Scraper</h1>
-        <p className="text-oak-600">Scrape sofas from mebelmaximum.ua (9 pages)</p>
+        <p className="text-oak-600">Scrape sofas from Ashley Furniture (9 pages, 30 per page)</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
