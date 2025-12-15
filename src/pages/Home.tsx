@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, Snowflake, Eye } from 'lucide-react';
+import { ArrowRight, Sparkles, Snowflake, Eye, Settings } from 'lucide-react';
 import { useEffect, useState, useRef, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../lib/supabase';
 import type { Database } from '../lib/database.types';
 import { formatEuro } from '../utils/currency';
 import { calculateDiscountedPrice, hasDiscount } from '../utils/pricing';
+import { useAuth } from '../contexts/AuthContext';
 import HeroBanner from '../components/HeroBanner';
 import CraftsmanshipHighlights from '../components/CraftsmanshipHighlights';
 import EnhancedSearch from '../components/EnhancedSearch';
@@ -24,6 +25,7 @@ type Category = Database['public']['Tables']['categories']['Row'];
 
 export default function Home() {
   const { t } = useTranslation();
+  const { profile } = useAuth();
   const [bestOffers, setBestOffers] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -80,6 +82,22 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-cream-50/50 via-white to-cream-50/30 relative overflow-hidden">
       <HeroBanner />
+
+      {profile?.is_admin && (
+        <div className="bg-gradient-to-r from-oak-800 via-oak-700 to-oak-800 border-y border-oak-600/30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <Link
+              to="/admin"
+              className="inline-flex items-center gap-3 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg border border-white/20 hover:border-white/30 transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm"
+            >
+              <Settings className="w-5 h-5" />
+              <span className="font-semibold">Admin Panel</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      )}
+
       <PromotionBanner />
       <TrustBadges />
 
