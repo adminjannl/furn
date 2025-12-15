@@ -1,0 +1,242 @@
+[
+  {
+    "sku": "ASH-SOF-0001",
+    "url": "https://www.ashleyfurniture.com/p/mahoney_sofa/3100438.html",
+    "name": "Mahoney Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0002",
+    "url": "https://www.ashleyfurniture.com/p/altari_sofa/8721338.html",
+    "name": "Altari Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0003",
+    "url": "https://www.ashleyfurniture.com/p/maimz_sofa/3290338.html",
+    "name": "Maimz Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0004",
+    "url": "https://www.ashleyfurniture.com/p/whitlock_sofa/2770438.html",
+    "name": "Whitlock Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0005",
+    "url": "https://www.ashleyfurniture.com/p/larce_2-piece_sectional_with_chaise/50205S5.html",
+    "name": "Larce Sofa Chaise",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0006",
+    "url": "https://www.ashleyfurniture.com/p/darcy_sofa/7500538.html",
+    "name": "Darcy Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0007",
+    "url": "https://www.ashleyfurniture.com/p/navi_sofa/9400238.html",
+    "name": "Navi Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0008",
+    "url": "https://www.ashleyfurniture.com/p/vayda_sofa/3310438.html",
+    "name": "Vayda Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0009",
+    "url": "https://www.ashleyfurniture.com/p/stonemeade_sofa_chaise/5950518.html",
+    "name": "Stonemeade Sofa Chaise",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0010",
+    "url": "https://www.ashleyfurniture.com/p/belvoir_sofa/9230538.html",
+    "name": "Belvoir Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0011",
+    "url": "https://www.ashleyfurniture.com/p/aviemore_sofa/2430338.html",
+    "name": "Aviemore Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0012",
+    "url": "https://www.ashleyfurniture.com/p/emilia_3-piece_sectional_sofa/30901S2.html",
+    "name": "Emilia Modular Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0013",
+    "url": "https://www.ashleyfurniture.com/p/simplejoy_sofa/2420338.html",
+    "name": "SimpleJoy Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0014",
+    "url": "https://www.ashleyfurniture.com/p/midnight-madness_2-piece_sectional_sofa_with_chaise/98103S2.html",
+    "name": "Midnight-Madness Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0015",
+    "url": "https://www.ashleyfurniture.com/p/greaves_sofa_chaise/5510418.html",
+    "name": "Greaves Sofa Chaise",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0016",
+    "url": "https://www.ashleyfurniture.com/p/maggie_sofa/5200338.html",
+    "name": "Maggie Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0017",
+    "url": "https://www.ashleyfurniture.com/p/cashton_sofa/4060638.html",
+    "name": "Cashton Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0018",
+    "url": "https://www.ashleyfurniture.com/p/stonemeade_sofa/5950538.html",
+    "name": "Stonemeade Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0019",
+    "url": "https://www.ashleyfurniture.com/p/leesworth_power_reclining_sofa/U4380887.html",
+    "name": "Leesworth Reclining Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0020",
+    "url": "https://www.ashleyfurniture.com/p/tasselton_sofa_chaise/9250418.html",
+    "name": "Tasselton Sofa Chaise",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0021",
+    "url": "https://www.ashleyfurniture.com/p/adlai_sofa/3010338.html",
+    "name": "Adlai Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0022",
+    "url": "https://www.ashleyfurniture.com/p/modmax_3-piece_sectional_with_chaise/92102S18.html",
+    "name": "Modmax Modular Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0023",
+    "url": "https://www.ashleyfurniture.com/p/belcaro_place_sofa/7970238.html",
+    "name": "Belcaro Place Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0024",
+    "url": "https://www.ashleyfurniture.com/p/bixler_sofa/2610638.html",
+    "name": "Bixler Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0025",
+    "url": "https://www.ashleyfurniture.com/p/colleton_sofa/5210738.html",
+    "name": "Colleton Leather Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0026",
+    "url": "https://www.ashleyfurniture.com/p/lonoke_sofa/5050438.html",
+    "name": "Lonoke Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0027",
+    "url": "https://www.ashleyfurniture.com/p/elissa_court_3-piece_sectional_sofa/39402S2.html",
+    "name": "Elissa Court Modular Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0028",
+    "url": "https://www.ashleyfurniture.com/p/bolsena_sofa/5560338.html",
+    "name": "Bolsena Leather Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0029",
+    "url": "https://www.ashleyfurniture.com/p/stoneland_reclining_sofa/3990588.html",
+    "name": "Stoneland Reclining Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  },
+  {
+    "sku": "ASH-SOF-0030",
+    "url": "https://www.ashleyfurniture.com/p/lombardia_sofa/5730338.html",
+    "name": "Lombardia Leather Sofa",
+    "images": [],
+    "success": false,
+    "error": "HTTP 403"
+  }
+]
