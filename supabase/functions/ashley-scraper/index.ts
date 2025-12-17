@@ -243,7 +243,8 @@ Deno.serve(async (req: Request) => {
       console.log(`ASHLEY SCRAPER - DELETE MODE`);
       console.log("=".repeat(60));
 
-      const supabase = createClient(supabaseUrl, supabaseKey);
+      const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      const supabase = createClient(supabaseUrl, serviceRoleKey);
 
       const { data: sofaCategory } = await supabase
         .from("categories")
