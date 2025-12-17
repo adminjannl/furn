@@ -8,8 +8,8 @@ const corsHeaders = {
 };
 
 const SCRAPER_API_KEY = "1cd1284bc7d418a0eb88bbebd8cd46d1";
-const GALLERY_TIMEOUT_MS = 5000;
-const BATCH_GALLERY_TIMEOUT_MS = 3000;
+const GALLERY_TIMEOUT_MS = 8000;
+const BATCH_GALLERY_TIMEOUT_MS = 6000;
 
 interface DetailedProduct {
   name: string;
@@ -136,13 +136,20 @@ function generateCommonSuffixImages(imageBase: string): string[] {
 
   const commonSuffixes = [
     '',
-    '-quill',
-    '-quill-quill',
-    '-quill-quill-quill',
-    '-quill-quill-quill-quill',
-    '-QUILL',
+    '-HEAD-ON-SW-P1-KO',
+    '-QUILL-SW-P1-KO',
+    '-QUILL-QUILL-SW-P1-KO',
+    '-QUILL-QUILL-QUILL-SW-P1-KO',
+    '-QUILL-QUILL-QUILL-QUILL-SW-P1-KO',
+    '-QUILL-QUILL-QUILL-QUILL-QUILL-SW-P1-KO',
+    '-QUILL-QUILL-QUILL-QUILL-QUILL-QUILL-SW-P1-KO',
+    '-ANGLE-SW-P1-KO',
+    '-BACK-SW-P1-KO',
+    '-SIDE-SW-P1-KO',
+    '-ALT-SW-P1-KO',
     '-SW',
-    '-ALT',
+    '-10X8',
+    '-QUILL',
   ];
 
   for (const suffix of commonSuffixes) {
@@ -152,8 +159,9 @@ function generateCommonSuffixImages(imageBase: string): string[] {
   return images;
 }
 
-async function validateImageUrls(imageUrls: string[], timeoutMs = 2000): Promise<string[]> {
+async function validateImageUrls(imageUrls: string[], timeoutMs = 2500): Promise<string[]> {
   const validImages: string[] = [];
+  console.log(`  Validating ${imageUrls.length} image URLs...`);
 
   const results = await Promise.all(
     imageUrls.map(async (url) => {
@@ -161,11 +169,20 @@ async function validateImageUrls(imageUrls: string[], timeoutMs = 2000): Promise
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-        const response = await fetch(url, { method: 'HEAD', signal: controller.signal });
+        const response = await fetch(url, {
+          method: 'HEAD',
+          signal: controller.signal,
+          headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Accept": "image/*,*/*",
+          }
+        });
         clearTimeout(timeoutId);
 
         const contentType = response.headers.get('content-type') || '';
-        if (response.ok && contentType.includes('image')) {
+        const contentLength = parseInt(response.headers.get('content-length') || '0', 10);
+
+        if (response.ok && (contentType.includes('image') || contentLength > 1000)) {
           return url;
         }
         return null;
@@ -181,6 +198,7 @@ async function validateImageUrls(imageUrls: string[], timeoutMs = 2000): Promise
     }
   }
 
+  console.log(`  Found ${validImages.length} valid images`);
   return validImages;
 }
 
@@ -216,22 +234,20 @@ function sortAndDedupeImages(images: string[], imageBase: string): string[] {
   return unique;
 }
 
-async function scrapeGalleryFast(sku: string, validate = false): Promise<string[]> {
+async function scrapeGalleryFast(sku: string, validate = true): Promise<string[]> {
   const imageBase = skuToImageBase(sku);
   let allImages: string[] = [];
 
   const scene7Images = await fetchScene7ImageSetFast(imageBase, BATCH_GALLERY_TIMEOUT_MS);
   allImages.push(...scene7Images);
 
-  if (allImages.length < 2) {
-    const suffixImages = generateCommonSuffixImages(imageBase);
+  const suffixImages = generateCommonSuffixImages(imageBase);
 
-    if (validate) {
-      const validSuffixImages = await validateImageUrls(suffixImages, 1500);
-      allImages.push(...validSuffixImages);
-    } else {
-      allImages.push(buildImageUrl(imageBase));
-    }
+  if (validate) {
+    const validSuffixImages = await validateImageUrls(suffixImages, 1500);
+    allImages.push(...validSuffixImages);
+  } else {
+    allImages.push(...suffixImages.slice(0, 8));
   }
 
   allImages = sortAndDedupeImages(allImages, imageBase);
