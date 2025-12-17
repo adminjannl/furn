@@ -7,6 +7,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
+const SCRAPER_API_KEY = "1cd1284bc7d418a0eb88bbebd8cd46d1";
+
 interface Product {
   name: string;
   price: number;
@@ -161,6 +163,34 @@ function parseProductsFromHtml(html: string): Product[] {
   return products;
 }
 
+async function fetchViaScraperApi(targetUrl: string): Promise<string> {
+  const scraperUrl = `http://api.scraperapi.com?api_key=${SCRAPER_API_KEY}&url=${encodeURIComponent(targetUrl)}&render=true&country_code=us`;
+
+  console.log(`Fetching via ScraperAPI: ${targetUrl}`);
+  console.log(`ScraperAPI URL: ${scraperUrl.substring(0, 80)}...`);
+
+  const response = await fetch(scraperUrl, {
+    method: "GET",
+    headers: {
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    },
+  });
+
+  console.log(`ScraperAPI response status: ${response.status}`);
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error(`ScraperAPI error: ${errorText.substring(0, 500)}`);
+    throw new Error(`ScraperAPI failed: ${response.status} - ${errorText.substring(0, 200)}`);
+  }
+
+  const html = await response.text();
+  console.log(`Received ${html.length} characters`);
+  console.log(`First 500 chars: ${html.substring(0, 500)}`);
+
+  return html;
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { status: 200, headers: corsHeaders });
@@ -172,7 +202,7 @@ Deno.serve(async (req: Request) => {
     const authHeader = req.headers.get("Authorization");
 
     console.log(`\n${"=".repeat(60)}`);
-    console.log(`ASHLEY SCRAPER - ${rawHtml ? "MANUAL HTML MODE" : `PAGE ${pageNum}`}`);
+    console.log(`ASHLEY SCRAPER - ${rawHtml ? "MANUAL HTML" : `PAGE ${pageNum} (ScraperAPI)`}`);
     console.log("=".repeat(60));
 
     let html = "";
@@ -184,22 +214,11 @@ Deno.serve(async (req: Request) => {
       products = parseProductsFromHtml(html);
     } else if (pageNum && pageNum >= 1 && pageNum <= 20) {
       const startParam = (pageNum - 1) * 30;
-      const url = pageNum === 1
+      const targetUrl = pageNum === 1
         ? "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/"
         : `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${startParam}&sz=30`;
 
-      console.log(`Fetching: ${url}`);
-
-      const response = await fetch(url, {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-          "Accept-Language": "en-US,en;q=0.9",
-        },
-      });
-
-      html = await response.text();
-      console.log(`Fetched ${html.length} chars, status ${response.status}`);
+      html = await fetchViaScraperApi(targetUrl);
       products = parseProductsFromHtml(html);
     } else {
       return new Response(
@@ -215,6 +234,7 @@ Deno.serve(async (req: Request) => {
           products,
           count: products.length,
           htmlLength: html.length,
+          htmlPreview: html.substring(0, 2000),
         }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );

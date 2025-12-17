@@ -225,8 +225,8 @@ export default function SofaScraper() {
       </div>
 
       <div className="bg-white rounded-lg border border-slate-200 p-6">
-        <h2 className="text-xl font-semibold text-oak-900 mb-2">Direct Scrape (May Not Work)</h2>
-        <p className="text-oak-500 text-sm mb-4">Ashley often blocks server-side requests. Use manual import above if these fail.</p>
+        <h2 className="text-xl font-semibold text-oak-900 mb-2">Automated Scrape (ScraperAPI)</h2>
+        <p className="text-oak-500 text-sm mb-4">Click a page to automatically scrape 30 products. Takes ~15-30 seconds per page.</p>
         <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-3">
           {stats.map((stat) => (
             <button
