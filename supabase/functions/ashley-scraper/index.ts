@@ -233,9 +233,131 @@ Deno.serve(async (req: Request) => {
 
   try {
     const body = await req.json();
-    const { pageNum, mode = "fast", productUrl, sku, importToDb = true, fetchDetails = false } = body;
+    const { pageNum, mode = "fast", productUrl, sku, importToDb = true, fetchDetails = false, deleteAll = false } = body;
     const authHeader = req.headers.get("Authorization");
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseKey = authHeader?.replace("Bearer ", "") || Deno.env.get("SUPABASE_ANON_KEY")!;
+
+    if (mode === "delete") {
+      console.log(`\n${"=".repeat(60)}`);
+      console.log(`ASHLEY SCRAPER - DELETE MODE`);
+      console.log("=".repeat(60));
+
+      const supabase = createClient(supabaseUrl, supabaseKey);
+
+      const { data: sofaCategory } = await supabase
+        .from("categories")
+        .select("id")
+        .eq("slug", "sofas")
+        .maybeSingle();
+
+      if (!sofaCategory) {
+        return new Response(
+          JSON.stringify({ success: false, error: "Sofas category not found" }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      if (deleteAll) {
+        console.log("Deleting ALL sofas...");
+
+        const { data: allSofas } = await supabase
+          .from("products")
+          .select("id")
+          .eq("category_id", sofaCategory.id);
+
+        const sofaIds = allSofas?.map(s => s.id) || [];
+        console.log(`Found ${sofaIds.length} sofas to delete`);
+
+        if (sofaIds.length > 0) {
+          await supabase
+            .from("product_images")
+            .delete()
+            .in("product_id", sofaIds);
+
+          await supabase
+            .from("product_colors")
+            .delete()
+            .in("product_id", sofaIds);
+
+          const { error } = await supabase
+            .from("products")
+            .delete()
+            .eq("category_id", sofaCategory.id);
+
+          if (error) {
+            console.error("Delete error:", error.message);
+            return new Response(
+              JSON.stringify({ success: false, error: error.message }),
+              { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+            );
+          }
+        }
+
+        console.log(`Deleted ${sofaIds.length} sofas`);
+        return new Response(
+          JSON.stringify({ success: true, deleted: sofaIds.length }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      if (pageNum) {
+        console.log(`Deleting sofas from page ${pageNum}...`);
+
+        const startParam = (pageNum - 1) * 30;
+        const listingUrl = pageNum === 1
+          ? "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/"
+          : `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${startParam}&sz=30`;
+
+        const listingHtml = await fetchViaScraperApi(listingUrl);
+        const products = parseListingPage(listingHtml, supabaseUrl);
+        const skusToDelete = products.map(p => p.sku);
+
+        console.log(`Found ${skusToDelete.length} SKUs on page ${pageNum}`);
+
+        if (skusToDelete.length > 0) {
+          const { data: productsToDelete } = await supabase
+            .from("products")
+            .select("id")
+            .in("sku", skusToDelete);
+
+          const productIds = productsToDelete?.map(p => p.id) || [];
+
+          if (productIds.length > 0) {
+            await supabase
+              .from("product_images")
+              .delete()
+              .in("product_id", productIds);
+
+            await supabase
+              .from("product_colors")
+              .delete()
+              .in("product_id", productIds);
+
+            await supabase
+              .from("products")
+              .delete()
+              .in("sku", skusToDelete);
+          }
+
+          console.log(`Deleted ${productIds.length} products from page ${pageNum}`);
+          return new Response(
+            JSON.stringify({ success: true, deleted: productIds.length, skus: skusToDelete }),
+            { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        }
+
+        return new Response(
+          JSON.stringify({ success: true, deleted: 0, message: "No products found on this page" }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      return new Response(
+        JSON.stringify({ error: "Delete mode requires 'deleteAll: true' or 'pageNum'" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
 
     if (mode === "detail" && productUrl && sku) {
       console.log(`\n${"=".repeat(60)}`);
@@ -246,7 +368,6 @@ Deno.serve(async (req: Request) => {
       const images = await scrapeProductDetailPage(productUrl, sku);
 
       if (importToDb && images.length > 0) {
-        const supabaseKey = authHeader?.replace("Bearer ", "") || Deno.env.get("SUPABASE_ANON_KEY")!;
         const supabase = createClient(supabaseUrl, supabaseKey);
 
         const { data: product } = await supabase
@@ -329,7 +450,6 @@ Deno.serve(async (req: Request) => {
 
     console.log("\n=== IMPORTING TO DATABASE ===");
 
-    const supabaseKey = authHeader?.replace("Bearer ", "") || Deno.env.get("SUPABASE_ANON_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     const { data: category } = await supabase

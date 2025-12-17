@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Download, CheckCircle, XCircle, Loader, ClipboardPaste, ExternalLink } from 'lucide-react';
+import { Download, CheckCircle, XCircle, Loader, ClipboardPaste, ExternalLink, Trash2, AlertTriangle } from 'lucide-react';
 
 interface ScrapeStats {
   page: number;
@@ -25,6 +25,9 @@ export default function SofaScraper() {
   const [manualResult, setManualResult] = useState<{ succeeded: number; failed: number; total: number } | null>(null);
   const [manualError, setManualError] = useState('');
   const [fetchDetails, setFetchDetails] = useState(true);
+  const [deleteStatus, setDeleteStatus] = useState<'idle' | 'deleting' | 'done' | 'error'>('idle');
+  const [deleteResult, setDeleteResult] = useState<{ deleted: number; page?: number } | null>(null);
+  const [confirmDeleteAll, setConfirmDeleteAll] = useState(false);
 
   const scrapePage = async (pageNum: number) => {
     setStats((prev) =>
@@ -119,6 +122,70 @@ export default function SofaScraper() {
     } catch (error) {
       setManualError(error instanceof Error ? error.message : 'Unknown error');
       setManualStatus('error');
+    }
+  };
+
+  const deleteAllSofas = async () => {
+    if (!confirmDeleteAll) {
+      setConfirmDeleteAll(true);
+      return;
+    }
+
+    setDeleteStatus('deleting');
+    setDeleteResult(null);
+    setConfirmDeleteAll(false);
+
+    try {
+      const edgeFunctionUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ashley-scraper`;
+
+      const response = await fetch(edgeFunctionUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({ mode: 'delete', deleteAll: true }),
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error || 'Delete failed');
+      }
+
+      setDeleteResult({ deleted: result.deleted });
+      setDeleteStatus('done');
+    } catch (error) {
+      setDeleteStatus('error');
+    }
+  };
+
+  const deletePageSofas = async (pageNum: number) => {
+    setDeleteStatus('deleting');
+    setDeleteResult(null);
+
+    try {
+      const edgeFunctionUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ashley-scraper`;
+
+      const response = await fetch(edgeFunctionUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({ mode: 'delete', pageNum }),
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error || 'Delete failed');
+      }
+
+      setDeleteResult({ deleted: result.deleted, page: pageNum });
+      setDeleteStatus('done');
+    } catch (error) {
+      setDeleteStatus('error');
     }
   };
 
@@ -288,6 +355,85 @@ export default function SofaScraper() {
               </div>
             </button>
           ))}
+        </div>
+      </div>
+
+      <div className="bg-red-50 rounded-lg border-2 border-red-200 p-6 mt-6">
+        <div className="flex items-center gap-2 mb-4">
+          <AlertTriangle className="w-5 h-5 text-red-600" />
+          <h2 className="text-xl font-semibold text-red-800">Danger Zone - Delete Sofas</h2>
+        </div>
+
+        {deleteStatus === 'done' && deleteResult && (
+          <div className="bg-white border border-red-200 rounded-lg p-3 mb-4">
+            <div className="flex items-center gap-2 text-red-700">
+              <CheckCircle className="w-5 h-5" />
+              <span>
+                Deleted {deleteResult.deleted} sofas
+                {deleteResult.page ? ` from page ${deleteResult.page}` : ' (all)'}
+              </span>
+            </div>
+          </div>
+        )}
+
+        {deleteStatus === 'error' && (
+          <div className="bg-white border border-red-200 rounded-lg p-3 mb-4">
+            <div className="flex items-center gap-2 text-red-700">
+              <XCircle className="w-5 h-5" />
+              <span>Delete operation failed</span>
+            </div>
+          </div>
+        )}
+
+        <div className="space-y-4">
+          <div>
+            <p className="text-red-700 text-sm mb-3">Delete sofas by page (fetches page to identify SKUs):</p>
+            <div className="flex flex-wrap gap-2">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((page) => (
+                <button
+                  key={page}
+                  onClick={() => deletePageSofas(page)}
+                  disabled={deleteStatus === 'deleting'}
+                  className="flex items-center gap-1 px-3 py-2 bg-red-100 hover:bg-red-200 text-red-800 rounded-lg text-sm disabled:opacity-50 transition-colors"
+                >
+                  {deleteStatus === 'deleting' ? (
+                    <Loader className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Trash2 className="w-4 h-4" />
+                  )}
+                  Page {page}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="border-t border-red-200 pt-4">
+            <p className="text-red-700 text-sm mb-3">Delete ALL sofas from the database:</p>
+            <button
+              onClick={deleteAllSofas}
+              disabled={deleteStatus === 'deleting'}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 ${
+                confirmDeleteAll
+                  ? 'bg-red-600 hover:bg-red-700 text-white'
+                  : 'bg-red-100 hover:bg-red-200 text-red-800'
+              }`}
+            >
+              {deleteStatus === 'deleting' ? (
+                <Loader className="w-4 h-4 animate-spin" />
+              ) : (
+                <Trash2 className="w-4 h-4" />
+              )}
+              {confirmDeleteAll ? 'Click again to confirm DELETE ALL' : 'Delete All Sofas'}
+            </button>
+            {confirmDeleteAll && (
+              <button
+                onClick={() => setConfirmDeleteAll(false)}
+                className="ml-3 px-3 py-2 text-sm text-red-700 hover:text-red-900"
+              >
+                Cancel
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
