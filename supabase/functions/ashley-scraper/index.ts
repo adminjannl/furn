@@ -49,7 +49,11 @@ async function fetchWithRetry(url: string, maxRetries = 3): Promise<string> {
       if (response.ok) {
         const html = await response.text();
         console.log(`HTML length: ${html.length} chars`);
+        
         if (html.length > 5000) {
+          const hasProductTile = html.includes('product-tile') || html.includes('data-pid');
+          const hasScene7 = html.includes('scene7');
+          console.log(`Content check: productTile=${hasProductTile}, scene7=${hasScene7}`);
           return html;
         }
       }
@@ -60,15 +64,28 @@ async function fetchWithRetry(url: string, maxRetries = 3): Promise<string> {
   throw new Error("Failed to fetch page after retries");
 }
 
-function parseProducts(html: string): Array<any> {
+function parseProducts(html: string, pageNum: number): Array<any> {
   const products: Array<any> = [];
 
-  console.log("Starting to parse products...");
+  console.log("\n=== PARSING PRODUCTS ===");
+  console.log(`HTML length: ${html.length} characters`);
+
+  const htmlSnippet = html.substring(0, 1000);
+  console.log(`HTML starts with: ${htmlSnippet}`);
+
+  const hasJsonLd = html.includes('application/ld+json');
+  const hasProductTile = html.includes('product-tile');
+  const hasDataPid = html.includes('data-pid');
+  const hasScene7 = html.includes('scene7');
+  
+  console.log(`Content markers: jsonLd=${hasJsonLd}, productTile=${hasProductTile}, dataPid=${hasDataPid}, scene7=${hasScene7}`);
 
   try {
     const jsonLdMatches = html.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi);
     
+    let matchCount = 0;
     for (const match of jsonLdMatches) {
+      matchCount++;
       try {
         const jsonText = match[1].trim();
         const data = JSON.parse(jsonText);
@@ -88,60 +105,70 @@ function parseProducts(html: string): Array<any> {
                   imageUrl,
                   sku: product.sku || "",
                 });
+                console.log(`  Parsed from JSON-LD: ${product.name} - $${price}`);
               }
             }
           }
         }
       } catch (e) {
-        console.log("Failed to parse JSON-LD:", e);
+        console.log(`Failed to parse JSON-LD block ${matchCount}:`, e);
       }
     }
+    
+    console.log(`Found ${matchCount} JSON-LD blocks, extracted ${products.length} products`);
   } catch (e) {
     console.error("Error in JSON-LD parsing:", e);
   }
 
-  console.log(`Found ${products.length} products from JSON-LD`);
-
   if (products.length === 0) {
-    console.log("No JSON-LD products found, trying regex parsing...");
+    console.log("\nNo JSON-LD products, trying HTML regex parsing...");
     
-    const tileRegex = /<div[^>]*class="[^"]*product[^"]*"[^>]*>([\s\S]*?)<\/div>/gi;
-    const matches = html.matchAll(tileRegex);
+    const patterns = [
+      /<div[^>]*class="[^"]*product-tile[^"]*"[^>]*([\s\S]{100,2000}?)<\/div>/gi,
+      /<div[^>]*data-pid="[^"]+"[^>]*([\s\S]{100,2000}?)<\/div>/gi,
+      /<article[^>]*class="[^"]*product[^"]*"[^>]*([\s\S]{100,2000}?)<\/article>/gi,
+    ];
     
-    let matchCount = 0;
-    for (const match of matches) {
-      matchCount++;
-      const tileHtml = match[1];
+    for (let patternIndex = 0; patternIndex < patterns.length; patternIndex++) {
+      const matches = html.matchAll(patterns[patternIndex]);
+      let matchCount = 0;
       
-      const nameMatch = tileHtml.match(/class="[^"]*product-name[^"]*"[^>]*>([^<]+)</i);
-      const priceMatch = tileHtml.match(/\$([\d,]+\.?\d*)/i);
-      const imageMatch = tileHtml.match(/src="([^"]*scene7[^"]*)"/);
-      const skuMatch = tileHtml.match(/\/p\/[^\/]+\/([^\/\."\s]+)/);
-      
-      if (nameMatch && priceMatch) {
-        const name = nameMatch[1].trim();
-        const price = parseFloat(priceMatch[1].replace(/,/g, ""));
-        let imageUrl = imageMatch?.[1] || "";
+      for (const match of matches) {
+        matchCount++;
+        const tileHtml = match[0] + match[1];
         
-        if (imageUrl) {
-          imageUrl = imageUrl.split("?")[0] + "?$AFHS-PDP-Main$";
-          if (imageUrl.startsWith("//")) {
-            imageUrl = "https:" + imageUrl;
+        const nameMatch = tileHtml.match(/class="[^"]*(?:product-name|pdp-link)[^"]*"[^>]*>\s*<[^>]*>\s*([^<]+)|class="[^"]*product-name[^"]*"[^>]*>([^<]+)/i);
+        const priceMatch = tileHtml.match(/\$([\d,]+\.?\d*)/i);
+        const imageMatch = tileHtml.match(/(?:src|data-src)="([^"]*scene7[^"]*)"/i);
+        const skuMatch = tileHtml.match(/data-pid="([^"]+)"|href="[^"]*\/p\/[^\/]+\/([^\/\."\s]+)/i);
+        
+        if (nameMatch && priceMatch) {
+          const name = (nameMatch[1] || nameMatch[2] || '').trim();
+          const price = parseFloat(priceMatch[1].replace(/,/g, ""));
+          let imageUrl = imageMatch?.[1] || "";
+          
+          if (imageUrl) {
+            imageUrl = imageUrl.split("?")[0] + "?$AFHS-PDP-Main$";
+            if (imageUrl.startsWith("//")) {
+              imageUrl = "https:" + imageUrl;
+            }
+          }
+          
+          const sku = skuMatch?.[1] || skuMatch?.[2] || "";
+          
+          if (name && !isNaN(price) && price > 0) {
+            products.push({ name, price, imageUrl, sku });
+            console.log(`  Pattern ${patternIndex + 1} match ${matchCount}: ${name} - $${price}`);
           }
         }
-        
-        products.push({
-          name,
-          price,
-          imageUrl,
-          sku: skuMatch?.[1] || "",
-        });
       }
+      
+      console.log(`Pattern ${patternIndex + 1}: ${matchCount} HTML matches checked`);
+      if (products.length > 0) break;
     }
-    
-    console.log(`Checked ${matchCount} HTML tiles, found ${products.length} products`);
   }
 
+  console.log(`\n=== TOTAL: ${products.length} products parsed ===\n`);
   return products;
 }
 
@@ -154,7 +181,9 @@ Deno.serve(async (req: Request) => {
     const { pageNum, importToDb = true } = await req.json();
     const authHeader = req.headers.get("Authorization");
 
-    console.log(`=== Ashley Scraper Page ${pageNum} ===`);
+    console.log(`\n${'='.repeat(60)}`);
+    console.log(`ASHLEY SCRAPER - PAGE ${pageNum}`);
+    console.log('='.repeat(60));
 
     if (!pageNum || pageNum < 1 || pageNum > 20) {
       return new Response(
@@ -163,19 +192,19 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const startParam = pageNum === 1 ? 0 : (pageNum - 1) * 30;
-    const baseUrl = "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/";
-    const url = pageNum === 1 ? baseUrl : baseUrl + "?start=" + startParam + "&sz=30";
+    const startParam = (pageNum - 1) * 30;
+    const url = pageNum === 1 
+      ? "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/"
+      : `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${startParam}&sz=30`;
 
-    console.log(`Fetching: ${url}`);
+    console.log(`URL: ${url}`);
+    console.log(`Start param: ${startParam}\n`);
 
     const html = await fetchWithRetry(url);
-    const products = parseProducts(html);
-
-    console.log(`Parsed ${products.length} total products`);
+    const products = parseProducts(html, pageNum);
 
     if (!importToDb) {
-      console.log("Returning without import (importToDb=false)");
+      console.log("Returning products without DB import (importToDb=false)");
       return new Response(
         JSON.stringify({ 
           success: true, 
@@ -187,7 +216,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    console.log("Starting database import...");
+    console.log("\n=== STARTING DATABASE IMPORT ===");
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = authHeader?.replace("Bearer ", "") || Deno.env.get("SUPABASE_ANON_KEY")!;
@@ -203,11 +232,12 @@ Deno.serve(async (req: Request) => {
       .eq("slug", "sofas")
       .maybeSingle();
 
-    console.log(`Category ID: ${category?.id || 'null'}`);
+    console.log(`Category ID: ${category?.id || 'NOT FOUND'}\n`);
 
-    for (const product of products) {
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
       try {
-        const sku = product.sku || `ASH-SOF-P${pageNum}-${String(succeeded + failed + 1).padStart(3, "0")}`;
+        const sku = product.sku || `ASH-SOF-P${pageNum}-${String(i + 1).padStart(3, "0")}`;
 
         const { data: existing } = await supabase
           .from("products")
@@ -216,7 +246,7 @@ Deno.serve(async (req: Request) => {
           .maybeSingle();
 
         if (existing) {
-          console.log(`Skipped duplicate: ${product.name}`);
+          console.log(`${i + 1}/${products.length} SKIP (duplicate): ${product.name}`);
           failed++;
           continue;
         }
@@ -242,7 +272,7 @@ Deno.serve(async (req: Request) => {
           .single();
 
         if (productError || !newProduct) {
-          console.error(`Failed to insert ${product.name}:`, productError?.message);
+          console.error(`${i + 1}/${products.length} FAIL: ${product.name} - ${productError?.message}`);
           errors.push(`${product.name}: ${productError?.message}`);
           failed++;
           continue;
@@ -256,20 +286,22 @@ Deno.serve(async (req: Request) => {
           });
           
           if (imageError) {
-            console.log(`Image insert failed for ${product.name}:`, imageError.message);
+            console.log(`  Image error: ${imageError.message}`);
           }
         }
 
-        console.log(`Imported: ${product.name} - $${product.price}`);
+        console.log(`${i + 1}/${products.length} SUCCESS: ${product.name} - $${product.price}`);
         succeeded++;
       } catch (error: any) {
-        console.error(`Error importing product:`, error);
+        console.error(`${i + 1}/${products.length} ERROR:`, error.message);
         errors.push(error.message);
         failed++;
       }
     }
 
-    console.log(`=== Summary: Succeeded ${succeeded}, Failed ${failed} ===`);
+    console.log(`\n${'='.repeat(60)}`);
+    console.log(`SUMMARY: ${succeeded} succeeded, ${failed} failed out of ${products.length} total`);
+    console.log('='.repeat(60)+ '\n');
 
     return new Response(
       JSON.stringify({
@@ -283,7 +315,8 @@ Deno.serve(async (req: Request) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error: any) {
-    console.error("Scraper error:", error);
+    console.error("\n❌ FATAL ERROR:", error);
+    console.error("Stack:", error.stack);
     return new Response(
       JSON.stringify({ 
         success: false, 
