@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Download, CheckCircle, XCircle, Loader, ClipboardPaste, ExternalLink, Trash2, AlertTriangle, Image, Search } from 'lucide-react';
+import { Download, CheckCircle, XCircle, Loader, ClipboardPaste, ExternalLink, Trash2, AlertTriangle, Search, Clock, Zap, ListChecks, Settings } from 'lucide-react';
+
+type TabType = 'batch' | 'single' | 'gap' | 'manual' | 'settings';
 
 interface ScrapeStats {
   page: number;
@@ -8,6 +10,8 @@ interface ScrapeStats {
   total: number;
   status: 'idle' | 'scraping' | 'done' | 'error';
   errorMessage?: string;
+  startTime?: number;
+  endTime?: number;
 }
 
 interface GalleryResult {
@@ -16,9 +20,70 @@ interface GalleryResult {
   count: number;
 }
 
+interface GapAnalysis {
+  missingPages: number[];
+  incompletePages: { page: number; count: number }[];
+  totalInDb: number;
+  expectedTotal: number;
+}
+
+const PRODUCTS_PER_PAGE = 30;
+const TOTAL_PAGES = 9;
+
+function formatTime(seconds: number): string {
+  if (seconds < 60) return `${Math.round(seconds)}s`;
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.round(seconds % 60);
+  return `${mins}m ${secs}s`;
+}
+
+function EstimatedTime({ fetchFullGallery, validateImages, productCount }: { fetchFullGallery: boolean; validateImages: boolean; productCount: number }) {
+  let timePerProduct = 0.5;
+  if (fetchFullGallery) timePerProduct = 3;
+  if (validateImages) timePerProduct += 2;
+
+  const totalSeconds = productCount * timePerProduct;
+
+  return (
+    <div className="flex items-center gap-2 text-sm text-oak-600">
+      <Clock className="w-4 h-4" />
+      <span>Estimated: {formatTime(totalSeconds)}</span>
+    </div>
+  );
+}
+
+function ProgressBar({ current, total, startTime }: { current: number; total: number; startTime?: number }) {
+  const percentage = total > 0 ? Math.round((current / total) * 100) : 0;
+  const elapsed = startTime ? (Date.now() - startTime) / 1000 : 0;
+  const rate = current > 0 ? elapsed / current : 0;
+  const remaining = rate > 0 ? (total - current) * rate : 0;
+
+  return (
+    <div className="space-y-1">
+      <div className="flex justify-between text-xs text-oak-600">
+        <span>{current} / {total} products</span>
+        <span>{percentage}%</span>
+      </div>
+      <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
+        <div
+          className="h-full bg-gradient-to-r from-oak-500 to-oak-600 transition-all duration-300"
+          style={{ width: `${percentage}%` }}
+        />
+      </div>
+      {startTime && current > 0 && current < total && (
+        <div className="flex justify-between text-xs text-oak-500">
+          <span>Elapsed: {formatTime(elapsed)}</span>
+          <span>Remaining: ~{formatTime(remaining)}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function SofaScraper() {
+  const [activeTab, setActiveTab] = useState<TabType>('batch');
   const [stats, setStats] = useState<ScrapeStats[]>(
-    Array.from({ length: 9 }, (_, i) => ({
+    Array.from({ length: TOTAL_PAGES }, (_, i) => ({
       page: i + 1,
       succeeded: 0,
       failed: 0,
@@ -30,7 +95,7 @@ export default function SofaScraper() {
   const [manualStatus, setManualStatus] = useState<'idle' | 'processing' | 'done' | 'error'>('idle');
   const [manualResult, setManualResult] = useState<{ succeeded: number; failed: number; total: number } | null>(null);
   const [manualError, setManualError] = useState('');
-  const [fetchDetails, setFetchDetails] = useState(true);
+  const [fetchDetails, setFetchDetails] = useState(false);
   const [validateImages, setValidateImages] = useState(false);
   const [deleteStatus, setDeleteStatus] = useState<'idle' | 'deleting' | 'done' | 'error'>('idle');
   const [deleteResult, setDeleteResult] = useState<{ deleted: number; page?: number } | null>(null);
@@ -41,12 +106,19 @@ export default function SofaScraper() {
   const [galleryResult, setGalleryResult] = useState<GalleryResult | null>(null);
   const [galleryError, setGalleryError] = useState('');
 
+  const [gapAnalysis, setGapAnalysis] = useState<GapAnalysis | null>(null);
+  const [gapStatus, setGapStatus] = useState<'idle' | 'analyzing' | 'done' | 'error'>('idle');
+
+  const [currentProgress, setCurrentProgress] = useState({ current: 0, total: 0, startTime: 0 });
+
   const scrapePage = async (pageNum: number) => {
+    const startTime = Date.now();
     setStats((prev) =>
       prev.map((s) =>
-        s.page === pageNum ? { ...s, status: 'scraping', succeeded: 0, failed: 0 } : s
+        s.page === pageNum ? { ...s, status: 'scraping', succeeded: 0, failed: 0, startTime } : s
       )
     );
+    setCurrentProgress({ current: 0, total: PRODUCTS_PER_PAGE, startTime });
 
     try {
       const edgeFunctionUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ashley-scraper`;
@@ -70,6 +142,7 @@ export default function SofaScraper() {
         throw new Error(result.error || 'Scraping failed');
       }
 
+      const endTime = Date.now();
       setStats((prev) =>
         prev.map((s) =>
           s.page === pageNum
@@ -79,20 +152,23 @@ export default function SofaScraper() {
                 succeeded: result.succeeded || 0,
                 failed: result.failed || 0,
                 total: result.total || 0,
-                errorMessage: result.errors?.[0]
+                errorMessage: result.errors?.[0],
+                endTime
               }
             : s
         )
       );
+      setCurrentProgress({ current: 0, total: 0, startTime: 0 });
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : 'Unknown error';
       setStats((prev) =>
         prev.map((s) =>
           s.page === pageNum
-            ? { ...s, status: 'error', failed: 1, errorMessage: errorMsg }
+            ? { ...s, status: 'error', failed: 1, errorMessage: errorMsg, endTime: Date.now() }
             : s
         )
       );
+      setCurrentProgress({ current: 0, total: 0, startTime: 0 });
     }
   };
 
@@ -115,7 +191,7 @@ export default function SofaScraper() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
         },
-        body: JSON.stringify({ rawHtml: manualHtml, importToDb: true }),
+        body: JSON.stringify({ rawHtml: manualHtml, importToDb: true, fetchDetails }),
       });
 
       const result = await response.json();
@@ -246,8 +322,43 @@ export default function SofaScraper() {
     }
   };
 
+  const analyzeGaps = async () => {
+    setGapStatus('analyzing');
+    setGapAnalysis(null);
+
+    try {
+      const edgeFunctionUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ashley-scraper`;
+
+      const response = await fetch(edgeFunctionUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({ mode: 'analyze-gaps' }),
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error || 'Gap analysis failed');
+      }
+
+      setGapAnalysis({
+        missingPages: result.missingPages || [],
+        incompletePages: result.incompletePages || [],
+        totalInDb: result.totalInDb || 0,
+        expectedTotal: result.expectedTotal || TOTAL_PAGES * PRODUCTS_PER_PAGE,
+      });
+      setGapStatus('done');
+    } catch (error) {
+      setGapStatus('error');
+    }
+  };
+
   const totalSucceeded = stats.reduce((sum, s) => sum + s.succeeded, 0) + (manualResult?.succeeded || 0);
   const totalFailed = stats.reduce((sum, s) => sum + s.failed, 0) + (manualResult?.failed || 0);
+  const isAnyScraping = stats.some(s => s.status === 'scraping');
 
   const getPageUrl = (page: number) => {
     const start = (page - 1) * 30;
@@ -256,14 +367,22 @@ export default function SofaScraper() {
       : `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${start}&sz=30`;
   };
 
+  const tabs: { id: TabType; label: string; icon: typeof Download }[] = [
+    { id: 'batch', label: 'Batch Scrape', icon: Download },
+    { id: 'single', label: 'Single Product', icon: Search },
+    { id: 'gap', label: 'Gap Detection', icon: ListChecks },
+    { id: 'manual', label: 'Manual HTML', icon: ClipboardPaste },
+    { id: 'settings', label: 'Settings', icon: Settings },
+  ];
+
   return (
     <div className="p-6">
-      <div className="mb-8">
+      <div className="mb-6">
         <h1 className="text-3xl font-bold text-oak-900 mb-2">Sofa Scraper</h1>
         <p className="text-oak-600">Import sofas from Ashley Furniture</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-white rounded-lg border border-slate-200 p-4">
           <div className="text-sm text-oak-600 mb-1">Total Processed</div>
           <div className="text-2xl font-bold text-oak-900">{totalSucceeded + totalFailed}</div>
@@ -286,291 +405,503 @@ export default function SofaScraper() {
         </div>
       </div>
 
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-        <h3 className="font-semibold text-amber-800 mb-2">Manual HTML Import (Recommended)</h3>
-        <p className="text-amber-700 text-sm mb-3">
-          Ashley blocks server requests. To import products:
-        </p>
-        <ol className="text-amber-700 text-sm space-y-1 list-decimal list-inside mb-4">
-          <li>Open the Ashley sofa page in your browser</li>
-          <li>Right-click and select "View Page Source" (Ctrl+U / Cmd+Option+U)</li>
-          <li>Copy ALL the HTML (Ctrl+A, Ctrl+C)</li>
-          <li>Paste it in the box below and click "Process HTML"</li>
-        </ol>
-
-        <div className="flex flex-wrap gap-2 mb-4">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((page) => (
-            <a
-              key={page}
-              href={getPageUrl(page)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-3 py-1 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded text-sm"
-            >
-              Page {page} <ExternalLink className="w-3 h-3" />
-            </a>
-          ))}
+      <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+        <div className="border-b border-slate-200">
+          <nav className="flex">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+                    activeTab === tab.id
+                      ? 'border-oak-600 text-oak-900 bg-oak-50'
+                      : 'border-transparent text-oak-500 hover:text-oak-700 hover:bg-slate-50'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {tab.label}
+                </button>
+              );
+            })}
+          </nav>
         </div>
 
-        <textarea
-          value={manualHtml}
-          onChange={(e) => setManualHtml(e.target.value)}
-          placeholder="Paste the full HTML source here..."
-          className="w-full h-32 p-3 border border-amber-300 rounded-lg font-mono text-xs resize-y"
-        />
-
-        <div className="flex items-center gap-4 mt-3">
-          <button
-            onClick={processManualHtml}
-            disabled={manualStatus === 'processing'}
-            className="flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg disabled:opacity-50"
-          >
-            {manualStatus === 'processing' ? (
-              <Loader className="w-4 h-4 animate-spin" />
-            ) : (
-              <ClipboardPaste className="w-4 h-4" />
-            )}
-            Process HTML
-          </button>
-
-          {manualStatus === 'done' && manualResult && (
-            <div className="flex items-center gap-2 text-green-700">
-              <CheckCircle className="w-5 h-5" />
-              <span>Found {manualResult.total}, imported {manualResult.succeeded}</span>
-            </div>
-          )}
-
-          {manualStatus === 'error' && (
-            <div className="flex items-center gap-2 text-red-700">
-              <XCircle className="w-5 h-5" />
-              <span>{manualError}</span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="bg-white rounded-lg border border-slate-200 p-6">
-        <h2 className="text-xl font-semibold text-oak-900 mb-2">Automated Scrape (ScraperAPI)</h2>
-        <p className="text-oak-500 text-sm mb-2">Click a page to automatically scrape 30 products.</p>
-
-        <div className="space-y-2 mb-4">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={fetchDetails}
-              onChange={(e) => setFetchDetails(e.target.checked)}
-              className="w-4 h-4 text-oak-600 border-slate-300 rounded focus:ring-oak-500"
-            />
-            <span className="text-sm text-oak-700">
-              Fetch full gallery (all images per product) - slower but complete
-            </span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={validateImages}
-              onChange={(e) => setValidateImages(e.target.checked)}
-              className="w-4 h-4 text-oak-600 border-slate-300 rounded focus:ring-oak-500"
-            />
-            <span className="text-sm text-oak-700">
-              Validate image URLs exist (verifies each image, slower)
-            </span>
-          </label>
-        </div>
-
-        <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-3">
-          {stats.map((stat) => (
-            <button
-              key={stat.page}
-              onClick={() => scrapePage(stat.page)}
-              disabled={stat.status === 'scraping'}
-              className={`
-                relative p-4 rounded-lg border-2 transition-all duration-200
-                ${
-                  stat.status === 'idle'
-                    ? 'border-slate-300 hover:border-oak-500 hover:bg-oak-50'
-                    : stat.status === 'scraping'
-                    ? 'border-blue-400 bg-blue-50 cursor-not-allowed'
-                    : stat.status === 'done'
-                    ? 'border-green-400 bg-green-50'
-                    : 'border-red-400 bg-red-50'
-                }
-              `}
-            >
-              <div className="text-center">
-                <div className="text-sm font-semibold text-oak-900 mb-2">
-                  Page {stat.page}
+        <div className="p-6">
+          {activeTab === 'batch' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-lg font-semibold text-oak-900">Automated Page Scraping</h2>
+                  <p className="text-sm text-oak-500">Click a page to scrape ~30 products via ScraperAPI</p>
                 </div>
-                {stat.status === 'scraping' && (
-                  <Loader className="w-6 h-6 text-blue-600 animate-spin mx-auto mb-2" />
+                <EstimatedTime
+                  fetchFullGallery={fetchDetails}
+                  validateImages={validateImages}
+                  productCount={PRODUCTS_PER_PAGE}
+                />
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4 p-4 bg-slate-50 rounded-lg">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={fetchDetails}
+                    onChange={(e) => setFetchDetails(e.target.checked)}
+                    className="w-4 h-4 text-oak-600 border-slate-300 rounded focus:ring-oak-500"
+                  />
+                  <span className="text-sm text-oak-700">
+                    <strong>Fetch full gallery</strong> - all images per product (~2-5 min/page)
+                  </span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={validateImages}
+                    onChange={(e) => setValidateImages(e.target.checked)}
+                    className="w-4 h-4 text-oak-600 border-slate-300 rounded focus:ring-oak-500"
+                  />
+                  <span className="text-sm text-oak-700">
+                    <strong>Validate URLs</strong> - verify each image exists (+2 min/page)
+                  </span>
+                </label>
+              </div>
+
+              {isAnyScraping && currentProgress.total > 0 && (
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <ProgressBar
+                    current={currentProgress.current}
+                    total={currentProgress.total}
+                    startTime={currentProgress.startTime}
+                  />
+                </div>
+              )}
+
+              <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-3">
+                {stats.map((stat) => (
+                  <button
+                    key={stat.page}
+                    onClick={() => scrapePage(stat.page)}
+                    disabled={stat.status === 'scraping'}
+                    className={`
+                      relative p-4 rounded-lg border-2 transition-all duration-200
+                      ${
+                        stat.status === 'idle'
+                          ? 'border-slate-300 hover:border-oak-500 hover:bg-oak-50'
+                          : stat.status === 'scraping'
+                          ? 'border-blue-400 bg-blue-50 cursor-not-allowed'
+                          : stat.status === 'done'
+                          ? 'border-green-400 bg-green-50'
+                          : 'border-red-400 bg-red-50'
+                      }
+                    `}
+                  >
+                    <div className="text-center">
+                      <div className="text-sm font-semibold text-oak-900 mb-2">
+                        Page {stat.page}
+                      </div>
+                      {stat.status === 'scraping' && (
+                        <Loader className="w-6 h-6 text-blue-600 animate-spin mx-auto mb-2" />
+                      )}
+                      {stat.status === 'done' && (
+                        <CheckCircle className="w-6 h-6 text-green-600 mx-auto mb-2" />
+                      )}
+                      {stat.status === 'error' && (
+                        <XCircle className="w-6 h-6 text-red-600 mx-auto mb-2" />
+                      )}
+                      {stat.status === 'idle' && (
+                        <Download className="w-6 h-6 text-oak-400 mx-auto mb-2" />
+                      )}
+                      {(stat.succeeded > 0 || stat.failed > 0 || stat.total > 0) && (
+                        <div className="text-xs space-y-1">
+                          {stat.total > 0 && (
+                            <div className="text-oak-600 font-medium">Found: {stat.total}</div>
+                          )}
+                          <div className="text-green-600 font-medium">+{stat.succeeded}</div>
+                          <div className="text-red-600 font-medium">-{stat.failed}</div>
+                        </div>
+                      )}
+                      {stat.startTime && stat.endTime && (
+                        <div className="text-xs text-oak-500 mt-1">
+                          {formatTime((stat.endTime - stat.startTime) / 1000)}
+                        </div>
+                      )}
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2 p-3 bg-amber-50 rounded-lg border border-amber-200">
+                <Zap className="w-4 h-4 text-amber-600" />
+                <span className="text-sm text-amber-800">
+                  <strong>Tip:</strong> Use "Manual HTML" tab for faster, more reliable imports - bypasses bot detection.
+                </span>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'single' && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-lg font-semibold text-oak-900 mb-1">Single Product Gallery Extraction</h2>
+                <p className="text-sm text-oak-500">
+                  Extract all gallery images for a specific product by SKU. Uses Scene7 API + HTML parsing.
+                </p>
+              </div>
+
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  value={gallerySku}
+                  onChange={(e) => setGallerySku(e.target.value)}
+                  placeholder="Enter SKU (e.g., U4380887)"
+                  className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-oak-500 focus:border-oak-500"
+                  onKeyDown={(e) => e.key === 'Enter' && fetchGallery()}
+                />
+                <button
+                  onClick={fetchGallery}
+                  disabled={galleryStatus === 'fetching'}
+                  className="flex items-center gap-2 px-4 py-2 bg-oak-600 hover:bg-oak-700 text-white rounded-lg disabled:opacity-50"
+                >
+                  {galleryStatus === 'fetching' ? (
+                    <Loader className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Search className="w-4 h-4" />
+                  )}
+                  Extract Gallery
+                </button>
+              </div>
+
+              <div className="flex items-center gap-2 text-sm text-oak-600">
+                <Clock className="w-4 h-4" />
+                <span>Estimated: 2-5 seconds per product</span>
+              </div>
+
+              {galleryStatus === 'error' && (
+                <div className="flex items-center gap-2 text-red-700 p-3 bg-red-50 rounded-lg">
+                  <XCircle className="w-5 h-5" />
+                  <span>{galleryError}</span>
+                </div>
+              )}
+
+              {galleryStatus === 'done' && galleryResult && (
+                <div className="bg-slate-50 rounded-lg border border-slate-200 p-4">
+                  <div className="flex items-center gap-2 text-green-700 mb-4">
+                    <CheckCircle className="w-5 h-5" />
+                    <span className="font-medium">
+                      Found {galleryResult.count} images for {galleryResult.sku}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                    {galleryResult.images.map((img, idx) => (
+                      <a
+                        key={idx}
+                        href={img}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block aspect-square bg-white rounded overflow-hidden hover:ring-2 hover:ring-oak-500 border border-slate-200"
+                      >
+                        <img
+                          src={img.replace('wid=1200&hei=900', 'wid=200&hei=150')}
+                          alt={`Image ${idx + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'gap' && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-lg font-semibold text-oak-900 mb-1">Gap Detection</h2>
+                <p className="text-sm text-oak-500">
+                  Analyze your database to find missing products and incomplete pages.
+                </p>
+              </div>
+
+              <button
+                onClick={analyzeGaps}
+                disabled={gapStatus === 'analyzing'}
+                className="flex items-center gap-2 px-4 py-2 bg-oak-600 hover:bg-oak-700 text-white rounded-lg disabled:opacity-50"
+              >
+                {gapStatus === 'analyzing' ? (
+                  <Loader className="w-4 h-4 animate-spin" />
+                ) : (
+                  <ListChecks className="w-4 h-4" />
                 )}
-                {stat.status === 'done' && (
-                  <CheckCircle className="w-6 h-6 text-green-600 mx-auto mb-2" />
+                Analyze Gaps
+              </button>
+
+              {gapStatus === 'done' && gapAnalysis && (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                      <div className="text-sm text-oak-600 mb-1">Products in Database</div>
+                      <div className="text-2xl font-bold text-oak-900">{gapAnalysis.totalInDb}</div>
+                    </div>
+                    <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                      <div className="text-sm text-oak-600 mb-1">Expected Total</div>
+                      <div className="text-2xl font-bold text-oak-900">{gapAnalysis.expectedTotal}</div>
+                    </div>
+                  </div>
+
+                  {gapAnalysis.missingPages.length > 0 && (
+                    <div className="bg-red-50 rounded-lg p-4 border border-red-200">
+                      <h3 className="font-medium text-red-800 mb-2">Missing Pages</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {gapAnalysis.missingPages.map((page) => (
+                          <button
+                            key={page}
+                            onClick={() => {
+                              setActiveTab('batch');
+                              scrapePage(page);
+                            }}
+                            className="px-3 py-1 bg-red-100 hover:bg-red-200 text-red-800 rounded text-sm"
+                          >
+                            Scrape Page {page}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {gapAnalysis.incompletePages.length > 0 && (
+                    <div className="bg-amber-50 rounded-lg p-4 border border-amber-200">
+                      <h3 className="font-medium text-amber-800 mb-2">Incomplete Pages</h3>
+                      <div className="space-y-2">
+                        {gapAnalysis.incompletePages.map(({ page, count }) => (
+                          <div key={page} className="flex items-center justify-between">
+                            <span className="text-amber-800">
+                              Page {page}: {count}/{PRODUCTS_PER_PAGE} products
+                            </span>
+                            <button
+                              onClick={() => {
+                                setActiveTab('batch');
+                                scrapePage(page);
+                              }}
+                              className="px-3 py-1 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded text-sm"
+                            >
+                              Re-scrape
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {gapAnalysis.missingPages.length === 0 && gapAnalysis.incompletePages.length === 0 && (
+                    <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+                      <div className="flex items-center gap-2 text-green-700">
+                        <CheckCircle className="w-5 h-5" />
+                        <span className="font-medium">All pages complete! No gaps detected.</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'manual' && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-lg font-semibold text-oak-900 mb-1">Manual HTML Import</h2>
+                <p className="text-sm text-oak-500">
+                  Paste HTML source from Ashley Furniture pages to import products. This method bypasses bot detection.
+                </p>
+              </div>
+
+              <div className="bg-amber-50 rounded-lg p-4 border border-amber-200">
+                <h3 className="font-medium text-amber-800 mb-2">How to get the HTML:</h3>
+                <ol className="text-amber-700 text-sm space-y-1 list-decimal list-inside">
+                  <li>Open an Ashley sofa page in your browser</li>
+                  <li>Right-click and select "View Page Source" (Ctrl+U / Cmd+Option+U)</li>
+                  <li>Copy ALL the HTML (Ctrl+A, Ctrl+C)</li>
+                  <li>Paste it below and click "Process HTML"</li>
+                </ol>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {Array.from({ length: TOTAL_PAGES }, (_, i) => i + 1).map((page) => (
+                  <a
+                    key={page}
+                    href={getPageUrl(page)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-oak-700 rounded text-sm"
+                  >
+                    Page {page} <ExternalLink className="w-3 h-3" />
+                  </a>
+                ))}
+              </div>
+
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={fetchDetails}
+                    onChange={(e) => setFetchDetails(e.target.checked)}
+                    className="w-4 h-4 text-oak-600 border-slate-300 rounded focus:ring-oak-500"
+                  />
+                  <span className="text-sm text-oak-700">
+                    <strong>Fetch full gallery</strong> after parsing HTML
+                  </span>
+                </label>
+              </div>
+
+              <textarea
+                value={manualHtml}
+                onChange={(e) => setManualHtml(e.target.value)}
+                placeholder="Paste the full HTML source here..."
+                className="w-full h-40 p-3 border border-slate-300 rounded-lg font-mono text-xs resize-y focus:ring-2 focus:ring-oak-500 focus:border-oak-500"
+              />
+
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={processManualHtml}
+                  disabled={manualStatus === 'processing'}
+                  className="flex items-center gap-2 px-4 py-2 bg-oak-600 hover:bg-oak-700 text-white rounded-lg disabled:opacity-50"
+                >
+                  {manualStatus === 'processing' ? (
+                    <Loader className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <ClipboardPaste className="w-4 h-4" />
+                  )}
+                  Process HTML
+                </button>
+
+                {manualStatus === 'done' && manualResult && (
+                  <div className="flex items-center gap-2 text-green-700">
+                    <CheckCircle className="w-5 h-5" />
+                    <span>Found {manualResult.total}, imported {manualResult.succeeded}</span>
+                  </div>
                 )}
-                {stat.status === 'error' && (
-                  <XCircle className="w-6 h-6 text-red-600 mx-auto mb-2" />
-                )}
-                {stat.status === 'idle' && (
-                  <Download className="w-6 h-6 text-oak-400 mx-auto mb-2" />
-                )}
-                {(stat.succeeded > 0 || stat.failed > 0 || stat.total > 0) && (
-                  <div className="text-xs space-y-1">
-                    {stat.total > 0 && (
-                      <div className="text-oak-600 font-medium">Found: {stat.total}</div>
-                    )}
-                    <div className="text-green-600 font-medium">+{stat.succeeded}</div>
-                    <div className="text-red-600 font-medium">-{stat.failed}</div>
+
+                {manualStatus === 'error' && (
+                  <div className="flex items-center gap-2 text-red-700">
+                    <XCircle className="w-5 h-5" />
+                    <span>{manualError}</span>
                   </div>
                 )}
               </div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-blue-50 rounded-lg border border-blue-200 p-6 mt-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Image className="w-5 h-5 text-blue-600" />
-          <h2 className="text-xl font-semibold text-blue-800">Single Product Gallery Extraction</h2>
-        </div>
-        <p className="text-blue-700 text-sm mb-4">
-          Extract all gallery images for a specific product by SKU. Uses Scene7 API + HTML parsing + suffix generation.
-        </p>
-
-        <div className="flex gap-3 mb-4">
-          <input
-            type="text"
-            value={gallerySku}
-            onChange={(e) => setGallerySku(e.target.value)}
-            placeholder="Enter SKU (e.g., U4380887)"
-            className="flex-1 px-4 py-2 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          />
-          <button
-            onClick={fetchGallery}
-            disabled={galleryStatus === 'fetching'}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-50"
-          >
-            {galleryStatus === 'fetching' ? (
-              <Loader className="w-4 h-4 animate-spin" />
-            ) : (
-              <Search className="w-4 h-4" />
-            )}
-            Extract Gallery
-          </button>
-        </div>
-
-        {galleryStatus === 'error' && (
-          <div className="flex items-center gap-2 text-red-700 mb-4">
-            <XCircle className="w-5 h-5" />
-            <span>{galleryError}</span>
-          </div>
-        )}
-
-        {galleryStatus === 'done' && galleryResult && (
-          <div className="bg-white rounded-lg border border-blue-200 p-4">
-            <div className="flex items-center gap-2 text-green-700 mb-3">
-              <CheckCircle className="w-5 h-5" />
-              <span className="font-medium">
-                Found {galleryResult.count} images for {galleryResult.sku}
-              </span>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
-              {galleryResult.images.map((img, idx) => (
-                <a
-                  key={idx}
-                  href={img}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block aspect-square bg-slate-100 rounded overflow-hidden hover:ring-2 hover:ring-blue-500"
-                >
-                  <img
-                    src={img.replace('wid=1200&hei=900', 'wid=200&hei=150')}
-                    alt={`Image ${idx + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+          )}
 
-      <div className="bg-red-50 rounded-lg border-2 border-red-200 p-6 mt-6">
-        <div className="flex items-center gap-2 mb-4">
-          <AlertTriangle className="w-5 h-5 text-red-600" />
-          <h2 className="text-xl font-semibold text-red-800">Danger Zone - Delete Sofas</h2>
-        </div>
+          {activeTab === 'settings' && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-lg font-semibold text-oak-900 mb-1">Scraper Settings</h2>
+                <p className="text-sm text-oak-500">Configure scraping behavior and manage data.</p>
+              </div>
 
-        {deleteStatus === 'done' && deleteResult && (
-          <div className="bg-white border border-red-200 rounded-lg p-3 mb-4">
-            <div className="flex items-center gap-2 text-red-700">
-              <CheckCircle className="w-5 h-5" />
-              <span>
-                Deleted {deleteResult.deleted} sofas
-                {deleteResult.page ? ` from page ${deleteResult.page}` : ' (all)'}
-              </span>
-            </div>
-          </div>
-        )}
+              <div className="space-y-4">
+                <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                  <h3 className="font-medium text-oak-900 mb-3">Default Options</h3>
+                  <div className="space-y-3">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={fetchDetails}
+                        onChange={(e) => setFetchDetails(e.target.checked)}
+                        className="w-4 h-4 text-oak-600 border-slate-300 rounded focus:ring-oak-500"
+                      />
+                      <div>
+                        <span className="text-sm font-medium text-oak-900">Fetch full gallery</span>
+                        <p className="text-xs text-oak-500">Extract all images per product (slower, ~3s/product)</p>
+                      </div>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={validateImages}
+                        onChange={(e) => setValidateImages(e.target.checked)}
+                        className="w-4 h-4 text-oak-600 border-slate-300 rounded focus:ring-oak-500"
+                      />
+                      <div>
+                        <span className="text-sm font-medium text-oak-900">Validate image URLs</span>
+                        <p className="text-xs text-oak-500">Verify each image URL returns 200 OK (+2s/product)</p>
+                      </div>
+                    </label>
+                  </div>
+                </div>
 
-        {deleteStatus === 'error' && (
-          <div className="bg-white border border-red-200 rounded-lg p-3 mb-4">
-            <div className="flex items-center gap-2 text-red-700">
-              <XCircle className="w-5 h-5" />
-              <span>Delete operation failed</span>
-            </div>
-          </div>
-        )}
+                <div className="p-4 bg-red-50 rounded-lg border border-red-200">
+                  <div className="flex items-center gap-2 mb-3">
+                    <AlertTriangle className="w-5 h-5 text-red-600" />
+                    <h3 className="font-medium text-red-800">Danger Zone</h3>
+                  </div>
 
-        <div className="space-y-4">
-          <div>
-            <p className="text-red-700 text-sm mb-3">Delete sofas by page (fetches page to identify SKUs):</p>
-            <div className="flex flex-wrap gap-2">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((page) => (
-                <button
-                  key={page}
-                  onClick={() => deletePageSofas(page)}
-                  disabled={deleteStatus === 'deleting'}
-                  className="flex items-center gap-1 px-3 py-2 bg-red-100 hover:bg-red-200 text-red-800 rounded-lg text-sm disabled:opacity-50 transition-colors"
-                >
-                  {deleteStatus === 'deleting' ? (
-                    <Loader className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Trash2 className="w-4 h-4" />
+                  {deleteStatus === 'done' && deleteResult && (
+                    <div className="bg-white border border-red-200 rounded-lg p-3 mb-4">
+                      <div className="flex items-center gap-2 text-red-700">
+                        <CheckCircle className="w-5 h-5" />
+                        <span>
+                          Deleted {deleteResult.deleted} sofas
+                          {deleteResult.page ? ` from page ${deleteResult.page}` : ' (all)'}
+                        </span>
+                      </div>
+                    </div>
                   )}
-                  Page {page}
-                </button>
-              ))}
-            </div>
-          </div>
 
-          <div className="border-t border-red-200 pt-4">
-            <p className="text-red-700 text-sm mb-3">Delete ALL sofas from the database:</p>
-            <button
-              onClick={deleteAllSofas}
-              disabled={deleteStatus === 'deleting'}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 ${
-                confirmDeleteAll
-                  ? 'bg-red-600 hover:bg-red-700 text-white'
-                  : 'bg-red-100 hover:bg-red-200 text-red-800'
-              }`}
-            >
-              {deleteStatus === 'deleting' ? (
-                <Loader className="w-4 h-4 animate-spin" />
-              ) : (
-                <Trash2 className="w-4 h-4" />
-              )}
-              {confirmDeleteAll ? 'Click again to confirm DELETE ALL' : 'Delete All Sofas'}
-            </button>
-            {confirmDeleteAll && (
-              <button
-                onClick={() => setConfirmDeleteAll(false)}
-                className="ml-3 px-3 py-2 text-sm text-red-700 hover:text-red-900"
-              >
-                Cancel
-              </button>
-            )}
-          </div>
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-red-700 text-sm mb-2">Delete sofas by page:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {Array.from({ length: TOTAL_PAGES }, (_, i) => i + 1).map((page) => (
+                          <button
+                            key={page}
+                            onClick={() => deletePageSofas(page)}
+                            disabled={deleteStatus === 'deleting'}
+                            className="flex items-center gap-1 px-3 py-1 bg-red-100 hover:bg-red-200 text-red-800 rounded text-sm disabled:opacity-50"
+                          >
+                            {deleteStatus === 'deleting' ? (
+                              <Loader className="w-3 h-3 animate-spin" />
+                            ) : (
+                              <Trash2 className="w-3 h-3" />
+                            )}
+                            Page {page}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="border-t border-red-200 pt-4">
+                      <p className="text-red-700 text-sm mb-2">Delete ALL sofas:</p>
+                      <button
+                        onClick={deleteAllSofas}
+                        disabled={deleteStatus === 'deleting'}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 ${
+                          confirmDeleteAll
+                            ? 'bg-red-600 hover:bg-red-700 text-white'
+                            : 'bg-red-100 hover:bg-red-200 text-red-800'
+                        }`}
+                      >
+                        {deleteStatus === 'deleting' ? (
+                          <Loader className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Trash2 className="w-4 h-4" />
+                        )}
+                        {confirmDeleteAll ? 'Click again to confirm' : 'Delete All Sofas'}
+                      </button>
+                      {confirmDeleteAll && (
+                        <button
+                          onClick={() => setConfirmDeleteAll(false)}
+                          className="ml-3 text-sm text-red-700 hover:text-red-900"
+                        >
+                          Cancel
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
