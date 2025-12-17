@@ -189,10 +189,8 @@ async function importProductToDb(product: Product, supabase: any): Promise<boole
         price: product.price,
         category_id: category.id,
         stock_quantity: 50,
-        is_active: true,
-        dimensions: product.dimensions || null,
-        material: product.material || null,
-        source_url: product.url,
+        status: 'active',
+        materials: product.material || null,
       })
       .select()
       .single();
