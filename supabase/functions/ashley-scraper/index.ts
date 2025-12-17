@@ -234,17 +234,15 @@ Deno.serve(async (req: Request) => {
   try {
     const body = await req.json();
     const { pageNum, mode = "fast", productUrl, sku, importToDb = true, fetchDetails = false, deleteAll = false } = body;
-    const authHeader = req.headers.get("Authorization");
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseKey = authHeader?.replace("Bearer ", "") || Deno.env.get("SUPABASE_ANON_KEY")!;
 
     if (mode === "delete") {
       console.log(`\n${"=".repeat(60)}`);
       console.log(`ASHLEY SCRAPER - DELETE MODE`);
       console.log("=".repeat(60));
 
-      const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-      const supabase = createClient(supabaseUrl, serviceRoleKey);
+      const svcKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      const supabase = createClient(supabaseUrl, svcKey);
 
       const { data: sofaCategory } = await supabase
         .from("categories")
@@ -369,7 +367,8 @@ Deno.serve(async (req: Request) => {
       const images = await scrapeProductDetailPage(productUrl, sku);
 
       if (importToDb && images.length > 0) {
-        const supabase = createClient(supabaseUrl, supabaseKey);
+        const svcKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+        const supabase = createClient(supabaseUrl, svcKey);
 
         const { data: product } = await supabase
           .from("products")
@@ -451,7 +450,8 @@ Deno.serve(async (req: Request) => {
 
     console.log("\n=== IMPORTING TO DATABASE ===");
 
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const svcKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, svcKey);
 
     const { data: category } = await supabase
       .from("categories")
@@ -473,10 +473,14 @@ Deno.serve(async (req: Request) => {
 
         if (fetchDetails) {
           console.log(`\n${i + 1}/${detailedProducts.length} Fetching detail page for ${product.name}...`);
-          const detailImages = await scrapeProductDetailPage(product.url, product.sku);
-          if (detailImages.length > 0) {
-            imagesToUse = detailImages;
-            console.log(`  Found ${detailImages.length} gallery images`);
+          try {
+            const detailImages = await scrapeProductDetailPage(product.url, product.sku);
+            if (detailImages.length > 0) {
+              imagesToUse = detailImages;
+              console.log(`  Found ${detailImages.length} gallery images`);
+            }
+          } catch (detailError: any) {
+            console.error(`  Detail fetch failed: ${detailError.message}, using listing images`);
           }
         }
 
