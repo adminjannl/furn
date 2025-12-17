@@ -12,6 +12,7 @@ interface ScrapeStats {
   errorMessage?: string;
   startTime?: number;
   endTime?: number;
+  products?: Array<{ name: string; sku: string; price: number }>;
 }
 
 interface GalleryResult {
@@ -203,7 +204,8 @@ export default function SofaScraper() {
                 failed: result.failed || 0,
                 total: result.total || 0,
                 errorMessage: result.errors?.[0],
-                endTime
+                endTime,
+                products: result.products || []
               }
             : s
         )
@@ -549,6 +551,34 @@ export default function SofaScraper() {
                   </button>
                 ))}
               </div>
+
+              {stats.filter(s => s.status === 'done' && s.products && s.products.length > 0).map((stat) => (
+                <div key={`products-${stat.page}`} className="bg-slate-50 rounded-lg border border-slate-200 p-4">
+                  <h3 className="font-semibold text-oak-900 mb-3">
+                    Page {stat.page} Products ({stat.products?.length || 0})
+                  </h3>
+                  <div className="max-h-64 overflow-y-auto">
+                    <div className="grid gap-2">
+                      {stat.products?.map((product, idx) => (
+                        <div
+                          key={`${stat.page}-${product.sku}`}
+                          className="flex items-center justify-between p-2 bg-white rounded border border-slate-200 hover:border-oak-300 transition-colors"
+                        >
+                          <div className="flex-1 min-w-0">
+                            <div className="font-medium text-oak-900 text-sm truncate">
+                              {product.name}
+                            </div>
+                            <div className="text-xs text-oak-500 font-mono">SKU: {product.sku}</div>
+                          </div>
+                          <div className="text-sm font-semibold text-oak-700 ml-3">
+                            ${product.price.toFixed(2)}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
 
               <div className="flex items-center gap-2 p-3 bg-amber-50 rounded-lg border border-amber-200">
                 <Zap className="w-4 h-4 text-amber-600" />

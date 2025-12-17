@@ -101,68 +101,48 @@ function sortAndDedupeImages(images: string[], imageBase: string): string[] {
 
 function parseListingPage(html: string): DetailedProduct[] {
   const products: DetailedProduct[] = [];
-  const seenSkus = new Set<string>();
-  console.log('HTML length: ' + html.length);
-  const patterns = [
-    /<a[^>]*class="name-link"[^>]*href="([^"]+)"[^>]*title="Go to Product:\s*([^"]+)"[^>]*>/gi,
-    /<a[^>]*href="([^"]+)"[^>]*class="name-link"[^>]*title="Go to Product:\s*([^"]+)"[^>]*>/gi,
-    /<a[^>]*title="Go to Product:\s*([^"]+)"[^>]*href="([^"]+)"[^>]*class="name-link"[^>]*>/gi,
-  ];
-  for (let patternIdx = 0; patternIdx < patterns.length; patternIdx++) {
-    const pattern = patterns[patternIdx];
-    let match;
-    while ((match = pattern.exec(html)) !== null) {
-      let url: string, name: string;
-      if (patternIdx === 2) {
-        name = match[1].trim();
-        url = match[2];
-      } else {
-        url = match[1];
-        name = match[2].trim();
+  const jsonMatch = html.match(/gtmPageData\s*=\s*(\{[^}]+"ecommerce"[\s\S]+?\});/);
+  if (!jsonMatch) return [];
+  try {
+    const jsonData = JSON.parse(jsonMatch[1]);
+    if (jsonData.ecommerce && jsonData.ecommerce.impressions && Array.isArray(jsonData.ecommerce.impressions)) {
+      for (const item of jsonData.ecommerce.impressions) {
+        if (item.id && item.name) {
+          const priceNum = parseFloat(String(item.price || 0).replace(/[^0-9.]/g, '')) || 0;
+          products.push({
+            name: item.name.trim(),
+            sku: item.id.trim(),
+            url: item.url || '',
+            price: priceNum,
+            description: generateDescription(item.name),
+            images: [],
+          });
+        }
       }
-      const skuMatch = url.match(/\/([A-Z0-9]+)\.html$/i);
-      if (!skuMatch) continue;
-      const sku = skuMatch[1].toUpperCase();
-      if (seenSkus.has(sku)) continue;
-      seenSkus.add(sku);
-      const fullUrl = url.startsWith('http') ? url : 'https://www.ashleyfurniture.com' + url;
-      const imageBase = skuToImageBase(sku);
-      const defaultImage = buildImageUrl(imageBase);
-      products.push({ name, sku, price: 999, url: fullUrl, description: generateDescription(name), images: [defaultImage] });
-      console.log('[' + products.length + '] ' + sku);
     }
-  }
-  console.log('TOTAL: ' + products.length);
+  } catch {}
   return products;
 }
 
-async function fetchViaScraperApi(targetUrl: string, retries = 3): Promise<string> {
-  for (let attempt = 1; attempt <= retries; attempt++) {
+async function fetchViaScraperApi(url: string, maxRetries = 3, retryDelay = 3000): Promise<string> {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      const scraperUrl = 'http://api.scraperapi.com?api_key=' + SCRAPER_API_KEY + '&url=' + encodeURIComponent(targetUrl) + '&render=true&country_code=us';
-      console.log('Attempt ' + attempt + '/' + retries);
+      const scraperUrl = 'https://api.scraperapi.com/?api_key=' + SCRAPER_API_KEY + '&url=' + encodeURIComponent(url) + '&render=false';
       const response = await fetch(scraperUrl, { headers: { "Accept": "text/html" } });
-      console.log('Status: ' + response.status);
-      if (response.ok) {
-        const html = await response.text();
-        console.log('Got ' + html.length + ' chars');
-        return html;
-      }
-      const errorText = await response.text();
-      console.error('Error: ' + errorText.substring(0, 200));
-      if (response.status === 500 && attempt < retries) {
-        console.log('Retrying in 3 seconds...');
-        await new Promise(resolve => setTimeout(resolve, 3000));
+      if (response.status === 500 && attempt < maxRetries) {
+        console.log('ScraperAPI 500 error, retrying in ' + (retryDelay / 1000) + 's... (attempt ' + attempt + '/' + maxRetries + ')');
+        await new Promise(resolve => setTimeout(resolve, retryDelay));
         continue;
       }
-      throw new Error('ScraperAPI failed: ' + response.status);
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return await response.text();
     } catch (error: any) {
-      if (attempt === retries) throw error;
-      console.log('Retry ' + attempt + ' failed: ' + error.message);
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      if (attempt === maxRetries) throw error;
+      console.log('Fetch error, retrying... (attempt ' + attempt + '/' + maxRetries + ')');
+      await new Promise(resolve => setTimeout(resolve, retryDelay));
     }
   }
-  throw new Error('All retries failed');
+  throw new Error('All retry attempts failed');
 }
 
 Deno.serve(async (req: Request) => {
@@ -170,13 +150,12 @@ Deno.serve(async (req: Request) => {
     return new Response(null, { status: 200, headers: corsHeaders });
   }
   try {
-    const body = await req.json();
-    const { pageNum, importToDb = true } = body;
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const svcKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    console.log('PAGE ' + pageNum);
+    const body = await req.json();
+    const { pageNum, importToDb } = body;
     if (!pageNum || pageNum < 1 || pageNum > 20) {
-      return new Response(JSON.stringify({ error: "pageNum 1-20 required" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ success: false, error: "Invalid pageNum" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
     const startParam = (pageNum - 1) * 30;
     const listingUrl = pageNum === 1 ? "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/" : 'https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=' + startParam + '&sz=30';
@@ -231,7 +210,8 @@ Deno.serve(async (req: Request) => {
       }
     }
     console.log('SUMMARY: ' + succeeded + ' new, ' + updated + ' updated, ' + failed + ' failed');
-    return new Response(JSON.stringify({ success: true, total: products.length, succeeded, updated, failed }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    const productList = products.map(p => ({ name: p.name, sku: p.sku, price: p.price }));
+    return new Response(JSON.stringify({ success: true, total: products.length, succeeded, updated, failed, products: productList }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (error: any) {
     console.error('FATAL:', error);
     return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
