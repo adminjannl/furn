@@ -233,7 +233,7 @@ Deno.serve(async (req: Request) => {
 
   try {
     const body = await req.json();
-    const { pageNum, mode = "fast", productUrl, sku, importToDb = true } = body;
+    const { pageNum, mode = "fast", productUrl, sku, importToDb = true, fetchDetails = false } = body;
     const authHeader = req.headers.get("Authorization");
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 
@@ -285,7 +285,7 @@ Deno.serve(async (req: Request) => {
     }
 
     console.log(`\n${"=".repeat(60)}`);
-    console.log(`ASHLEY SCRAPER - PAGE ${pageNum} (Fast Mode)`);
+    console.log(`ASHLEY SCRAPER - PAGE ${pageNum} (${fetchDetails ? 'Full Gallery' : 'Fast'} Mode)`);
     console.log("=".repeat(60));
 
     if (!pageNum || pageNum < 1 || pageNum > 20) {
@@ -311,7 +311,10 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    console.log(`\nParsed ${detailedProducts.length} products with images and descriptions`);
+    console.log(`\nParsed ${detailedProducts.length} products`);
+    if (fetchDetails) {
+      console.log("\nSTEP 2: Fetching detail pages for full gallery images...");
+    }
 
     if (!importToDb) {
       return new Response(
@@ -324,7 +327,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    console.log("\n=== STEP 2: IMPORTING TO DATABASE ===");
+    console.log("\n=== IMPORTING TO DATABASE ===");
 
     const supabaseKey = authHeader?.replace("Bearer ", "") || Deno.env.get("SUPABASE_ANON_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
@@ -345,6 +348,17 @@ Deno.serve(async (req: Request) => {
     for (let i = 0; i < detailedProducts.length; i++) {
       const product = detailedProducts[i];
       try {
+        let imagesToUse = product.images;
+
+        if (fetchDetails) {
+          console.log(`\n${i + 1}/${detailedProducts.length} Fetching detail page for ${product.name}...`);
+          const detailImages = await scrapeProductDetailPage(product.url, product.sku);
+          if (detailImages.length > 0) {
+            imagesToUse = detailImages;
+            console.log(`  Found ${detailImages.length} gallery images`);
+          }
+        }
+
         const { data: existing } = await supabase
           .from("products")
           .select("id")
@@ -367,15 +381,15 @@ Deno.serve(async (req: Request) => {
             .delete()
             .eq("product_id", existing.id);
 
-          for (let imgIdx = 0; imgIdx < product.images.length; imgIdx++) {
+          for (let imgIdx = 0; imgIdx < imagesToUse.length; imgIdx++) {
             await supabase.from("product_images").insert({
               product_id: existing.id,
-              image_url: product.images[imgIdx],
+              image_url: imagesToUse[imgIdx],
               display_order: imgIdx,
             });
           }
 
-          console.log(`  Updated with ${product.images.length} images`);
+          console.log(`  Updated with ${imagesToUse.length} images`);
           updated++;
         } else {
           const slug = product.name
@@ -405,15 +419,15 @@ Deno.serve(async (req: Request) => {
             continue;
           }
 
-          for (let imgIdx = 0; imgIdx < product.images.length; imgIdx++) {
+          for (let imgIdx = 0; imgIdx < imagesToUse.length; imgIdx++) {
             await supabase.from("product_images").insert({
               product_id: newProduct.id,
-              image_url: product.images[imgIdx],
+              image_url: imagesToUse[imgIdx],
               display_order: imgIdx,
             });
           }
 
-          console.log(`${i + 1}/${detailedProducts.length} CREATED: ${product.name} with ${product.images.length} images`);
+          console.log(`${i + 1}/${detailedProducts.length} CREATED: ${product.name} with ${imagesToUse.length} images`);
           succeeded++;
         }
       } catch (error: any) {

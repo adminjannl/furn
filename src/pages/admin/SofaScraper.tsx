@@ -24,6 +24,7 @@ export default function SofaScraper() {
   const [manualStatus, setManualStatus] = useState<'idle' | 'processing' | 'done' | 'error'>('idle');
   const [manualResult, setManualResult] = useState<{ succeeded: number; failed: number; total: number } | null>(null);
   const [manualError, setManualError] = useState('');
+  const [fetchDetails, setFetchDetails] = useState(true);
 
   const scrapePage = async (pageNum: number) => {
     setStats((prev) =>
@@ -41,7 +42,7 @@ export default function SofaScraper() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
         },
-        body: JSON.stringify({ pageNum, importToDb: true }),
+        body: JSON.stringify({ pageNum, importToDb: true, fetchDetails }),
       });
 
       if (!response.ok) {
@@ -226,7 +227,20 @@ export default function SofaScraper() {
 
       <div className="bg-white rounded-lg border border-slate-200 p-6">
         <h2 className="text-xl font-semibold text-oak-900 mb-2">Automated Scrape (ScraperAPI)</h2>
-        <p className="text-oak-500 text-sm mb-4">Click a page to automatically scrape 30 products. Takes ~15-30 seconds per page.</p>
+        <p className="text-oak-500 text-sm mb-2">Click a page to automatically scrape 30 products.</p>
+
+        <label className="flex items-center gap-2 mb-4 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={fetchDetails}
+            onChange={(e) => setFetchDetails(e.target.checked)}
+            className="w-4 h-4 text-oak-600 border-slate-300 rounded focus:ring-oak-500"
+          />
+          <span className="text-sm text-oak-700">
+            Fetch full gallery (all images per product) - slower but complete
+          </span>
+        </label>
+
         <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-3">
           {stats.map((stat) => (
             <button
