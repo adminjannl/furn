@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, FolderOpen, ShoppingBag, ArrowLeft, Image, Star, Award, Bell, Download, Images, Upload } from 'lucide-react';
+import { LayoutDashboard, Package, FolderOpen, ShoppingBag, ArrowLeft, Image, Star, Award, Bell, Download, Images, Upload, Home } from 'lucide-react';
 
 export default function AdminLayout() {
   const location = useLocation();
@@ -160,10 +160,10 @@ export default function AdminLayout() {
           <div className="mt-8 pt-8 border-t border-slate-700">
             <Link
               to="/"
-              className="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 rounded-lg transition-colors"
+              className="flex items-center gap-3 px-4 py-3 bg-slate-800 text-white hover:bg-slate-700 rounded-lg transition-colors font-medium"
             >
-              <ArrowLeft className="w-5 h-5" />
-              Back to Store
+              <Home className="w-5 h-5" />
+              Home
             </Link>
           </div>
         </aside>
