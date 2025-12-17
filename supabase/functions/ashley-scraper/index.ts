@@ -107,22 +107,10 @@ async function fetchScene7ImageSetFast(imageBase: string, timeoutMs = GALLERY_TI
   return images;
 }
 
-function generateCommonSuffixImages(imageBase: string): string[] {
-  const images: string[] = [];
-  const commonSuffixes = [
-    '',
-    '-HEAD-ON-SW-P1-KO',
-    '-QUILL-SW-P1-KO',
-    '-QUILL-QUILL-SW-P1-KO',
-    '-ANGLE-SW-P1-KO',
-    '-BACK-SW-P1-KO',
-  ];
-
-  for (const suffix of commonSuffixes) {
-    images.push(buildImageUrl(imageBase + suffix));
-  }
-
-  return images;
+function generateFallbackImages(sku: string): string[] {
+  const imageBase = skuToImageBase(sku);
+  const suffixes = ['', '-HEAD-ON-SW-P1-KO', '-QUILL-SW-P1-KO', '-ANGLE-SW-P1-KO', '-BACK-SW-P1-KO'];
+  return suffixes.map(suffix => buildImageUrl(imageBase + suffix));
 }
 
 function sortAndDedupeImages(images: string[], imageBase: string): string[] {
@@ -155,110 +143,6 @@ function sortAndDedupeImages(images: string[], imageBase: string): string[] {
   });
 
   return unique;
-}
-
-function generateFallbackImages(sku: string): string[] {
-  const imageBase = skuToImageBase(sku);
-  const suffixes = ['', '-HEAD-ON-SW-P1-KO', '-QUILL-SW-P1-KO', '-ANGLE-SW-P1-KO', '-BACK-SW-P1-KO'];
-  return suffixes.map(suffix => buildImageUrl(imageBase + suffix));
-}
-
-async function fetchProductGalleryFromScene7(sku: string): Promise<string[]> {
-  const imageBase = skuToImageBase(sku);
-  const images = await fetchScene7ImageSetFast(imageBase, SCENE7_TIMEOUT_MS);
-
-  if (images.length > 0) {
-    return sortAndDedupeImages(images, imageBase).slice(0, 12);
-  }
-
-  return generateFallbackImages(sku);
-}
-
-async function fetchAllProductGalleries(products: DetailedProduct[]): Promise<Map<string, string[]>> {
-  console.log('\n=== FETCHING GALLERIES FOR ' + products.length + ' PRODUCTS IN PARALLEL ===');
-  const startTime = Date.now();
-
-  const results = await Promise.all(
-    products.map(async (product) => {
-      try {
-        const images = await fetchProductGalleryFromScene7(product.sku);
-        console.log('  ' + product.sku + ': ' + images.length + ' images');
-        return { sku: product.sku, images };
-      } catch (error) {
-        console.log('  ' + product.sku + ': FAILED, using fallback');
-        return { sku: product.sku, images: generateFallbackImages(product.sku) };
-      }
-    })
-  );
-
-  const galleryMap = new Map<string, string[]>();
-  for (const result of results) {
-    galleryMap.set(result.sku, result.images);
-  }
-
-  console.log('=== GALLERIES FETCHED IN ' + (Date.now() - startTime) + 'ms ===\n');
-  return galleryMap;
-}
-
-async function scrapeFullGalleryWithFetch(productUrl: string, sku: string): Promise<string[]> {
-  console.log('\n========================================');
-  console.log('FULL GALLERY SCRAPE FOR: ' + sku);
-  console.log('========================================');
-
-  const imageBase = skuToImageBase(sku);
-  let allImages: string[] = [];
-
-  const scene7Images = await fetchScene7ImageSetFast(imageBase, GALLERY_TIMEOUT_MS);
-  allImages.push(...scene7Images);
-  console.log('  Scene7 API found ' + scene7Images.length + ' images');
-
-  if (scene7Images.length < 3) {
-    console.log('  Scene7 returned few images, fetching detail page...');
-
-    try {
-      const scraperUrl = 'http://api.scraperapi.com?api_key=' + SCRAPER_API_KEY + '&url=' + encodeURIComponent(productUrl) + '&render=true&country_code=us&device_type=desktop';
-
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000);
-
-      const response = await fetch(scraperUrl, {
-        headers: {
-          "Accept": "text/html,application/xhtml+xml",
-          "Accept-Language": "en-US,en;q=0.9",
-        },
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-
-      if (response.ok) {
-        const html = await response.text();
-        console.log('  Fetched ' + html.length + ' chars of HTML');
-
-        const htmlImages = extractImagesFromHtml(html, imageBase);
-        allImages.push(...htmlImages);
-      }
-    } catch (error: any) {
-      console.log('  Detail page fetch failed: ' + error.message);
-    }
-  }
-
-  if (allImages.length < 3) {
-    console.log('  Generating suffix variants...');
-    const suffixImages = generateCommonSuffixImages(imageBase);
-    allImages.push(...suffixImages);
-  }
-
-  allImages = sortAndDedupeImages(allImages, imageBase);
-
-  if (allImages.length === 0) {
-    allImages.push(buildImageUrl(imageBase));
-  }
-
-  const finalImages = allImages.slice(0, 12);
-  console.log('  FINAL: ' + finalImages.length + ' images');
-
-  return finalImages;
 }
 
 function extractImagesFromHtml(html: string, imageBase: string): string[] {
@@ -461,7 +345,6 @@ Deno.serve(async (req: Request) => {
       productUrl,
       sku,
       importToDb = true,
-      fetchDetails = false,
       deleteAll = false,
     } = body;
 
@@ -609,8 +492,37 @@ Deno.serve(async (req: Request) => {
     if (mode === "gallery" && sku) {
       console.log('\n============ GALLERY EXTRACTION MODE ============');
 
-      const url = productUrl || 'https://www.ashleyfurniture.com/p/product/' + sku + '.html';
-      const images = await scrapeFullGalleryWithFetch(url, sku);
+      const imageBase = skuToImageBase(sku);
+      let images: string[] = [];
+
+      const scene7Images = await fetchScene7ImageSetFast(imageBase, SCENE7_TIMEOUT_MS);
+      if (scene7Images.length > 0) {
+        images = scene7Images;
+        console.log('Scene7: ' + images.length + ' images');
+      }
+
+      if (images.length < 3) {
+        const url = productUrl || 'https://www.ashleyfurniture.com/p/product/' + sku + '.html';
+        try {
+          const scraperUrl = 'http://api.scraperapi.com?api_key=' + SCRAPER_API_KEY + '&url=' + encodeURIComponent(url) + '&render=true&country_code=us&device_type=desktop';
+          const resp = await fetch(scraperUrl, {
+            headers: { "Accept": "text/html", "Accept-Language": "en-US,en;q=0.9" },
+          });
+          if (resp.ok) {
+            const html = await resp.text();
+            const htmlImages = extractImagesFromHtml(html, imageBase);
+            images.push(...htmlImages);
+          }
+        } catch (e: any) {
+          console.log('Page fetch failed: ' + e.message);
+        }
+      }
+
+      if (images.length === 0) {
+        images = generateFallbackImages(sku);
+      }
+
+      images = sortAndDedupeImages(images, imageBase).slice(0, 12);
 
       if (importToDb && images.length > 0) {
         const supabase = createClient(supabaseUrl, svcKey);
@@ -623,15 +535,13 @@ Deno.serve(async (req: Request) => {
         if (product) {
           await supabase.from("product_images").delete().eq("product_id", product.id);
 
-          const insertPromises = images.map((imageUrl, idx) =>
-            supabase.from("product_images").insert({
+          for (let idx = 0; idx < images.length; idx++) {
+            await supabase.from("product_images").insert({
               product_id: product.id,
-              image_url: imageUrl,
+              image_url: images[idx],
               display_order: idx,
-            })
-          );
-
-          await Promise.all(insertPromises);
+            });
+          }
           console.log('\nUpdated ' + sku + ' with ' + images.length + ' gallery images');
         } else {
           console.log('\nProduct ' + sku + ' not found in database');
@@ -683,11 +593,6 @@ Deno.serve(async (req: Request) => {
         .eq("slug", "sofas")
         .maybeSingle();
 
-      let galleryMap: Map<string, string[]> | null = null;
-      if (fetchDetails) {
-        galleryMap = await fetchAllProductGalleries(products);
-      }
-
       let succeeded = 0;
       let failed = 0;
 
@@ -695,7 +600,19 @@ Deno.serve(async (req: Request) => {
         const product = products[i];
 
         try {
-          const imagesToUse = galleryMap?.get(product.sku) || product.images;
+          const imageBase = skuToImageBase(product.sku);
+          let images: string[] = [];
+
+          const scene7Images = await fetchScene7ImageSetFast(imageBase, 5000);
+          if (scene7Images.length > 0) {
+            images = scene7Images;
+          }
+
+          if (images.length === 0) {
+            images = generateFallbackImages(product.sku);
+          }
+
+          images = sortAndDedupeImages(images, imageBase).slice(0, 12);
 
           const { data: existing } = await supabase
             .from("products")
@@ -711,15 +628,15 @@ Deno.serve(async (req: Request) => {
 
             await supabase.from("product_images").delete().eq("product_id", existing.id);
 
-            for (let idx = 0; idx < imagesToUse.length; idx++) {
+            for (let idx = 0; idx < images.length; idx++) {
               await supabase.from("product_images").insert({
                 product_id: existing.id,
-                image_url: imagesToUse[idx],
+                image_url: images[idx],
                 display_order: idx,
               });
             }
 
-            console.log('[' + (i + 1) + '] UPDATED: ' + product.name + ' (' + imagesToUse.length + ' images)');
+            console.log('[' + (i + 1) + '] UPDATED: ' + product.name + ' (' + images.length + ' images)');
             succeeded++;
           } else {
             const slug = product.name
@@ -748,15 +665,15 @@ Deno.serve(async (req: Request) => {
               continue;
             }
 
-            for (let idx = 0; idx < imagesToUse.length; idx++) {
+            for (let idx = 0; idx < images.length; idx++) {
               await supabase.from("product_images").insert({
                 product_id: newProduct.id,
-                image_url: imagesToUse[idx],
+                image_url: images[idx],
                 display_order: idx,
               });
             }
 
-            console.log('[' + (i + 1) + '] CREATED: ' + product.name + ' (' + imagesToUse.length + ' images)');
+            console.log('[' + (i + 1) + '] CREATED: ' + product.name + ' (' + images.length + ' images)');
             succeeded++;
           }
         } catch (error: any) {
@@ -778,7 +695,7 @@ Deno.serve(async (req: Request) => {
 
     console.log('\n============================================');
     console.log('ASHLEY SCRAPER - PAGE ' + pageNum);
-    console.log('Mode: ' + (fetchDetails ? 'With Gallery (Scene7)' : 'Basic'));
+    console.log('Mode: Full page scrape with all images');
     console.log('============================================');
 
     if (!pageNum || pageNum < 1 || pageNum > 20) {
@@ -816,7 +733,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    console.log('\n=== IMPORTING TO DATABASE ===');
+    console.log('\n=== SCRAPING ALL PRODUCT IMAGES ===');
     const supabase = createClient(supabaseUrl, svcKey);
 
     const { data: category } = await supabase
@@ -827,11 +744,6 @@ Deno.serve(async (req: Request) => {
 
     console.log('Sofas category ID: ' + (category?.id || 'NOT FOUND'));
 
-    let galleryMap: Map<string, string[]> | null = null;
-    if (fetchDetails) {
-      galleryMap = await fetchAllProductGalleries(products);
-    }
-
     let succeeded = 0;
     let updated = 0;
     let failed = 0;
@@ -839,9 +751,43 @@ Deno.serve(async (req: Request) => {
 
     for (let i = 0; i < products.length; i++) {
       const product = products[i];
+      console.log('\n[' + (i + 1) + '/' + products.length + '] Processing: ' + product.sku);
 
       try {
-        const imagesToUse = galleryMap?.get(product.sku) || product.images;
+        const imageBase = skuToImageBase(product.sku);
+        let images: string[] = [];
+
+        const scene7Images = await fetchScene7ImageSetFast(imageBase, 5000);
+        if (scene7Images.length > 0) {
+          images = scene7Images;
+          console.log('  Scene7: ' + images.length + ' images');
+        }
+
+        if (images.length < 3) {
+          console.log('  Fetching product page for more images...');
+          try {
+            const scraperUrl = 'http://api.scraperapi.com?api_key=' + SCRAPER_API_KEY + '&url=' + encodeURIComponent(product.url) + '&render=true&country_code=us&device_type=desktop';
+            const resp = await fetch(scraperUrl, {
+              headers: { "Accept": "text/html", "Accept-Language": "en-US,en;q=0.9" },
+            });
+            if (resp.ok) {
+              const html = await resp.text();
+              const htmlImages = extractImagesFromHtml(html, imageBase);
+              images.push(...htmlImages);
+              console.log('  HTML: +' + htmlImages.length + ' images');
+            }
+          } catch (e: any) {
+            console.log('  Page fetch failed: ' + e.message);
+          }
+        }
+
+        if (images.length === 0) {
+          images = generateFallbackImages(product.sku);
+          console.log('  Using fallback images');
+        }
+
+        images = sortAndDedupeImages(images, imageBase).slice(0, 12);
+        console.log('  Final: ' + images.length + ' images');
 
         const { data: existing } = await supabase
           .from("products")
@@ -857,15 +803,15 @@ Deno.serve(async (req: Request) => {
 
           await supabase.from("product_images").delete().eq("product_id", existing.id);
 
-          for (let idx = 0; idx < imagesToUse.length; idx++) {
+          for (let idx = 0; idx < images.length; idx++) {
             await supabase.from("product_images").insert({
               product_id: existing.id,
-              image_url: imagesToUse[idx],
+              image_url: images[idx],
               display_order: idx,
             });
           }
 
-          console.log('[' + (i + 1) + '] UPDATED: ' + product.name + ' (' + imagesToUse.length + ' images)');
+          console.log('  UPDATED: ' + product.name);
           updated++;
         } else {
           const slug = product.name
@@ -889,25 +835,25 @@ Deno.serve(async (req: Request) => {
             .single();
 
           if (insertError || !newProduct) {
-            console.error('[' + (i + 1) + '] FAILED: ' + insertError?.message);
+            console.error('  FAILED: ' + insertError?.message);
             errors.push(product.sku + ': ' + insertError?.message);
             failed++;
             continue;
           }
 
-          for (let idx = 0; idx < imagesToUse.length; idx++) {
+          for (let idx = 0; idx < images.length; idx++) {
             await supabase.from("product_images").insert({
               product_id: newProduct.id,
-              image_url: imagesToUse[idx],
+              image_url: images[idx],
               display_order: idx,
             });
           }
 
-          console.log('[' + (i + 1) + '] CREATED: ' + product.name + ' (' + imagesToUse.length + ' images)');
+          console.log('  CREATED: ' + product.name);
           succeeded++;
         }
       } catch (error: any) {
-        console.error('[' + (i + 1) + '] ERROR: ' + error.message);
+        console.error('  ERROR: ' + error.message);
         errors.push(product.sku + ': ' + error.message);
         failed++;
       }

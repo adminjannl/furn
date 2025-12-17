@@ -179,7 +179,7 @@ export default function SofaScraper() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
         },
-        body: JSON.stringify({ pageNum, importToDb: true, fetchDetails, validateImages }),
+        body: JSON.stringify({ pageNum, importToDb: true }),
       });
 
       if (!response.ok) {
@@ -482,50 +482,17 @@ export default function SofaScraper() {
         <div className="p-6">
           {activeTab === 'batch' && (
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-lg font-semibold text-oak-900">Automated Page Scraping</h2>
-                  <p className="text-sm text-oak-500">Click a page to scrape ~30 products via ScraperAPI</p>
-                </div>
-                <EstimatedTime
-                  fetchFullGallery={fetchDetails}
-                  validateImages={validateImages}
-                  productCount={PRODUCTS_PER_PAGE}
-                />
+              <div>
+                <h2 className="text-lg font-semibold text-oak-900">Automated Page Scraping</h2>
+                <p className="text-sm text-oak-500">Click a page to scrape ~30 products with all gallery images</p>
               </div>
 
-              <div className="flex flex-wrap items-center gap-4 p-4 bg-slate-50 rounded-lg">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={fetchDetails}
-                    onChange={(e) => setFetchDetails(e.target.checked)}
-                    className="w-4 h-4 text-oak-600 border-slate-300 rounded focus:ring-oak-500"
-                  />
-                  <span className="text-sm text-oak-700">
-                    <strong>Fetch full gallery</strong> - all images per product (~2-5 min/page)
-                  </span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={validateImages}
-                    onChange={(e) => setValidateImages(e.target.checked)}
-                    className="w-4 h-4 text-oak-600 border-slate-300 rounded focus:ring-oak-500"
-                  />
-                  <span className="text-sm text-oak-700">
-                    <strong>Validate URLs</strong> - verify each image exists (+2 min/page)
-                  </span>
-                </label>
-              </div>
-
-              {isAnyScraping && currentProgress.total > 0 && (
+              {isAnyScraping && (
                 <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <ProgressBar
-                    current={currentProgress.current}
-                    total={currentProgress.total}
-                    startTime={currentProgress.startTime}
-                  />
+                  <div className="flex items-center gap-2 text-blue-700">
+                    <Loader className="w-4 h-4 animate-spin" />
+                    <span>Scraping in progress... This may take 2-5 minutes per page.</span>
+                  </div>
                 </div>
               )}
 
