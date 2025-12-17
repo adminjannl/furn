@@ -27,104 +27,37 @@ export default function SofaScraper() {
     );
 
     try {
-      const startParam = pageNum === 1 ? 0 : (pageNum - 1) * 30;
-      const targetUrl = pageNum === 1
-        ? 'https://www.ashleyfurniture.com/c/furniture/living-room/sofas/'
-        : `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${startParam}&sz=30`;
+      const edgeFunctionUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ashley-scraper`;
 
-      window.open(targetUrl, '_blank');
+      console.log(`🚀 Scraping Ashley page ${pageNum}...`);
 
-      alert(`Step 1: A new tab opened with Ashley Furniture page ${pageNum}.\n\nStep 2: Once the page loads, open DevTools (F12) and go to Console.\n\nStep 3: Paste this code and press Enter:\n\n(() => { const products = []; document.querySelectorAll('.product-tile, .product, [data-pid]').forEach(tile => { const nameEl = tile.querySelector('.product-name, .pdp-link a, [class*="product-name"]'); const priceEl = tile.querySelector('.price, .sales, [class*="price"]'); const imageEl = tile.querySelector('img[src*="scene7"], img[data-src*="scene7"]'); const linkEl = tile.querySelector('a[href*="/p/"]'); if (nameEl && priceEl) { const name = nameEl.textContent?.trim() || ''; const priceText = priceEl.textContent?.trim() || ''; const price = parseFloat(priceText.replace(/[^\\d.]/g, '')); let imageUrl = imageEl?.getAttribute('src') || imageEl?.getAttribute('data-src') || ''; if (imageUrl) { imageUrl = imageUrl.split('?')[0] + '?$AFHS-PDP-Main$'; if (imageUrl.startsWith('//')) imageUrl = 'https:' + imageUrl; } const productUrl = linkEl?.getAttribute('href') || ''; const sku = productUrl.match(/\\/p\\/[^\\/]+\\/([^\\/\\.]+)/)?.[1] || ''; if (name && !isNaN(price) && price > 0) { products.push({ name, price, imageUrl, sku }); } } }); console.log('Found products:', products.length); copy(JSON.stringify(products, null, 2)); console.log('✓ Copied to clipboard!'); })();\n\nStep 4: Come back here and paste the data.`);
+      const response = await fetch(edgeFunctionUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          pageNum,
+          importToDb: true,
+        }),
+      });
 
-      const productDataStr = prompt('Paste the product JSON data:');
-
-      if (!productDataStr) {
-        throw new Error('No data provided');
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Edge function error:', errorText);
+        throw new Error(`Failed to scrape: ${response.status} ${errorText}`);
       }
 
-      const productCards = JSON.parse(productDataStr);
+      const result = await response.json();
 
-      console.log(`Found ${productCards.length} products`);
+      console.log('Scrape result:', result);
 
-      let succeeded = 0;
-      let failed = 0;
-
-      const { data: category } = await supabase
-        .from('categories')
-        .select('id')
-        .eq('slug', 'sofas')
-        .maybeSingle();
-
-      for (const card of productCards) {
-        try {
-          const { name, price, imageUrl, sku: productSku } = card;
-
-          if (!name || !price) {
-            failed++;
-            continue;
-          }
-
-          const sku = productSku || `ASH-SOF-P${pageNum}-${String(succeeded + failed + 1).padStart(3, '0')}`;
-
-          const { data: existingProduct } = await supabase
-            .from('products')
-            .select('id')
-            .eq('sku', sku)
-            .maybeSingle();
-
-          if (existingProduct) {
-            console.log(`Skipped existing: ${name}`);
-            failed++;
-            continue;
-          }
-
-          const slug = name
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/^-|-$/g, '');
-
-          const { data: product, error: productError } = await supabase
-            .from('products')
-            .insert({
-              name,
-              slug: `${slug}-${sku.toLowerCase()}`,
-              sku,
-              price,
-              description: name,
-              category_id: category?.id || null,
-              stock_quantity: 10,
-              status: 'active',
-            })
-            .select()
-            .single();
-
-          if (productError || !product) {
-            console.log(`Failed: ${name}`, productError);
-            failed++;
-            continue;
-          }
-
-          if (imageUrl) {
-            await supabase.from('product_images').insert({
-              product_id: product.id,
-              image_url: imageUrl,
-              display_order: 0,
-            });
-          }
-
-          console.log(`✓ Imported: ${name}`);
-          succeeded++;
-
-          setStats((prev) =>
-            prev.map((s) =>
-              s.page === pageNum ? { ...s, succeeded, failed } : s
-            )
-          );
-        } catch (error) {
-          console.error('Import error:', error);
-          failed++;
-        }
+      if (!result.success) {
+        throw new Error(result.error || 'Scraping failed');
       }
+
+      const { succeeded, failed } = result;
 
       setStats((prev) =>
         prev.map((s) =>
@@ -133,12 +66,14 @@ export default function SofaScraper() {
             : s
         )
       );
+
+      console.log(`✅ Page ${pageNum}: ${succeeded} succeeded, ${failed} failed`);
     } catch (error) {
       console.error('Error scraping page:', error);
       setStats((prev) =>
         prev.map((s) =>
           s.page === pageNum
-            ? { ...s, status: 'error', failed: s.failed + 1 }
+            ? { ...s, status: 'error', failed: 1 }
             : s
         )
       );
