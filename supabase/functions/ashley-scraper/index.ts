@@ -7,176 +7,195 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
-const userAgents = [
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0",
-];
-
-function getRandomUserAgent() {
-  return userAgents[Math.floor(Math.random() * userAgents.length)];
+interface Product {
+  name: string;
+  price: number;
+  imageUrl: string;
+  sku: string;
+  url: string;
 }
 
-async function fetchWithRetry(url: string, maxRetries = 3): Promise<string> {
-  for (let i = 0; i < maxRetries; i++) {
-    try {
-      const delay = i * 2000 + Math.random() * 1000;
-      if (i > 0) {
-        console.log(`Retry ${i} after ${Math.round(delay)}ms delay...`);
-        await new Promise(resolve => setTimeout(resolve, delay));
-      }
+async function fetchAshleyProducts(pageNum: number): Promise<{ products: Product[]; rawHtml?: string }> {
+  const startParam = (pageNum - 1) * 30;
 
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "User-Agent": getRandomUserAgent(),
-          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-          "Accept-Language": "en-US,en;q=0.5",
-          "Accept-Encoding": "gzip, deflate, br",
-          "DNT": "1",
-          "Connection": "keep-alive",
-          "Upgrade-Insecure-Requests": "1",
-          "Sec-Fetch-Dest": "document",
-          "Sec-Fetch-Mode": "navigate",
-          "Sec-Fetch-Site": "none",
-          "Cache-Control": "max-age=0",
-        },
-        redirect: "follow",
-      });
+  const ajaxUrl = `https://www.ashleyfurniture.com/on/demandware.store/Sites-quill-Site/default/Search-UpdateGrid?cgid=furniture-living-room-sofas&start=${startParam}&sz=30&selectedUrl=https%3A%2F%2Fwww.ashleyfurniture.com%2Fc%2Ffurniture%2Fliving-room%2Fsofas%2F`;
 
-      console.log(`Fetch attempt ${i + 1}: Status ${response.status}`);
+  console.log(`Trying AJAX endpoint: ${ajaxUrl}`);
 
-      if (response.ok) {
-        const html = await response.text();
-        console.log(`HTML length: ${html.length} chars`);
-
-        const hasProductTile = html.includes('product-tile') || html.includes('data-pid');
-        const hasScene7 = html.includes('scene7');
-        const hasDiscota = html.includes('Discota');
-        const hasNameLink = html.includes('name-link');
-        console.log(`Content check: productTile=${hasProductTile}, scene7=${hasScene7}, discota=${hasDiscota}, nameLink=${hasNameLink}`);
-
-        if (html.length > 1000 && (hasProductTile || hasNameLink || hasDiscota)) {
-          return html;
-        }
-
-        if (html.length > 5000) {
-          console.log('HTML length > 5000, accepting...');
-          return html;
-        }
-
-        console.log('HTML too short or no product markers. First 500 chars:', html.substring(0, 500));
-      }
-    } catch (error) {
-      console.error(`Attempt ${i + 1} error:`, error);
-    }
-  }
-  throw new Error("Failed to fetch page after retries");
-}
-
-function parseProducts(html: string, pageNum: number): Array<any> {
-  const products: Array<any> = [];
-
-  console.log("\n=== PARSING PRODUCTS ===");
-  console.log(`HTML length: ${html.length} characters`);
-
-  const htmlSnippet = html.substring(0, 1000);
-  console.log(`HTML starts with: ${htmlSnippet}`);
-
-  const hasJsonLd = html.includes('application/ld+json');
-  const hasProductTile = html.includes('product-tile');
-  const hasDataPid = html.includes('data-pid');
-  const hasScene7 = html.includes('scene7');
-  
-  console.log(`Content markers: jsonLd=${hasJsonLd}, productTile=${hasProductTile}, dataPid=${hasDataPid}, scene7=${hasScene7}`);
+  const ajaxHeaders = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Accept": "text/html, */*; q=0.01",
+    "Accept-Language": "en-US,en;q=0.9",
+    "X-Requested-With": "XMLHttpRequest",
+    "Referer": "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/",
+    "Sec-Fetch-Dest": "empty",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Site": "same-origin",
+  };
 
   try {
-    const jsonLdMatches = html.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi);
-    
-    let matchCount = 0;
-    for (const match of jsonLdMatches) {
-      matchCount++;
-      try {
-        const jsonText = match[1].trim();
-        const data = JSON.parse(jsonText);
-        
-        if (data["@type"] === "Product" || (Array.isArray(data) && data.some((d: any) => d["@type"] === "Product"))) {
-          const productList = Array.isArray(data) ? data : [data];
-          
-          for (const product of productList) {
-            if (product["@type"] === "Product") {
-              const price = parseFloat(product.offers?.price || product.offers?.[0]?.price || 0);
-              const imageUrl = product.image?.[0] || product.image || "";
-              
-              if (product.name && price > 0) {
-                products.push({
-                  name: product.name,
-                  price,
-                  imageUrl,
-                  sku: product.sku || "",
-                });
-                console.log(`  Parsed from JSON-LD: ${product.name} - $${price}`);
-              }
-            }
-          }
-        }
-      } catch (e) {
-        console.log(`Failed to parse JSON-LD block ${matchCount}:`, e);
+    const response = await fetch(ajaxUrl, {
+      method: "GET",
+      headers: ajaxHeaders,
+      redirect: "follow",
+    });
+
+    console.log(`AJAX Response status: ${response.status}`);
+    const html = await response.text();
+    console.log(`AJAX HTML length: ${html.length}`);
+
+    if (html.length > 500) {
+      console.log(`First 300 chars: ${html.substring(0, 300)}`);
+      const products = parseProductsFromHtml(html);
+      if (products.length > 0) {
+        return { products, rawHtml: html };
       }
     }
-    
-    console.log(`Found ${matchCount} JSON-LD blocks, extracted ${products.length} products`);
-  } catch (e) {
-    console.error("Error in JSON-LD parsing:", e);
+  } catch (e: any) {
+    console.log(`AJAX approach failed: ${e.message}`);
   }
 
-  if (products.length === 0) {
-    console.log("\nNo JSON-LD products, trying HTML regex parsing...");
-    
-    const patterns = [
-      /<div[^>]*class="[^"]*product-tile[^"]*"[^>]*([\s\S]{100,2000}?)<\/div>/gi,
-      /<div[^>]*data-pid="[^"]+"[^>]*([\s\S]{100,2000}?)<\/div>/gi,
-      /<article[^>]*class="[^"]*product[^"]*"[^>]*([\s\S]{100,2000}?)<\/article>/gi,
-    ];
-    
-    for (let patternIndex = 0; patternIndex < patterns.length; patternIndex++) {
-      const matches = html.matchAll(patterns[patternIndex]);
-      let matchCount = 0;
-      
-      for (const match of matches) {
-        matchCount++;
-        const tileHtml = match[0] + match[1];
-        
-        const nameMatch = tileHtml.match(/class="[^"]*(?:product-name|pdp-link)[^"]*"[^>]*>\s*<[^>]*>\s*([^<]+)|class="[^"]*product-name[^"]*"[^>]*>([^<]+)/i);
-        const priceMatch = tileHtml.match(/\$([\d,]+\.?\d*)/i);
-        const imageMatch = tileHtml.match(/(?:src|data-src)="([^"]*scene7[^"]*)"/i);
-        const skuMatch = tileHtml.match(/data-pid="([^"]+)"|href="[^"]*\/p\/[^\/]+\/([^\/\."\s]+)/i);
-        
-        if (nameMatch && priceMatch) {
-          const name = (nameMatch[1] || nameMatch[2] || '').trim();
-          const price = parseFloat(priceMatch[1].replace(/,/g, ""));
-          let imageUrl = imageMatch?.[1] || "";
-          
-          if (imageUrl) {
-            imageUrl = imageUrl.split("?")[0] + "?$AFHS-PDP-Main$";
-            if (imageUrl.startsWith("//")) {
-              imageUrl = "https:" + imageUrl;
-            }
+  const regularUrl = pageNum === 1
+    ? "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/"
+    : `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${startParam}&sz=30`;
+
+  console.log(`Trying regular URL: ${regularUrl}`);
+
+  const regularHeaders = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Cache-Control": "no-cache",
+    "Pragma": "no-cache",
+    "Upgrade-Insecure-Requests": "1",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+  };
+
+  const response = await fetch(regularUrl, {
+    method: "GET",
+    headers: regularHeaders,
+    redirect: "follow",
+  });
+
+  console.log(`Regular Response status: ${response.status}`);
+  const html = await response.text();
+  console.log(`Regular HTML length: ${html.length}`);
+  console.log(`First 500 chars: ${html.substring(0, 500)}`);
+
+  const products = parseProductsFromHtml(html);
+  return { products, rawHtml: html };
+}
+
+function parseProductsFromHtml(html: string): Product[] {
+  const products: Product[] = [];
+  const seenSkus = new Set<string>();
+
+  console.log("\n=== PARSING HTML ===");
+
+  const nameLinksPattern = /<a[^>]*class="[^"]*name-link[^"]*"[^>]*href="([^"]*)"[^>]*title="[^"]*:\s*([^"]*)"[^>]*>/gi;
+  let match;
+
+  while ((match = nameLinksPattern.exec(html)) !== null) {
+    const url = match[1];
+    const name = match[2].trim();
+
+    const skuMatch = url.match(/\/(\d+)\.html/);
+    const sku = skuMatch ? skuMatch[1] : "";
+
+    if (sku && !seenSkus.has(sku)) {
+      seenSkus.add(sku);
+      console.log(`Found name-link: ${name} (SKU: ${sku})`);
+    }
+  }
+
+  const tilePattern = /<div[^>]*class="[^"]*product-tile[^"]*"[^>]*data-pid="([^"]*)"[^>]*>([\s\S]*?)(?=<div[^>]*class="[^"]*product-tile[^"]*"|$)/gi;
+
+  while ((match = tilePattern.exec(html)) !== null) {
+    const sku = match[1];
+    const tileContent = match[2];
+
+    if (seenSkus.has(sku)) continue;
+
+    const nameMatch = tileContent.match(/title="Go to Product:\s*([^"]+)"|class="[^"]*pdp-link[^"]*"[^>]*>([^<]+)</i);
+    const priceMatch = tileContent.match(/\$\s*([\d,]+(?:\.\d{2})?)/);
+    const imageMatch = tileContent.match(/(?:src|data-src)="([^"]*(?:scene7|ashleyfurniture)[^"]*\.(?:jpg|png|webp)[^"]*)"/i);
+
+    const name = (nameMatch?.[1] || nameMatch?.[2] || "").trim();
+    const priceStr = priceMatch?.[1]?.replace(/,/g, "") || "0";
+    const price = parseFloat(priceStr);
+    let imageUrl = imageMatch?.[1] || "";
+
+    if (imageUrl.startsWith("//")) {
+      imageUrl = "https:" + imageUrl;
+    }
+    if (imageUrl && !imageUrl.includes("?")) {
+      imageUrl += "?$AFHS-PDP-Main$";
+    }
+
+    if (name && sku && price > 0) {
+      seenSkus.add(sku);
+      products.push({
+        name,
+        price,
+        imageUrl,
+        sku,
+        url: `https://www.ashleyfurniture.com/p/${name.toLowerCase().replace(/[^a-z0-9]+/g, "_")}/${sku}.html`,
+      });
+      console.log(`Parsed product: ${name} - $${price} (${sku})`);
+    }
+  }
+
+  const jsonLdPattern = /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+
+  while ((match = jsonLdPattern.exec(html)) !== null) {
+    try {
+      const jsonText = match[1].trim();
+      const data = JSON.parse(jsonText);
+
+      const items = data["@graph"] || (Array.isArray(data) ? data : [data]);
+
+      for (const item of items) {
+        if (item["@type"] === "Product") {
+          const sku = item.sku || item.productID || "";
+          if (seenSkus.has(sku)) continue;
+
+          const price = parseFloat(item.offers?.price || item.offers?.[0]?.price || 0);
+          let imageUrl = Array.isArray(item.image) ? item.image[0] : item.image || "";
+
+          if (imageUrl.startsWith("//")) {
+            imageUrl = "https:" + imageUrl;
           }
-          
-          const sku = skuMatch?.[1] || skuMatch?.[2] || "";
-          
-          if (name && !isNaN(price) && price > 0) {
-            products.push({ name, price, imageUrl, sku });
-            console.log(`  Pattern ${patternIndex + 1} match ${matchCount}: ${name} - $${price}`);
+
+          if (item.name && price > 0 && sku) {
+            seenSkus.add(sku);
+            products.push({
+              name: item.name,
+              price,
+              imageUrl,
+              sku,
+              url: item.url || "",
+            });
+            console.log(`JSON-LD product: ${item.name} - $${price}`);
           }
         }
       }
-      
-      console.log(`Pattern ${patternIndex + 1}: ${matchCount} HTML matches checked`);
-      if (products.length > 0) break;
+    } catch (e) {
+      console.log("JSON-LD parse error:", e);
     }
   }
+
+  const pidPattern = /data-pid="(\d+)"/g;
+  const pids: string[] = [];
+  while ((match = pidPattern.exec(html)) !== null) {
+    if (!seenSkus.has(match[1])) {
+      pids.push(match[1]);
+    }
+  }
+  console.log(`Found ${pids.length} additional data-pids: ${pids.slice(0, 5).join(", ")}...`);
 
   console.log(`\n=== TOTAL: ${products.length} products parsed ===\n`);
   return products;
@@ -188,12 +207,12 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    const { pageNum, importToDb = true } = await req.json();
+    const { pageNum, importToDb = true, debug = false } = await req.json();
     const authHeader = req.headers.get("Authorization");
 
-    console.log(`\n${'='.repeat(60)}`);
+    console.log(`\n${"=".repeat(60)}`);
     console.log(`ASHLEY SCRAPER - PAGE ${pageNum}`);
-    console.log('='.repeat(60));
+    console.log("=".repeat(60));
 
     if (!pageNum || pageNum < 1 || pageNum > 20) {
       return new Response(
@@ -202,23 +221,27 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const startParam = (pageNum - 1) * 30;
-    const url = pageNum === 1 
-      ? "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/"
-      : `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${startParam}&sz=30`;
+    const { products, rawHtml } = await fetchAshleyProducts(pageNum);
 
-    console.log(`URL: ${url}`);
-    console.log(`Start param: ${startParam}\n`);
-
-    const html = await fetchWithRetry(url);
-    const products = parseProducts(html, pageNum);
+    if (debug) {
+      return new Response(
+        JSON.stringify({
+          success: true,
+          pageNum,
+          productsFound: products.length,
+          products: products.slice(0, 5),
+          htmlLength: rawHtml?.length || 0,
+          htmlPreview: rawHtml?.substring(0, 2000) || "",
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
 
     if (!importToDb) {
-      console.log("Returning products without DB import (importToDb=false)");
       return new Response(
-        JSON.stringify({ 
-          success: true, 
-          products, 
+        JSON.stringify({
+          success: true,
+          products,
           count: products.length,
           pageNum,
         }),
@@ -242,7 +265,7 @@ Deno.serve(async (req: Request) => {
       .eq("slug", "sofas")
       .maybeSingle();
 
-    console.log(`Category ID: ${category?.id || 'NOT FOUND'}\n`);
+    console.log(`Category ID: ${category?.id || "NOT FOUND"}\n`);
 
     for (let i = 0; i < products.length; i++) {
       const product = products[i];
@@ -289,15 +312,11 @@ Deno.serve(async (req: Request) => {
         }
 
         if (product.imageUrl) {
-          const { error: imageError } = await supabase.from("product_images").insert({
+          await supabase.from("product_images").insert({
             product_id: newProduct.id,
             image_url: product.imageUrl,
             display_order: 0,
           });
-          
-          if (imageError) {
-            console.log(`  Image error: ${imageError.message}`);
-          }
         }
 
         console.log(`${i + 1}/${products.length} SUCCESS: ${product.name} - $${product.price}`);
@@ -309,9 +328,9 @@ Deno.serve(async (req: Request) => {
       }
     }
 
-    console.log(`\n${'='.repeat(60)}`);
+    console.log(`\n${"=".repeat(60)}`);
     console.log(`SUMMARY: ${succeeded} succeeded, ${failed} failed out of ${products.length} total`);
-    console.log('='.repeat(60)+ '\n');
+    console.log("=".repeat(60) + "\n");
 
     return new Response(
       JSON.stringify({
@@ -325,11 +344,11 @@ Deno.serve(async (req: Request) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error: any) {
-    console.error("\n❌ FATAL ERROR:", error);
+    console.error("\nFATAL ERROR:", error);
     console.error("Stack:", error.stack);
     return new Response(
-      JSON.stringify({ 
-        success: false, 
+      JSON.stringify({
+        success: false,
         error: error.message,
         stack: error.stack,
       }),
