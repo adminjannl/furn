@@ -55,12 +55,14 @@ function extractProductImages(html: string, sku: string, _supabaseUrl: string): 
 
   const srcsetPattern = /srcset="([^"]+)"/gi;
   let srcsetMatch;
+
   while ((srcsetMatch = srcsetPattern.exec(html)) !== null) {
     const srcset = srcsetMatch[1];
-    const urlMatch = srcset.match(/https:\/\/ashleyfurniture\.scene7\.com\/is\/image\/AshleyFurniture\/([^\s?]+)/);
-    if (urlMatch) {
+    const urlMatches = srcset.matchAll(/https:\/\/ashleyfurniture\.scene7\.com\/is\/image\/AshleyFurniture\/([^\s?]+)/g);
+
+    for (const urlMatch of urlMatches) {
       const imageId = urlMatch[1];
-      if (!imageIds.has(imageId)) {
+      if (!imageIds.has(imageId) && !imageId.includes('$')) {
         imageIds.add(imageId);
         const directUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageId}?fit=fit&wid=1200&hei=900`;
         images.push(directUrl);
@@ -70,6 +72,7 @@ function extractProductImages(html: string, sku: string, _supabaseUrl: string): 
 
   const imgSrcPattern = /src="(https:\/\/ashleyfurniture\.scene7\.com\/is\/image\/AshleyFurniture\/([^"?\s]+))/gi;
   let imgMatch;
+
   while ((imgMatch = imgSrcPattern.exec(html)) !== null) {
     const imageId = imgMatch[2];
     if (imageId && !imageIds.has(imageId) && !imageId.includes('$')) {
@@ -94,54 +97,54 @@ function parseListingPage(html: string, supabaseUrl: string): DetailedProduct[] 
   console.log("\n=== PARSING LISTING PAGE ===");
   console.log(`HTML length: ${html.length}`);
 
-  const nameLinkPattern = /<a[^>]*class="[^"]*name-link[^"]*"[^>]*href="([^"]*)"[^>]*title="[^"]*?:\s*([^"]*)"[^>]*>/gi;
+  const nameLinkPattern = /<a\s+class="name-link"\s+href="([^"]+)"\s+title="Go to Product:\s*([^"]+)"/gi;
   let match;
 
   while ((match = nameLinkPattern.exec(html)) !== null) {
     const url = match[1];
     const name = match[2].trim();
-    const skuMatch = url.match(/\/(\d+)\.html/);
-    const sku = skuMatch ? skuMatch[1] : "";
 
-    if (sku && !seenSkus.has(sku)) {
-      seenSkus.add(sku);
+    const skuMatch = url.match(/\/([A-Z0-9]+)\.html/i);
+    if (!skuMatch) continue;
 
-      const tileRegex = new RegExp(
-        `data-pid="${sku}"[^>]*>([\\s\\S]*?)(?=data-pid="|$)`,
-        "i"
-      );
-      const tileMatch = html.match(tileRegex);
-      const tileContent = tileMatch ? tileMatch[1] : "";
+    const sku = skuMatch[1];
 
-      const pricePatterns = [
-        /class="[^"]*sales[^"]*"[^>]*>\s*<span[^>]*>\s*\$\s*([\d,]+(?:\.\d{2})?)/i,
-        /\$\s*([\d,]+(?:\.\d{2})?)/,
-      ];
+    if (seenSkus.has(sku)) continue;
+    seenSkus.add(sku);
 
-      let price = 0;
-      for (const pattern of pricePatterns) {
-        const priceMatch = tileContent.match(pattern);
-        if (priceMatch) {
-          price = parseFloat(priceMatch[1].replace(/,/g, ""));
-          if (price > 0) break;
-        }
+    const fullUrl = url.startsWith("http") ? url : `https://www.ashleyfurniture.com${url}`;
+
+    const tilePattern = new RegExp(`data-pid="${sku}"[^>]*>([\\s\\S]{0,3000}?)(?=data-pid="|<div[^>]*class="[^"]*product)`, "i");
+    const tileMatch = html.match(tilePattern);
+    const tileContent = tileMatch ? tileMatch[1] : "";
+
+    let price = 0;
+    const pricePatterns = [
+      /class="[^"]*sales[^"]*"[^>]*>\s*<span[^>]*>\s*\$\s*([\d,]+(?:\.\d{2})?)/i,
+      /\$\s*([\d,]+(?:\.\d{2})?)/,
+    ];
+
+    for (const pattern of pricePatterns) {
+      const priceMatch = tileContent.match(pattern);
+      if (priceMatch) {
+        price = parseFloat(priceMatch[1].replace(/,/g, ""));
+        if (price > 0) break;
       }
-
-      const fullUrl = url.startsWith("http") ? url : `https://www.ashleyfurniture.com${url}`;
-      const description = generateDescription(name);
-      const images = extractProductImages(tileContent, sku, supabaseUrl);
-
-      products.push({
-        name,
-        sku,
-        price: price || 999,
-        url: fullUrl,
-        description,
-        images,
-      });
-
-      console.log(`Found: ${name} (${sku}) - $${price || 999} - ${images.length} images`);
     }
+
+    const description = generateDescription(name);
+    const images = extractProductImages(tileContent, sku, supabaseUrl);
+
+    products.push({
+      name,
+      sku,
+      price: price || 999,
+      url: fullUrl,
+      description,
+      images,
+    });
+
+    console.log(`Found: ${name} (${sku}) - $${price || 999} - ${images.length} images`);
   }
 
   console.log(`\n=== TOTAL: ${products.length} products found ===\n`);
@@ -183,25 +186,25 @@ async function scrapeProductDetailPage(productUrl: string, sku: string): Promise
 
     const srcsetPattern = /srcset="([^"]+)"/gi;
     let srcsetMatch;
+
     while ((srcsetMatch = srcsetPattern.exec(detailHtml)) !== null) {
       const srcset = srcsetMatch[1];
-      const urls = srcset.split(',');
-      for (const urlPart of urls) {
-        const urlMatch = urlPart.trim().match(/https:\/\/ashleyfurniture\.scene7\.com\/is\/image\/AshleyFurniture\/([^\s?]+)/);
-        if (urlMatch) {
-          const imageId = urlMatch[1];
-          if (!imageIds.has(imageId) && imageId.includes(imageBase)) {
-            imageIds.add(imageId);
-            const directUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageId}?fit=fit&wid=1200&hei=900`;
-            images.push(directUrl);
-            console.log(`    Found: ${imageId}`);
-          }
+      const urlMatches = srcset.matchAll(/https:\/\/ashleyfurniture\.scene7\.com\/is\/image\/AshleyFurniture\/([^\s?]+)/g);
+
+      for (const urlMatch of urlMatches) {
+        const imageId = urlMatch[1];
+        if (!imageIds.has(imageId) && imageId.includes(imageBase) && !imageId.includes('$')) {
+          imageIds.add(imageId);
+          const directUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageId}?fit=fit&wid=1200&hei=900`;
+          images.push(directUrl);
+          console.log(`    Found: ${imageId}`);
         }
       }
     }
 
-    const imgSrcPattern = /src="https:\/\/ashleyfurniture\.scene7\.com\/is\/image\/AshleyFurniture\/([^"?\s]+)[^"]*"/gi;
+    const imgSrcPattern = /src="https:\/\/ashleyfurniture\.scene7\.com\/is\/image\/AshleyFurniture\/([^"?\s]+)/gi;
     let imgMatch;
+
     while ((imgMatch = imgSrcPattern.exec(detailHtml)) !== null) {
       const imageId = imgMatch[1];
       if (imageId && !imageIds.has(imageId) && imageId.includes(imageBase) && !imageId.includes('$')) {
