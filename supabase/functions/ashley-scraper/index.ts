@@ -42,6 +42,299 @@ interface ManualHtmlRequest {
   fetchDetails?: boolean;
 }
 
+const SCRAPER_API_KEY = '1cd1284bc7d418a0eb88bbebd8cd46d1';
+
+interface Product {
+  sku: string;
+  name: string;
+  price: number;
+  url: string;
+  imageUrl: string;
+  description?: string;
+  dimensions?: string;
+  material?: string;
+  galleryImages?: string[];
+}
+
+function parseAshleyHtml(html: string): Product[] {
+  const products: Product[] = [];
+
+  const productRegex = /<div[^>]*class="[^"]*product-tile[^"]*"[^>]*>([\s\S]*?)<\/div>(?=\s*<div[^>]*class="[^"]*product-tile|$)/gi;
+  let match;
+
+  while ((match = productRegex.exec(html)) !== null) {
+    const productHtml = match[1];
+
+    const skuMatch = productHtml.match(/data-itemid="([^"]+)"|data-sku="([^"]+)"/i);
+    const sku = skuMatch ? (skuMatch[1] || skuMatch[2]) : '';
+
+    const nameMatch = productHtml.match(/<a[^>]*class="[^"]*name-link[^"]*"[^>]*>([^<]+)</i) ||
+                      productHtml.match(/<div[^>]*class="[^"]*product-name[^"]*"[^>]*>([^<]+)</i);
+    const name = nameMatch ? nameMatch[1].trim() : '';
+
+    const priceMatch = productHtml.match(/\$([0-9,]+(?:\.[0-9]{2})?)/);    const price = priceMatch ? parseFloat(priceMatch[1].replace(/,/g, '')) : 0;
+
+    const urlMatch = productHtml.match(/<a[^>]*href="([^"]* \/p\/[^"]+)"/i);
+    const url = urlMatch ? (urlMatch[1].startsWith('http') ? urlMatch[1] : `https://www.ashleyfurniture.com${urlMatch[1]}`) : '';
+
+    const imageMatch = productHtml.match(/src="([^"]*ashley[^"]*\.jpg[^"]*)"/i) ||
+                       productHtml.match(/data-src="([^"]*ashley[^"]*\.jpg[^"]*)"/i);
+    const imageUrl = imageMatch ? imageMatch[1] : '';
+
+    if (sku && name && url) {
+      products.push({
+        sku,
+        name,
+        price,
+        url,
+        imageUrl,
+      });
+    }
+  }
+
+  return products;
+}
+
+async function fetchProductDetails(productUrl: string): Promise<Partial<Product>> {
+  try {
+    const scraperUrl = `http://api.scraperapi.com?api_key=${SCRAPER_API_KEY}&url=${encodeURIComponent(productUrl)}`;
+    const response = await fetch(scraperUrl);
+
+    if (!response.ok) {
+      console.error(`Failed to fetch product details: ${response.status}`);
+      return {};
+    }
+
+    const html = await response.text();
+
+    const descMatch = html.match(/<div[^>]*class="[^"]*product-description[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
+    const description = descMatch ? descMatch[1].replace(/<[^>]+>/g, '').trim() : '';
+
+    const dimensionsMatch = html.match(/Dimensions[:\s]*([^<]+)/i);
+    const dimensions = dimensionsMatch ? dimensionsMatch[1].trim() : '';
+
+    const materialMatch = html.match(/Material[:\s]*([^<]+)/i);
+    const material = materialMatch ? materialMatch[1].trim() : '';
+
+    const galleryImages: string[] = [];
+    const imageRegex = /<img[^>]*src="([^"]*ashley[^"]*\.jpg[^"]*)"/gi;
+    let imgMatch;
+
+    while ((imgMatch = imageRegex.exec(html)) !== null) {
+      const imgUrl = imgMatch[1];
+      if (!galleryImages.includes(imgUrl) && imgUrl.includes('ashley')) {
+        galleryImages.push(imgUrl);
+      }
+    }
+
+    return {
+      description,
+      dimensions,
+      material,
+      galleryImages: galleryImages.slice(0, 10),
+    };
+  } catch (error) {
+    console.error('Error fetching product details:', error);
+    return {};
+  }
+}
+
+async function importProductToDb(product: Product, supabase: any): Promise<boolean> {
+  try {
+    const { data: category } = await supabase
+      .from('categories')
+      .select('id')
+      .eq('slug', 'sofas')
+      .single();
+
+    if (!category) {
+      console.error('Sofas category not found');
+      return false;
+    }
+
+    const { data: existingProduct } = await supabase
+      .from('products')
+      .select('id')
+      .eq('sku', product.sku)
+      .maybeSingle();
+
+    if (existingProduct) {
+      console.log(`Product ${product.sku} already exists, skipping`);
+      return false;
+    }
+
+    const slug = product.name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+
+    const { data: newProduct, error: productError } = await supabase
+      .from('products')
+      .insert({
+        sku: product.sku,
+        name: product.name,
+        slug,
+        description: product.description || product.name,
+        price: product.price,
+        category_id: category.id,
+        stock_quantity: 50,
+        is_active: true,
+        dimensions: product.dimensions || null,
+        material: product.material || null,
+        source_url: product.url,
+      })
+      .select()
+      .single();
+
+    if (productError || !newProduct) {
+      console.error('Error inserting product:', productError);
+      return false;
+    }
+
+    const images = product.galleryImages && product.galleryImages.length > 0
+      ? product.galleryImages
+      : product.imageUrl
+      ? [product.imageUrl]
+      : [];
+
+    if (images.length > 0) {
+      const imageRecords = images.map((url, index) => ({
+        product_id: newProduct.id,
+        image_url: url,
+        display_order: index,
+        is_primary: index === 0,
+      }));
+
+      await supabase
+        .from('product_images')
+        .insert(imageRecords);
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error importing product:', error);
+    return false;
+  }
+}
+
+async function handlePageScrape(request: PageScrapeRequest, supabase: any) {
+  try {
+    const { pageNum, importToDb = true, fetchDetails = false } = request;
+
+    const start = (pageNum - 1) * 30;
+    const ashleyUrl = pageNum === 1
+      ? 'https://www.ashleyfurniture.com/c/furniture/living-room/sofas/'
+      : `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${start}&sz=30`;
+
+    const scraperUrl = `http://api.scraperapi.com?api_key=${SCRAPER_API_KEY}&url=${encodeURIComponent(ashleyUrl)}`;
+
+    const response = await fetch(scraperUrl);
+
+    if (!response.ok) {
+      return Response.json(
+        {
+          success: false,
+          error: `ScraperAPI request failed: ${response.status}`,
+        },
+        { headers: corsHeaders }
+      );
+    }
+
+    const html = await response.text();
+    const products = parseAshleyHtml(html);
+
+    if (fetchDetails) {
+      for (const product of products) {
+        const details = await fetchProductDetails(product.url);
+        Object.assign(product, details);
+      }
+    }
+
+    let succeeded = 0;
+    let failed = 0;
+
+    if (importToDb) {
+      for (const product of products) {
+        const success = await importProductToDb(product, supabase);
+        if (success) {
+          succeeded++;
+        } else {
+          failed++;
+        }
+      }
+    }
+
+    return Response.json(
+      {
+        success: true,
+        total: products.length,
+        succeeded,
+        failed,
+        products: products.map(p => ({ name: p.name, sku: p.sku, price: p.price })),
+      },
+      { headers: corsHeaders }
+    );
+  } catch (error) {
+    console.error('Error in handlePageScrape:', error);
+    return Response.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { headers: corsHeaders }
+    );
+  }
+}
+
+async function handleManualHtml(request: ManualHtmlRequest, supabase: any) {
+  try {
+    const { rawHtml, importToDb = true, fetchDetails = false } = request;
+
+    const products = parseAshleyHtml(rawHtml);
+
+    if (fetchDetails) {
+      for (const product of products) {
+        const details = await fetchProductDetails(product.url);
+        Object.assign(product, details);
+      }
+    }
+
+    let succeeded = 0;
+    let failed = 0;
+
+    if (importToDb) {
+      for (const product of products) {
+        const success = await importProductToDb(product, supabase);
+        if (success) {
+          succeeded++;
+        } else {
+          failed++;
+        }
+      }
+    }
+
+    return Response.json(
+      {
+        success: true,
+        total: products.length,
+        succeeded,
+        failed,
+        products: products.map(p => ({ name: p.name, sku: p.sku, price: p.price })),
+      },
+      { headers: corsHeaders }
+    );
+  } catch (error) {
+    console.error('Error in handleManualHtml:', error);
+    return Response.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { headers: corsHeaders }
+    );
+  }
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, {
@@ -58,11 +351,9 @@ Deno.serve(async (req: Request) => {
 
     const body = await req.json();
 
-    // Handle delete operations
     if (body.mode === 'delete') {
       const deleteReq = body as DeleteRequest;
 
-      // Get sofas category ID
       const { data: category } = await supabase
         .from('categories')
         .select('id')
@@ -77,7 +368,6 @@ Deno.serve(async (req: Request) => {
       }
 
       if (deleteReq.deleteAll) {
-        // Delete all sofas
         const { data: sofas } = await supabase
           .from('products')
           .select('id')
@@ -86,7 +376,6 @@ Deno.serve(async (req: Request) => {
         if (sofas && sofas.length > 0) {
           const productIds = sofas.map(s => s.id);
 
-          // Delete related records first
           await supabase
             .from('product_images')
             .delete()
@@ -102,7 +391,6 @@ Deno.serve(async (req: Request) => {
             .delete()
             .in('product_id', productIds);
 
-          // Delete products
           await supabase
             .from('products')
             .delete()
@@ -121,8 +409,6 @@ Deno.serve(async (req: Request) => {
       }
 
       if (deleteReq.pageNum) {
-        // Delete sofas by page number
-        // Since we don't track page numbers, we'll use creation time/order
         const start = (deleteReq.pageNum - 1) * 30;
         const { data: sofas } = await supabase
           .from('products')
@@ -134,7 +420,6 @@ Deno.serve(async (req: Request) => {
         if (sofas && sofas.length > 0) {
           const productIds = sofas.map(s => s.id);
 
-          // Delete related records first
           await supabase
             .from('product_images')
             .delete()
@@ -150,7 +435,6 @@ Deno.serve(async (req: Request) => {
             .delete()
             .in('product_id', productIds);
 
-          // Delete products
           await supabase
             .from('products')
             .delete()
@@ -169,7 +453,6 @@ Deno.serve(async (req: Request) => {
       }
     }
 
-    // Handle gap analysis
     if (body.mode === 'analyze-gaps') {
       const { data: category } = await supabase
         .from('categories')
@@ -190,11 +473,10 @@ Deno.serve(async (req: Request) => {
         .eq('category_id', category.id);
 
       const totalInDb = count || 0;
-      const expectedTotal = 9 * 30; // 9 pages × 30 products
+      const expectedTotal = 9 * 30;
       const missingPages: number[] = [];
       const incompletePages: Array<{ page: number; count: number }> = [];
 
-      // Analyze pages
       for (let page = 1; page <= 9; page++) {
         const start = (page - 1) * 30;
         const { count: pageCount } = await supabase
@@ -224,7 +506,6 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Handle gallery extraction (single SKU)
     if (body.mode === 'gallery') {
       return Response.json(
         {
@@ -235,7 +516,6 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Handle scrape-images mode
     if (body.mode === 'scrape-images') {
       return Response.json(
         {
@@ -246,26 +526,12 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Handle page scraping
     if (body.pageNum) {
-      return Response.json(
-        {
-          success: false,
-          error: 'Page scraping not yet implemented. Use manual HTML import or other edge functions.',
-        },
-        { headers: corsHeaders }
-      );
+      return await handlePageScrape(body as PageScrapeRequest, supabase);
     }
 
-    // Handle manual HTML
     if (body.rawHtml) {
-      return Response.json(
-        {
-          success: false,
-          error: 'Manual HTML processing not yet implemented. Use other edge functions.',
-        },
-        { headers: corsHeaders }
-      );
+      return await handleManualHtml(body as ManualHtmlRequest, supabase);
     }
 
     return Response.json(
