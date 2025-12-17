@@ -72,7 +72,8 @@ function parseAshleyHtml(html: string): Product[] {
                       productHtml.match(/<div[^>]*class="[^"]*product-name[^"]*"[^>]*>([^<]+)</i);
     const name = nameMatch ? nameMatch[1].trim() : '';
 
-    const priceMatch = productHtml.match(/\$([0-9,]+(?:\.[0-9]{2})?)/);    const price = priceMatch ? parseFloat(priceMatch[1].replace(/,/g, '')) : 0;
+    const priceMatch = productHtml.match(/\$([0-9,]+(?:\.[0-9]{2})?)/);
+    const price = priceMatch ? parseFloat(priceMatch[1].replace(/,/g, '')) : 0;
 
     const urlMatch = productHtml.match(/<a[^>]*href="([^"]* \/p\/[^"]+)"/i);
     const url = urlMatch ? (urlMatch[1].startsWith('http') ? urlMatch[1] : `https://www.ashleyfurniture.com${urlMatch[1]}`) : '';
