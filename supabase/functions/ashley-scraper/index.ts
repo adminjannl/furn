@@ -9,24 +9,27 @@ const corsHeaders = {
 
 const SCRAPER_API_KEY = "1cd1284bc7d418a0eb88bbebd8cd46d1";
 
-interface Product {
+interface ListingProduct {
   name: string;
   price: number;
-  imageUrl: string;
   sku: string;
   url: string;
 }
 
-function parseProductsFromHtml(html: string): Product[] {
-  const products: Product[] = [];
+interface DetailedProduct extends ListingProduct {
+  description: string;
+  images: string[];
+}
+
+function parseListingPage(html: string): ListingProduct[] {
+  const products: ListingProduct[] = [];
   const seenSkus = new Set<string>();
 
-  console.log("\n=== PARSING HTML ===");
+  console.log("\n=== PARSING LISTING PAGE ===");
   console.log(`HTML length: ${html.length}`);
 
   const nameLinkPattern = /<a[^>]*class="[^"]*name-link[^"]*"[^>]*href="([^"]*)"[^>]*title="[^"]*?:\s*([^"]*)"[^>]*>/gi;
   let match;
-  const nameLinkProducts: { name: string; sku: string; url: string }[] = [];
 
   while ((match = nameLinkPattern.exec(html)) !== null) {
     const url = match[1];
@@ -36,138 +39,109 @@ function parseProductsFromHtml(html: string): Product[] {
 
     if (sku && !seenSkus.has(sku)) {
       seenSkus.add(sku);
-      nameLinkProducts.push({ name, sku, url });
-      console.log(`name-link: ${name} (SKU: ${sku})`);
-    }
-  }
 
-  console.log(`Found ${nameLinkProducts.length} products via name-link`);
+      const tileRegex = new RegExp(
+        `data-pid="${sku}"[^>]*>([\\s\\S]*?)(?=data-pid="|$)`,
+        "i"
+      );
+      const tileMatch = html.match(tileRegex);
+      const tileContent = tileMatch ? tileMatch[1] : "";
 
-  for (const nlProduct of nameLinkProducts) {
-    const tileRegex = new RegExp(
-      `data-pid="${nlProduct.sku}"[^>]*>([\\s\\S]*?)(?=data-pid="|$)`,
-      "i"
-    );
-    const tileMatch = html.match(tileRegex);
-    const tileContent = tileMatch ? tileMatch[1] : "";
+      const pricePatterns = [
+        /class="[^"]*sales[^"]*"[^>]*>\s*<span[^>]*>\s*\$\s*([\d,]+(?:\.\d{2})?)/i,
+        /\$\s*([\d,]+(?:\.\d{2})?)/,
+      ];
 
-    const pricePatterns = [
-      /class="[^"]*sales[^"]*"[^>]*>\s*<span[^>]*>\s*\$\s*([\d,]+(?:\.\d{2})?)/i,
-      /\$\s*([\d,]+(?:\.\d{2})?)/,
-      /"price":\s*([\d.]+)/,
-    ];
-
-    let price = 0;
-    for (const pattern of pricePatterns) {
-      const priceMatch = tileContent.match(pattern) || html.match(new RegExp(`${nlProduct.sku}[\\s\\S]{0,500}${pattern.source}`, "i"));
-      if (priceMatch) {
-        price = parseFloat(priceMatch[1].replace(/,/g, ""));
-        if (price > 0) break;
+      let price = 0;
+      for (const pattern of pricePatterns) {
+        const priceMatch = tileContent.match(pattern);
+        if (priceMatch) {
+          price = parseFloat(priceMatch[1].replace(/,/g, ""));
+          if (price > 0) break;
+        }
       }
-    }
 
-    const imagePatterns = [
-      new RegExp(`${nlProduct.sku}[\\s\\S]{0,1000}(?:data-src|src)="([^"]*scene7[^"]*)"`, "i"),
-      /(?:data-src|src)="([^"]*scene7[^"]*\.(?:jpg|png|webp)[^"]*)"/i,
-      /(?:data-src|src)="(https:\/\/[^"]*ashleyfurniture[^"]*\.(?:jpg|png|webp)[^"]*)"/i,
-    ];
+      const fullUrl = url.startsWith("http") ? url : `https://www.ashleyfurniture.com${url}`;
 
-    let imageUrl = "";
-    for (const pattern of imagePatterns) {
-      const imgMatch = tileContent.match(pattern) || html.match(pattern);
-      if (imgMatch && imgMatch[1]) {
-        imageUrl = imgMatch[1];
-        if (imageUrl.startsWith("//")) imageUrl = "https:" + imageUrl;
-        break;
-      }
-    }
-
-    if (!imageUrl) {
-      imageUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${nlProduct.sku}_QUILL_QUILL?$QUILL_QUILL$`;
-    }
-
-    if (nlProduct.name && nlProduct.sku) {
       products.push({
-        name: nlProduct.name,
+        name,
+        sku,
         price: price || 999,
-        imageUrl,
-        sku: nlProduct.sku,
-        url: nlProduct.url,
+        url: fullUrl,
       });
+
+      console.log(`Found: ${name} (${sku}) - $${price || 999}`);
     }
   }
 
-  if (products.length === 0) {
-    console.log("Trying product-tile pattern...");
-    const tilePattern = /<div[^>]*class="[^"]*product-tile[^"]*"[^>]*data-pid="(\d+)"[^>]*>([\s\S]*?)(?=<div[^>]*class="[^"]*product-tile[^"]*"|<\/main>|$)/gi;
-
-    while ((match = tilePattern.exec(html)) !== null) {
-      const sku = match[1];
-      const tileContent = match[2];
-
-      if (seenSkus.has(sku)) continue;
-
-      const nameMatch = tileContent.match(/title="[^"]*?:\s*([^"]+)"/i) ||
-                       tileContent.match(/class="[^"]*pdp-link[^"]*"[^>]*>([^<]+)</i);
-      const priceMatch = tileContent.match(/\$\s*([\d,]+(?:\.\d{2})?)/);
-      const imageMatch = tileContent.match(/(?:src|data-src)="([^"]*scene7[^"]*\.(?:jpg|png|webp)[^"]*)"/i);
-
-      const name = (nameMatch?.[1] || "").trim();
-      const priceStr = priceMatch?.[1]?.replace(/,/g, "") || "0";
-      const price = parseFloat(priceStr);
-      let imageUrl = imageMatch?.[1] || "";
-
-      if (imageUrl.startsWith("//")) imageUrl = "https:" + imageUrl;
-      if (!imageUrl) {
-        imageUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${sku}_QUILL_QUILL?$QUILL_QUILL$`;
-      }
-
-      if (name && sku) {
-        seenSkus.add(sku);
-        products.push({
-          name,
-          price: price || 999,
-          imageUrl,
-          sku,
-          url: `https://www.ashleyfurniture.com/p/${name.toLowerCase().replace(/[^a-z0-9]+/g, "_")}/${sku}.html`,
-        });
-        console.log(`tile: ${name} - $${price} (${sku})`);
-      }
-    }
-  }
-
-  if (products.length === 0) {
-    console.log("Trying data-pid pattern extraction...");
-    const pidPattern = /data-pid="(\d+)"/g;
-    const pids: string[] = [];
-    while ((match = pidPattern.exec(html)) !== null) {
-      if (!seenSkus.has(match[1])) {
-        pids.push(match[1]);
-        seenSkus.add(match[1]);
-      }
-    }
-
-    for (const pid of pids) {
-      products.push({
-        name: `Ashley Sofa ${pid}`,
-        price: 999,
-        imageUrl: `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${pid}_QUILL_QUILL?$QUILL_QUILL$`,
-        sku: pid,
-        url: `https://www.ashleyfurniture.com/p/sofa/${pid}.html`,
-      });
-    }
-    console.log(`Extracted ${pids.length} products from data-pid only`);
-  }
-
-  console.log(`\n=== TOTAL: ${products.length} products parsed ===\n`);
+  console.log(`\n=== TOTAL: ${products.length} products found ===\n`);
   return products;
+}
+
+function parseDetailPage(html: string, sku: string): { description: string; images: string[] } {
+  console.log(`\n=== PARSING DETAIL PAGE FOR ${sku} ===`);
+
+  let description = "";
+  const descPatterns = [
+    /<div[^>]*class="[^"]*description[^"]*"[^>]*>([\s\S]*?)<\/div>/i,
+    /<meta[^>]*property="og:description"[^>]*content="([^"]*)"/i,
+    /<p[^>]*class="[^"]*product-description[^"]*"[^>]*>([\s\S]*?)<\/p>/i,
+  ];
+
+  for (const pattern of descPatterns) {
+    const match = html.match(pattern);
+    if (match && match[1]) {
+      description = match[1]
+        .replace(/<[^>]*>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      if (description.length > 50) break;
+    }
+  }
+
+  if (!description) {
+    description = `Premium Ashley Furniture sofa featuring quality craftsmanship and modern design.`;
+  }
+
+  const images: string[] = [];
+  const imagePatterns = [
+    new RegExp(`${sku}_[A-Z0-9]+_[A-Z0-9]+`, "gi"),
+    /ashleyfurniture\.scene7\.com\/is\/image\/AshleyFurniture\/([^"?]+)/gi,
+  ];
+
+  const imageIds = new Set<string>();
+
+  for (const pattern of imagePatterns) {
+    let match;
+    while ((match = pattern.exec(html)) !== null) {
+      const imageId = match[0].includes("scene7") ? match[1] : match[0];
+      if (imageId && !imageIds.has(imageId)) {
+        imageIds.add(imageId);
+        const highResUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageId}?wid=1200&hei=1200&fmt=jpg`;
+        images.push(highResUrl);
+        if (images.length >= 5) break;
+      }
+    }
+    if (images.length >= 5) break;
+  }
+
+  if (images.length === 0) {
+    const fallbackViews = ["FRONT", "QUILL_QUILL", "LEFT", "RIGHT", "LIFESTYLE"];
+    for (const view of fallbackViews) {
+      images.push(`https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${sku}_${view}_${view}?wid=1200&hei=1200&fmt=jpg`);
+    }
+  }
+
+  console.log(`Description: ${description.substring(0, 100)}...`);
+  console.log(`Images found: ${images.length}`);
+
+  return { description, images };
 }
 
 async function fetchViaScraperApi(targetUrl: string): Promise<string> {
   const scraperUrl = `http://api.scraperapi.com?api_key=${SCRAPER_API_KEY}&url=${encodeURIComponent(targetUrl)}&render=true&country_code=us`;
 
-  console.log(`Fetching via ScraperAPI: ${targetUrl}`);
-  console.log(`ScraperAPI URL: ${scraperUrl.substring(0, 80)}...`);
+  console.log(`\nFetching: ${targetUrl}`);
 
   const response = await fetch(scraperUrl, {
     method: "GET",
@@ -176,19 +150,39 @@ async function fetchViaScraperApi(targetUrl: string): Promise<string> {
     },
   });
 
-  console.log(`ScraperAPI response status: ${response.status}`);
-
   if (!response.ok) {
     const errorText = await response.text();
-    console.error(`ScraperAPI error: ${errorText.substring(0, 500)}`);
-    throw new Error(`ScraperAPI failed: ${response.status} - ${errorText.substring(0, 200)}`);
+    console.error(`ScraperAPI error: ${errorText.substring(0, 300)}`);
+    throw new Error(`ScraperAPI failed: ${response.status}`);
   }
 
   const html = await response.text();
   console.log(`Received ${html.length} characters`);
-  console.log(`First 500 chars: ${html.substring(0, 500)}`);
 
   return html;
+}
+
+async function getProductDetails(product: ListingProduct): Promise<DetailedProduct> {
+  try {
+    const detailHtml = await fetchViaScraperApi(product.url);
+    const { description, images } = parseDetailPage(detailHtml, product.sku);
+
+    return {
+      ...product,
+      description,
+      images,
+    };
+  } catch (error: any) {
+    console.error(`Failed to fetch details for ${product.sku}: ${error.message}`);
+    return {
+      ...product,
+      description: `Premium Ashley Furniture ${product.name}`,
+      images: [
+        `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${product.sku}_FRONT_FRONT?wid=1200&hei=1200&fmt=jpg`,
+        `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${product.sku}_QUILL_QUILL?wid=1200&hei=1200&fmt=jpg`,
+      ],
+    };
+  }
 }
 
 Deno.serve(async (req: Request) => {
@@ -202,45 +196,57 @@ Deno.serve(async (req: Request) => {
     const authHeader = req.headers.get("Authorization");
 
     console.log(`\n${"=".repeat(60)}`);
-    console.log(`ASHLEY SCRAPER - ${rawHtml ? "MANUAL HTML" : `PAGE ${pageNum} (ScraperAPI)`}`);
+    console.log(`ASHLEY SCRAPER - PAGE ${pageNum} (Enhanced)`);
     console.log("=".repeat(60));
 
-    let html = "";
-    let products: Product[] = [];
-
-    if (rawHtml && rawHtml.length > 100) {
-      console.log(`Processing manual HTML paste (${rawHtml.length} chars)`);
-      html = rawHtml;
-      products = parseProductsFromHtml(html);
-    } else if (pageNum && pageNum >= 1 && pageNum <= 20) {
-      const startParam = (pageNum - 1) * 30;
-      const targetUrl = pageNum === 1
-        ? "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/"
-        : `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${startParam}&sz=30`;
-
-      html = await fetchViaScraperApi(targetUrl);
-      products = parseProductsFromHtml(html);
-    } else {
+    if (!pageNum || pageNum < 1 || pageNum > 20) {
       return new Response(
-        JSON.stringify({ error: "Provide rawHtml OR pageNum (1-20)" }),
+        JSON.stringify({ error: "Provide pageNum (1-20)" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
+    }
+
+    const startParam = (pageNum - 1) * 30;
+    const listingUrl = pageNum === 1
+      ? "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/"
+      : `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${startParam}&sz=30`;
+
+    console.log("\nSTEP 1: Fetching listing page...");
+    const listingHtml = await fetchViaScraperApi(listingUrl);
+    const listingProducts = parseListingPage(listingHtml);
+
+    if (listingProducts.length === 0) {
+      return new Response(
+        JSON.stringify({ success: false, error: "No products found on listing page" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    console.log(`\nSTEP 2: Fetching details for ${listingProducts.length} products...`);
+    const detailedProducts: DetailedProduct[] = [];
+
+    for (let i = 0; i < listingProducts.length; i++) {
+      const product = listingProducts[i];
+      console.log(`\n[${i + 1}/${listingProducts.length}] Processing ${product.name}...`);
+
+      const detailed = await getProductDetails(product);
+      detailedProducts.push(detailed);
+
+      await new Promise(resolve => setTimeout(resolve, 500));
     }
 
     if (!importToDb) {
       return new Response(
         JSON.stringify({
           success: true,
-          products,
-          count: products.length,
-          htmlLength: html.length,
-          htmlPreview: html.substring(0, 2000),
+          products: detailedProducts,
+          count: detailedProducts.length,
         }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    console.log("\n=== STARTING DATABASE IMPORT ===");
+    console.log("\n=== STEP 3: IMPORTING TO DATABASE ===");
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = authHeader?.replace("Bearer ", "") || Deno.env.get("SUPABASE_ANON_KEY")!;
@@ -255,11 +261,12 @@ Deno.serve(async (req: Request) => {
     console.log(`Category ID: ${category?.id || "NOT FOUND"}`);
 
     let succeeded = 0;
+    let updated = 0;
     let failed = 0;
     const errors: string[] = [];
 
-    for (let i = 0; i < products.length; i++) {
-      const product = products[i];
+    for (let i = 0; i < detailedProducts.length; i++) {
+      const product = detailedProducts[i];
       try {
         const { data: existing } = await supabase
           .from("products")
@@ -268,62 +275,87 @@ Deno.serve(async (req: Request) => {
           .maybeSingle();
 
         if (existing) {
-          console.log(`${i + 1}/${products.length} SKIP: ${product.name} (duplicate)`);
-          failed++;
-          continue;
+          console.log(`${i + 1}/${detailedProducts.length} UPDATING: ${product.name}`);
+
+          await supabase
+            .from("products")
+            .update({
+              description: product.description,
+              price: product.price,
+            })
+            .eq("id", existing.id);
+
+          await supabase
+            .from("product_images")
+            .delete()
+            .eq("product_id", existing.id);
+
+          for (let imgIdx = 0; imgIdx < product.images.length; imgIdx++) {
+            await supabase.from("product_images").insert({
+              product_id: existing.id,
+              image_url: product.images[imgIdx],
+              display_order: imgIdx,
+            });
+          }
+
+          console.log(`  ✓ Updated with ${product.images.length} images`);
+          updated++;
+        } else {
+          const slug = product.name
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, "");
+
+          const { data: newProduct, error: productError } = await supabase
+            .from("products")
+            .insert({
+              name: product.name,
+              slug: `${slug}-${product.sku.toLowerCase()}`,
+              sku: product.sku,
+              price: product.price,
+              description: product.description,
+              category_id: category?.id || null,
+              stock_quantity: 10,
+              status: "active",
+            })
+            .select()
+            .single();
+
+          if (productError || !newProduct) {
+            console.error(`${i + 1}/${detailedProducts.length} FAIL: ${productError?.message}`);
+            errors.push(`${product.name}: ${productError?.message}`);
+            failed++;
+            continue;
+          }
+
+          for (let imgIdx = 0; imgIdx < product.images.length; imgIdx++) {
+            await supabase.from("product_images").insert({
+              product_id: newProduct.id,
+              image_url: product.images[imgIdx],
+              display_order: imgIdx,
+            });
+          }
+
+          console.log(`${i + 1}/${detailedProducts.length} ✓ CREATED: ${product.name} with ${product.images.length} images`);
+          succeeded++;
         }
-
-        const slug = product.name
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-|-$/g, "");
-
-        const { data: newProduct, error: productError } = await supabase
-          .from("products")
-          .insert({
-            name: product.name,
-            slug: `${slug}-${product.sku.toLowerCase()}`,
-            sku: product.sku,
-            price: product.price,
-            description: product.name,
-            category_id: category?.id || null,
-            stock_quantity: 10,
-            status: "active",
-          })
-          .select()
-          .single();
-
-        if (productError || !newProduct) {
-          console.error(`${i + 1}/${products.length} FAIL: ${productError?.message}`);
-          errors.push(`${product.name}: ${productError?.message}`);
-          failed++;
-          continue;
-        }
-
-        if (product.imageUrl) {
-          await supabase.from("product_images").insert({
-            product_id: newProduct.id,
-            image_url: product.imageUrl,
-            display_order: 0,
-          });
-        }
-
-        console.log(`${i + 1}/${products.length} OK: ${product.name} - $${product.price}`);
-        succeeded++;
       } catch (error: any) {
-        console.error(`${i + 1}/${products.length} ERROR:`, error.message);
+        console.error(`${i + 1}/${detailedProducts.length} ERROR:`, error.message);
         errors.push(error.message);
         failed++;
       }
     }
 
-    console.log(`\nSUMMARY: ${succeeded} succeeded, ${failed} failed out of ${products.length}`);
+    console.log(`\n${"=".repeat(60)}`);
+    console.log(`SUMMARY: ${succeeded} new, ${updated} updated, ${failed} failed`);
+    console.log("=".repeat(60));
 
     return new Response(
       JSON.stringify({
         success: true,
-        total: products.length,
+        total: detailedProducts.length,
         succeeded,
+        updated,
         failed,
         errors: errors.slice(0, 5),
       }),
