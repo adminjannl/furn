@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Download, CheckCircle, XCircle, Loader, ClipboardPaste, ExternalLink, Trash2, AlertTriangle } from 'lucide-react';
+import { Download, CheckCircle, XCircle, Loader, ClipboardPaste, ExternalLink, Trash2, AlertTriangle, Image, Search } from 'lucide-react';
 
 interface ScrapeStats {
   page: number;
@@ -8,6 +8,12 @@ interface ScrapeStats {
   total: number;
   status: 'idle' | 'scraping' | 'done' | 'error';
   errorMessage?: string;
+}
+
+interface GalleryResult {
+  sku: string;
+  images: string[];
+  count: number;
 }
 
 export default function SofaScraper() {
@@ -25,9 +31,15 @@ export default function SofaScraper() {
   const [manualResult, setManualResult] = useState<{ succeeded: number; failed: number; total: number } | null>(null);
   const [manualError, setManualError] = useState('');
   const [fetchDetails, setFetchDetails] = useState(true);
+  const [validateImages, setValidateImages] = useState(false);
   const [deleteStatus, setDeleteStatus] = useState<'idle' | 'deleting' | 'done' | 'error'>('idle');
   const [deleteResult, setDeleteResult] = useState<{ deleted: number; page?: number } | null>(null);
   const [confirmDeleteAll, setConfirmDeleteAll] = useState(false);
+
+  const [gallerySku, setGallerySku] = useState('');
+  const [galleryStatus, setGalleryStatus] = useState<'idle' | 'fetching' | 'done' | 'error'>('idle');
+  const [galleryResult, setGalleryResult] = useState<GalleryResult | null>(null);
+  const [galleryError, setGalleryError] = useState('');
 
   const scrapePage = async (pageNum: number) => {
     setStats((prev) =>
@@ -45,7 +57,7 @@ export default function SofaScraper() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
         },
-        body: JSON.stringify({ pageNum, importToDb: true, fetchDetails }),
+        body: JSON.stringify({ pageNum, importToDb: true, fetchDetails, validateImages }),
       });
 
       if (!response.ok) {
@@ -157,6 +169,51 @@ export default function SofaScraper() {
       setDeleteStatus('done');
     } catch (error) {
       setDeleteStatus('error');
+    }
+  };
+
+  const fetchGallery = async () => {
+    if (!gallerySku.trim()) {
+      setGalleryError('Please enter a SKU');
+      return;
+    }
+
+    setGalleryStatus('fetching');
+    setGalleryError('');
+    setGalleryResult(null);
+
+    try {
+      const edgeFunctionUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ashley-scraper`;
+
+      const response = await fetch(edgeFunctionUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          mode: 'gallery',
+          sku: gallerySku.trim().toUpperCase(),
+          importToDb: true,
+          validateImages,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error || 'Gallery fetch failed');
+      }
+
+      setGalleryResult({
+        sku: result.sku,
+        images: result.images || [],
+        count: result.count || 0,
+      });
+      setGalleryStatus('done');
+    } catch (error) {
+      setGalleryError(error instanceof Error ? error.message : 'Unknown error');
+      setGalleryStatus('error');
     }
   };
 
@@ -296,17 +353,30 @@ export default function SofaScraper() {
         <h2 className="text-xl font-semibold text-oak-900 mb-2">Automated Scrape (ScraperAPI)</h2>
         <p className="text-oak-500 text-sm mb-2">Click a page to automatically scrape 30 products.</p>
 
-        <label className="flex items-center gap-2 mb-4 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={fetchDetails}
-            onChange={(e) => setFetchDetails(e.target.checked)}
-            className="w-4 h-4 text-oak-600 border-slate-300 rounded focus:ring-oak-500"
-          />
-          <span className="text-sm text-oak-700">
-            Fetch full gallery (all images per product) - slower but complete
-          </span>
-        </label>
+        <div className="space-y-2 mb-4">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={fetchDetails}
+              onChange={(e) => setFetchDetails(e.target.checked)}
+              className="w-4 h-4 text-oak-600 border-slate-300 rounded focus:ring-oak-500"
+            />
+            <span className="text-sm text-oak-700">
+              Fetch full gallery (all images per product) - slower but complete
+            </span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={validateImages}
+              onChange={(e) => setValidateImages(e.target.checked)}
+              className="w-4 h-4 text-oak-600 border-slate-300 rounded focus:ring-oak-500"
+            />
+            <span className="text-sm text-oak-700">
+              Validate image URLs exist (verifies each image, slower)
+            </span>
+          </label>
+        </div>
 
         <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-3">
           {stats.map((stat) => (
@@ -356,6 +426,73 @@ export default function SofaScraper() {
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="bg-blue-50 rounded-lg border border-blue-200 p-6 mt-6">
+        <div className="flex items-center gap-2 mb-4">
+          <Image className="w-5 h-5 text-blue-600" />
+          <h2 className="text-xl font-semibold text-blue-800">Single Product Gallery Extraction</h2>
+        </div>
+        <p className="text-blue-700 text-sm mb-4">
+          Extract all gallery images for a specific product by SKU. Uses Scene7 API + HTML parsing + suffix generation.
+        </p>
+
+        <div className="flex gap-3 mb-4">
+          <input
+            type="text"
+            value={gallerySku}
+            onChange={(e) => setGallerySku(e.target.value)}
+            placeholder="Enter SKU (e.g., U4380887)"
+            className="flex-1 px-4 py-2 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+          <button
+            onClick={fetchGallery}
+            disabled={galleryStatus === 'fetching'}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-50"
+          >
+            {galleryStatus === 'fetching' ? (
+              <Loader className="w-4 h-4 animate-spin" />
+            ) : (
+              <Search className="w-4 h-4" />
+            )}
+            Extract Gallery
+          </button>
+        </div>
+
+        {galleryStatus === 'error' && (
+          <div className="flex items-center gap-2 text-red-700 mb-4">
+            <XCircle className="w-5 h-5" />
+            <span>{galleryError}</span>
+          </div>
+        )}
+
+        {galleryStatus === 'done' && galleryResult && (
+          <div className="bg-white rounded-lg border border-blue-200 p-4">
+            <div className="flex items-center gap-2 text-green-700 mb-3">
+              <CheckCircle className="w-5 h-5" />
+              <span className="font-medium">
+                Found {galleryResult.count} images for {galleryResult.sku}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+              {galleryResult.images.map((img, idx) => (
+                <a
+                  key={idx}
+                  href={img}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block aspect-square bg-slate-100 rounded overflow-hidden hover:ring-2 hover:ring-blue-500"
+                >
+                  <img
+                    src={img.replace('wid=1200&hei=900', 'wid=200&hei=150')}
+                    alt={`Image ${idx + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="bg-red-50 rounded-lg border-2 border-red-200 p-6 mt-6">
