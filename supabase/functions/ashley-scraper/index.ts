@@ -8,6 +8,8 @@ const corsHeaders = {
 };
 
 const SCRAPER_API_KEY = "1cd1284bc7d418a0eb88bbebd8cd46d1";
+const GALLERY_TIMEOUT_MS = 5000;
+const BATCH_GALLERY_TIMEOUT_MS = 3000;
 
 interface DetailedProduct {
   name: string;
@@ -58,31 +60,55 @@ function buildImageUrl(imageId: string, width = 1200, height = 900): string {
   return `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageId}?fit=fit&wid=${width}&hei=${height}`;
 }
 
-async function fetchScene7ImageSet(imageBase: string): Promise<string[]> {
-  const images: string[] = [];
+async function fetchWithTimeout<T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+  fallback: T
+): Promise<T> {
+  let timeoutId: number | undefined;
 
-  const setUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageBase}?req=set,json&handler=s7jsonResponse`;
-
-  console.log(`  Trying Scene7 ImageSet API: ${imageBase}`);
+  const timeoutPromise = new Promise<T>((resolve) => {
+    timeoutId = setTimeout(() => {
+      console.log(`  Request timed out after ${timeoutMs}ms, using fallback`);
+      resolve(fallback);
+    }, timeoutMs);
+  });
 
   try {
+    const result = await Promise.race([promise, timeoutPromise]);
+    clearTimeout(timeoutId);
+    return result;
+  } catch (error) {
+    clearTimeout(timeoutId);
+    return fallback;
+  }
+}
+
+async function fetchScene7ImageSetFast(imageBase: string, timeoutMs = GALLERY_TIMEOUT_MS): Promise<string[]> {
+  const images: string[] = [];
+  const setUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageBase}?req=set,json&handler=s7jsonResponse`;
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
     const response = await fetch(setUrl, {
       headers: {
         "Accept": "*/*",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
       },
+      signal: controller.signal,
     });
 
+    clearTimeout(timeoutId);
+
     if (!response.ok) {
-      console.log(`  Scene7 API returned ${response.status}`);
       return [];
     }
 
     const text = await response.text();
-
     const jsonMatch = text.match(/s7jsonResponse\(([\s\S]+)\)/);
     if (!jsonMatch) {
-      console.log(`  Could not parse Scene7 response`);
       return [];
     }
 
@@ -93,69 +119,20 @@ async function fetchScene7ImageSet(imageBase: string): Promise<string[]> {
         if (item.n) {
           const imageId = item.n.replace('AshleyFurniture/', '');
           images.push(buildImageUrl(imageId));
-          console.log(`    Set image: ${imageId}`);
         }
       }
     }
-
-    console.log(`  Scene7 API found ${images.length} images`);
   } catch (error: any) {
-    console.log(`  Scene7 API error: ${error.message}`);
-  }
-
-  return images;
-}
-
-function extractImagesFromHtml(html: string, imageBase: string): string[] {
-  const images: string[] = [];
-  const imageIds = new Set<string>();
-
-  console.log(`  Extracting images from HTML for base: ${imageBase}`);
-
-  const patterns = [
-    /AshleyFurniture\/([A-Z0-9]+-[A-Z0-9]+(?:-[A-Za-z0-9-]+)?)/gi,
-    /data-src="[^"]*AshleyFurniture\/([^"?]+)/gi,
-    /src="[^"]*AshleyFurniture\/([^"?]+)/gi,
-    /"mediaId"\s*:\s*"([^"]+)"/gi,
-    /"imageId"\s*:\s*"([^"]+)"/gi,
-    /pdp-carousel[^>]*data-images="([^"]+)"/gi,
-  ];
-
-  for (const pattern of patterns) {
-    let match;
-    while ((match = pattern.exec(html)) !== null) {
-      let imageId = match[1];
-
-      imageId = imageId
-        .replace(/&amp;/g, '&')
-        .replace(/\\u002F/g, '/')
-        .split('?')[0]
-        .split('&')[0];
-
-      if (imageId.includes('$')) continue;
-      if (imageId.length < 5) continue;
-
-      const normalizedId = imageId.toUpperCase();
-      const normalizedBase = imageBase.toUpperCase();
-
-      if (!normalizedId.startsWith(normalizedBase.split('-')[0])) continue;
-
-      if (!imageIds.has(normalizedId)) {
-        imageIds.add(normalizedId);
-        images.push(buildImageUrl(imageId));
-        console.log(`    HTML image: ${imageId}`);
-      }
+    if (error.name === 'AbortError') {
+      console.log(`  Scene7 request timed out for ${imageBase}`);
     }
   }
 
-  console.log(`  HTML extraction found ${images.length} images`);
   return images;
 }
 
 function generateCommonSuffixImages(imageBase: string): string[] {
   const images: string[] = [];
-
-  console.log(`  Generating common suffix variants for: ${imageBase}`);
 
   const commonSuffixes = [
     '',
@@ -163,57 +140,47 @@ function generateCommonSuffixImages(imageBase: string): string[] {
     '-quill-quill',
     '-quill-quill-quill',
     '-quill-quill-quill-quill',
-    '-quill-quill-quill-quill-quill',
-    '-quill-quill-quill-quill-quill-quill',
-    '-quill-quill-quill-quill-quill-quill-quill',
-    '-quill-quill-quill-quill-quill-quill-quill-quill',
     '-QUILL',
     '-SW',
     '-ALT',
-    '-10x8-QUILL',
   ];
 
   for (const suffix of commonSuffixes) {
     images.push(buildImageUrl(`${imageBase}${suffix}`));
   }
 
-  console.log(`  Generated ${images.length} suffix variants`);
   return images;
 }
 
-async function validateImageUrls(imageUrls: string[]): Promise<string[]> {
+async function validateImageUrls(imageUrls: string[], timeoutMs = 2000): Promise<string[]> {
   const validImages: string[] = [];
 
-  console.log(`  Validating ${imageUrls.length} image URLs...`);
+  const results = await Promise.all(
+    imageUrls.map(async (url) => {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-  const batchSize = 5;
-  for (let i = 0; i < imageUrls.length; i += batchSize) {
-    const batch = imageUrls.slice(i, i + batchSize);
+        const response = await fetch(url, { method: 'HEAD', signal: controller.signal });
+        clearTimeout(timeoutId);
 
-    const results = await Promise.all(
-      batch.map(async (url) => {
-        try {
-          const response = await fetch(url, { method: 'HEAD' });
-          const contentType = response.headers.get('content-type') || '';
-
-          if (response.ok && contentType.includes('image')) {
-            return url;
-          }
-          return null;
-        } catch {
-          return null;
+        const contentType = response.headers.get('content-type') || '';
+        if (response.ok && contentType.includes('image')) {
+          return url;
         }
-      })
-    );
-
-    for (const result of results) {
-      if (result) {
-        validImages.push(result);
+        return null;
+      } catch {
+        return null;
       }
+    })
+  );
+
+  for (const result of results) {
+    if (result) {
+      validImages.push(result);
     }
   }
 
-  console.log(`  Validated: ${validImages.length}/${imageUrls.length} images exist`);
   return validImages;
 }
 
@@ -249,30 +216,63 @@ function sortAndDedupeImages(images: string[], imageBase: string): string[] {
   return unique;
 }
 
-async function scrapeFullGallery(productUrl: string, sku: string, validate = false): Promise<string[]> {
+async function scrapeGalleryFast(sku: string, validate = false): Promise<string[]> {
+  const imageBase = skuToImageBase(sku);
+  let allImages: string[] = [];
+
+  const scene7Images = await fetchScene7ImageSetFast(imageBase, BATCH_GALLERY_TIMEOUT_MS);
+  allImages.push(...scene7Images);
+
+  if (allImages.length < 2) {
+    const suffixImages = generateCommonSuffixImages(imageBase);
+
+    if (validate) {
+      const validSuffixImages = await validateImageUrls(suffixImages, 1500);
+      allImages.push(...validSuffixImages);
+    } else {
+      allImages.push(buildImageUrl(imageBase));
+    }
+  }
+
+  allImages = sortAndDedupeImages(allImages, imageBase);
+
+  if (allImages.length === 0) {
+    allImages.push(buildImageUrl(imageBase));
+  }
+
+  return allImages.slice(0, 12);
+}
+
+async function scrapeFullGalleryWithFetch(productUrl: string, sku: string, validate = false): Promise<string[]> {
   console.log(`\n========================================`);
-  console.log(`SCRAPING FULL GALLERY FOR: ${sku}`);
-  console.log(`URL: ${productUrl}`);
+  console.log(`FULL GALLERY SCRAPE FOR: ${sku}`);
   console.log(`========================================`);
 
   const imageBase = skuToImageBase(sku);
   let allImages: string[] = [];
 
-  const scene7Images = await fetchScene7ImageSet(imageBase);
+  const scene7Images = await fetchScene7ImageSetFast(imageBase, GALLERY_TIMEOUT_MS);
   allImages.push(...scene7Images);
+  console.log(`  Scene7 API found ${scene7Images.length} images`);
 
   if (scene7Images.length < 3) {
-    console.log(`\n  Scene7 returned few images, fetching detail page...`);
+    console.log(`  Scene7 returned few images, fetching detail page...`);
 
     try {
       const scraperUrl = `http://api.scraperapi.com?api_key=${SCRAPER_API_KEY}&url=${encodeURIComponent(productUrl)}&render=true&country_code=us&device_type=desktop`;
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
 
       const response = await fetch(scraperUrl, {
         headers: {
           "Accept": "text/html,application/xhtml+xml",
           "Accept-Language": "en-US,en;q=0.9",
         },
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       if (response.ok) {
         const html = await response.text();
@@ -287,31 +287,68 @@ async function scrapeFullGallery(productUrl: string, sku: string, validate = fal
   }
 
   if (allImages.length < 3) {
-    console.log(`\n  Still few images, generating suffix variants...`);
+    console.log(`  Generating suffix variants...`);
     const suffixImages = generateCommonSuffixImages(imageBase);
-    allImages.push(...suffixImages);
 
     if (validate) {
-      allImages = await validateImageUrls(allImages);
+      const validSuffixImages = await validateImageUrls(suffixImages);
+      allImages.push(...validSuffixImages);
+    } else {
+      allImages.push(...suffixImages.slice(0, 4));
     }
   }
 
   allImages = sortAndDedupeImages(allImages, imageBase);
 
   if (allImages.length === 0) {
-    console.log(`  No images found, using default`);
     allImages.push(buildImageUrl(imageBase));
   }
 
   const finalImages = allImages.slice(0, 12);
-
-  console.log(`\n  FINAL IMAGE COUNT: ${finalImages.length}`);
-  finalImages.forEach((img, i) => {
-    const id = img.split('/AshleyFurniture/')[1]?.split('?')[0] || 'unknown';
-    console.log(`    [${i + 1}] ${id}`);
-  });
+  console.log(`  FINAL: ${finalImages.length} images`);
 
   return finalImages;
+}
+
+function extractImagesFromHtml(html: string, imageBase: string): string[] {
+  const images: string[] = [];
+  const imageIds = new Set<string>();
+
+  const patterns = [
+    /AshleyFurniture\/([A-Z0-9]+-[A-Z0-9]+(?:-[A-Za-z0-9-]+)?)/gi,
+    /data-src="[^"]*AshleyFurniture\/([^"?]+)/gi,
+    /src="[^"]*AshleyFurniture\/([^"?]+)/gi,
+    /"mediaId"\s*:\s*"([^"]+)"/gi,
+    /"imageId"\s*:\s*"([^"]+)"/gi,
+  ];
+
+  for (const pattern of patterns) {
+    let match;
+    while ((match = pattern.exec(html)) !== null) {
+      let imageId = match[1];
+
+      imageId = imageId
+        .replace(/&amp;/g, '&')
+        .replace(/\\u002F/g, '/')
+        .split('?')[0]
+        .split('&')[0];
+
+      if (imageId.includes('$')) continue;
+      if (imageId.length < 5) continue;
+
+      const normalizedId = imageId.toUpperCase();
+      const normalizedBase = imageBase.toUpperCase();
+
+      if (!normalizedId.startsWith(normalizedBase.split('-')[0])) continue;
+
+      if (!imageIds.has(normalizedId)) {
+        imageIds.add(normalizedId);
+        images.push(buildImageUrl(imageId));
+      }
+    }
+  }
+
+  return images;
 }
 
 function parseListingPage(html: string): DetailedProduct[] {
@@ -324,11 +361,9 @@ function parseListingPage(html: string): DetailedProduct[] {
   console.log("========================================\n");
 
   const hasNameLinks = html.includes('class="name-link"');
-  const hasProductTiles = html.includes('data-pid=');
   const hasGoToProduct = html.includes('Go to Product:');
 
   console.log(`Contains 'class="name-link"': ${hasNameLinks}`);
-  console.log(`Contains 'data-pid=': ${hasProductTiles}`);
   console.log(`Contains 'Go to Product:': ${hasGoToProduct}`);
 
   if (!hasNameLinks && !hasGoToProduct) {
@@ -380,10 +415,7 @@ function parseListingPage(html: string): DetailedProduct[] {
         images: [defaultImage],
       });
 
-      console.log(`[${products.length}] Found: ${name}`);
-      console.log(`    SKU: ${sku}`);
-      console.log(`    URL: ${fullUrl}`);
-      console.log(`    Image: ${imageBase}`);
+      console.log(`[${products.length}] Found: ${name} (${sku})`);
     }
   }
 
@@ -432,9 +464,7 @@ function parseListingPage(html: string): DetailedProduct[] {
     }
   }
 
-  console.log(`\n========================================`);
-  console.log(`TOTAL PRODUCTS FOUND: ${products.length}`);
-  console.log(`========================================\n`);
+  console.log(`\nTOTAL PRODUCTS FOUND: ${products.length}`);
 
   return products;
 }
@@ -475,7 +505,8 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
     const {
       pageNum,
-      mode = "fast",
+      rawHtml,
+      mode = "scrape",
       productUrl,
       sku,
       importToDb = true,
@@ -486,6 +517,42 @@ Deno.serve(async (req: Request) => {
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const svcKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+
+    if (mode === "analyze-gaps") {
+      console.log("\n============ GAP ANALYSIS MODE ============");
+      const supabase = createClient(supabaseUrl, svcKey);
+
+      const { data: sofaCategory } = await supabase
+        .from("categories")
+        .select("id")
+        .eq("slug", "sofas")
+        .maybeSingle();
+
+      if (!sofaCategory) {
+        return new Response(
+          JSON.stringify({ success: false, error: "Sofas category not found" }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      const { count: totalInDb } = await supabase
+        .from("products")
+        .select("*", { count: "exact", head: true })
+        .eq("category_id", sofaCategory.id);
+
+      const expectedTotal = 9 * 30;
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          totalInDb: totalInDb || 0,
+          expectedTotal,
+          missingPages: [],
+          incompletePages: [],
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
 
     if (mode === "delete") {
       console.log("\n============ DELETE MODE ============");
@@ -535,7 +602,7 @@ Deno.serve(async (req: Request) => {
       console.log("\n============ GALLERY EXTRACTION MODE ============");
 
       const url = productUrl || `https://www.ashleyfurniture.com/p/product/${sku}.html`;
-      const images = await scrapeFullGallery(url, sku, validateImages);
+      const images = await scrapeFullGalleryWithFetch(url, sku, validateImages);
 
       if (importToDb && images.length > 0) {
         const supabase = createClient(supabaseUrl, svcKey);
@@ -575,45 +642,151 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    if (mode === "detail" && productUrl && sku) {
-      console.log("\n============ DETAIL PAGE MODE ============");
-      const images = await scrapeFullGallery(productUrl, sku, validateImages);
+    if (rawHtml) {
+      console.log("\n============================================");
+      console.log("PROCESSING RAW HTML");
+      console.log("============================================");
 
-      if (importToDb && images.length > 0) {
-        const supabase = createClient(supabaseUrl, svcKey);
-        const { data: product } = await supabase
-          .from("products")
-          .select("id")
-          .eq("sku", sku)
-          .maybeSingle();
+      const products = parseListingPage(rawHtml);
 
-        if (product) {
-          await supabase.from("product_images").delete().eq("product_id", product.id);
-          for (let i = 0; i < images.length; i++) {
-            await supabase.from("product_images").insert({
-              product_id: product.id,
-              image_url: images[i],
-              display_order: i,
-            });
+      if (products.length === 0) {
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: "No products found in provided HTML",
+          }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      if (!importToDb) {
+        return new Response(
+          JSON.stringify({ success: true, products, count: products.length }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      console.log("\n=== IMPORTING TO DATABASE ===");
+      const supabase = createClient(supabaseUrl, svcKey);
+
+      const { data: category } = await supabase
+        .from("categories")
+        .select("id")
+        .eq("slug", "sofas")
+        .maybeSingle();
+
+      let succeeded = 0;
+      let failed = 0;
+
+      for (let i = 0; i < products.length; i++) {
+        const product = products[i];
+
+        try {
+          let imagesToUse = product.images;
+
+          if (fetchDetails) {
+            console.log(`[${i + 1}/${products.length}] Fetching gallery for ${product.sku}...`);
+            try {
+              const galleryImages = await fetchWithTimeout(
+                scrapeGalleryFast(product.sku, validateImages),
+                BATCH_GALLERY_TIMEOUT_MS,
+                product.images
+              );
+              if (galleryImages.length > 0) {
+                imagesToUse = galleryImages;
+              }
+            } catch (galleryError) {
+              console.log(`  Gallery fetch failed, using default image`);
+            }
           }
-          console.log(`Updated ${sku} with ${images.length} images`);
+
+          const { data: existing } = await supabase
+            .from("products")
+            .select("id")
+            .eq("sku", product.sku)
+            .maybeSingle();
+
+          if (existing) {
+            await supabase
+              .from("products")
+              .update({ description: product.description, price: product.price })
+              .eq("id", existing.id);
+
+            await supabase.from("product_images").delete().eq("product_id", existing.id);
+
+            for (let idx = 0; idx < imagesToUse.length; idx++) {
+              await supabase.from("product_images").insert({
+                product_id: existing.id,
+                image_url: imagesToUse[idx],
+                display_order: idx,
+              });
+            }
+
+            console.log(`[${i + 1}] UPDATED: ${product.name} (${imagesToUse.length} images)`);
+            succeeded++;
+          } else {
+            const slug = product.name
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "-")
+              .replace(/^-|-$/g, "");
+
+            const { data: newProduct, error: insertError } = await supabase
+              .from("products")
+              .insert({
+                name: product.name,
+                slug: `${slug}-${product.sku.toLowerCase()}`,
+                sku: product.sku,
+                price: product.price,
+                description: product.description,
+                category_id: category?.id || null,
+                stock_quantity: 10,
+                status: "active",
+              })
+              .select()
+              .single();
+
+            if (insertError || !newProduct) {
+              console.error(`[${i + 1}] FAILED: ${insertError?.message}`);
+              failed++;
+              continue;
+            }
+
+            for (let idx = 0; idx < imagesToUse.length; idx++) {
+              await supabase.from("product_images").insert({
+                product_id: newProduct.id,
+                image_url: imagesToUse[idx],
+                display_order: idx,
+              });
+            }
+
+            console.log(`[${i + 1}] CREATED: ${product.name} (${imagesToUse.length} images)`);
+            succeeded++;
+          }
+        } catch (error: any) {
+          console.error(`[${i + 1}] ERROR: ${error.message}`);
+          failed++;
         }
       }
 
       return new Response(
-        JSON.stringify({ success: true, sku, images, count: images.length }),
+        JSON.stringify({
+          success: true,
+          total: products.length,
+          succeeded,
+          failed,
+        }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
     console.log("\n============================================");
     console.log(`ASHLEY SCRAPER - PAGE ${pageNum}`);
-    console.log(`Mode: ${fetchDetails ? 'Full Gallery' : 'Fast'}`);
+    console.log(`Mode: ${fetchDetails ? 'With Gallery (Fast)' : 'Fast'}`);
     console.log("============================================");
 
     if (!pageNum || pageNum < 1 || pageNum > 20) {
       return new Response(
-        JSON.stringify({ error: "Provide pageNum (1-20)" }),
+        JSON.stringify({ error: "Provide pageNum (1-20) or rawHtml" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
@@ -669,10 +842,19 @@ Deno.serve(async (req: Request) => {
         let imagesToUse = product.images;
 
         if (fetchDetails) {
-          console.log(`\n[${i + 1}/${products.length}] Fetching full gallery for ${product.sku}...`);
-          const galleryImages = await scrapeFullGallery(product.url, product.sku, validateImages);
-          if (galleryImages.length > 0) {
-            imagesToUse = galleryImages;
+          console.log(`[${i + 1}/${products.length}] Fetching gallery for ${product.sku}...`);
+          try {
+            const galleryImages = await fetchWithTimeout(
+              scrapeGalleryFast(product.sku, validateImages),
+              BATCH_GALLERY_TIMEOUT_MS,
+              product.images
+            );
+            if (galleryImages.length > 0) {
+              imagesToUse = galleryImages;
+              console.log(`  Got ${imagesToUse.length} images from Scene7`);
+            }
+          } catch (galleryError: any) {
+            console.log(`  Gallery fetch failed: ${galleryError.message}, using default`);
           }
         }
 
