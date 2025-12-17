@@ -27,79 +27,44 @@ export default function SofaScraper() {
     );
 
     try {
-      const pageFetcherUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/page-fetcher`;
-      const startParam = (pageNum - 1) * 30;
-      const targetUrl = `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${startParam}&sz=30`;
+      const startParam = pageNum === 1 ? 0 : (pageNum - 1) * 30;
+      const targetUrl = pageNum === 1
+        ? 'https://www.ashleyfurniture.com/c/furniture/living-room/sofas/'
+        : `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${startParam}&sz=30`;
 
-      const response = await fetch(pageFetcherUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify({ url: targetUrl }),
-      });
+      window.open(targetUrl, '_blank');
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch page');
+      alert(`Step 1: A new tab opened with Ashley Furniture page ${pageNum}.\n\nStep 2: Once the page loads, open DevTools (F12) and go to Console.\n\nStep 3: Paste this code and press Enter:\n\n(() => { const products = []; document.querySelectorAll('.product-tile, .product, [data-pid]').forEach(tile => { const nameEl = tile.querySelector('.product-name, .pdp-link a, [class*="product-name"]'); const priceEl = tile.querySelector('.price, .sales, [class*="price"]'); const imageEl = tile.querySelector('img[src*="scene7"], img[data-src*="scene7"]'); const linkEl = tile.querySelector('a[href*="/p/"]'); if (nameEl && priceEl) { const name = nameEl.textContent?.trim() || ''; const priceText = priceEl.textContent?.trim() || ''; const price = parseFloat(priceText.replace(/[^\\d.]/g, '')); let imageUrl = imageEl?.getAttribute('src') || imageEl?.getAttribute('data-src') || ''; if (imageUrl) { imageUrl = imageUrl.split('?')[0] + '?$AFHS-PDP-Main$'; if (imageUrl.startsWith('//')) imageUrl = 'https:' + imageUrl; } const productUrl = linkEl?.getAttribute('href') || ''; const sku = productUrl.match(/\\/p\\/[^\\/]+\\/([^\\/\\.]+)/)?.[1] || ''; if (name && !isNaN(price) && price > 0) { products.push({ name, price, imageUrl, sku }); } } }); console.log('Found products:', products.length); copy(JSON.stringify(products, null, 2)); console.log('✓ Copied to clipboard!'); })();\n\nStep 4: Come back here and paste the data.`);
+
+      const productDataStr = prompt('Paste the product JSON data:');
+
+      if (!productDataStr) {
+        throw new Error('No data provided');
       }
 
-      const result = await response.json();
+      const productCards = JSON.parse(productDataStr);
 
-      if (!result.success) {
-        throw new Error('Page fetch failed');
-      }
-
-      const html = result.html;
-
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-
-      console.log('HTML Preview:', html.substring(0, 1000));
-
-      const productCards = doc.querySelectorAll('.product-tile, .product, [data-product-tile], [class*="ProductTile"], .grid-tile, [class*="grid-tile"]');
-
-      console.log(`Found ${productCards.length} product cards`);
+      console.log(`Found ${productCards.length} products`);
 
       let succeeded = 0;
       let failed = 0;
 
-      for (const card of Array.from(productCards)) {
+      const { data: category } = await supabase
+        .from('categories')
+        .select('id')
+        .eq('slug', 'sofas')
+        .maybeSingle();
+
+      for (const card of productCards) {
         try {
-          console.log('Card HTML:', card.outerHTML.substring(0, 500));
+          const { name, price, imageUrl, sku: productSku } = card;
 
-          const nameEl = card.querySelector('.product-name, .product-title, [class*="name"], [class*="title"], a[href*="/p/"]');
-          const priceEl = card.querySelector('.price, [class*="price"], .sales, [class*="Sales"]');
-          const imageEl = card.querySelector('img');
-
-          console.log('Name element:', nameEl?.textContent, 'Price element:', priceEl?.textContent);
-
-          if (!nameEl || !priceEl) {
-            console.log('Missing name or price element');
+          if (!name || !price) {
             failed++;
             continue;
           }
 
-          const name = nameEl.textContent?.trim() || '';
-          const priceText = priceEl.textContent?.trim() || '';
-          const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
-
-          let imageUrl = imageEl?.getAttribute('src') || imageEl?.getAttribute('data-src') || '';
-          if (imageUrl && imageUrl.startsWith('//')) {
-            imageUrl = 'https:' + imageUrl;
-          }
-
-          if (!name || isNaN(price)) {
-            failed++;
-            continue;
-          }
-
-          const slug = name
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/^-|-$/g, '');
-
-          const sku = `ASHLEY-SOF-${String(startParam + succeeded + 1).padStart(4, '0')}`;
+          const sku = productSku || `ASH-SOF-P${pageNum}-${String(succeeded + failed + 1).padStart(3, '0')}`;
 
           const { data: existingProduct } = await supabase
             .from('products')
@@ -108,15 +73,15 @@ export default function SofaScraper() {
             .maybeSingle();
 
           if (existingProduct) {
+            console.log(`Skipped existing: ${name}`);
             failed++;
             continue;
           }
 
-          const { data: category } = await supabase
-            .from('categories')
-            .select('id')
-            .eq('slug', 'sofas')
-            .maybeSingle();
+          const slug = name
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-|-$/g, '');
 
           const { data: product, error: productError } = await supabase
             .from('products')
@@ -134,6 +99,7 @@ export default function SofaScraper() {
             .single();
 
           if (productError || !product) {
+            console.log(`Failed: ${name}`, productError);
             failed++;
             continue;
           }
@@ -146,6 +112,7 @@ export default function SofaScraper() {
             });
           }
 
+          console.log(`✓ Imported: ${name}`);
           succeeded++;
 
           setStats((prev) =>
@@ -154,6 +121,7 @@ export default function SofaScraper() {
             )
           );
         } catch (error) {
+          console.error('Import error:', error);
           failed++;
         }
       }
