@@ -1,6 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.4";
-import { DOMParser } from "npm:linkedom@0.18.4";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -23,6 +22,7 @@ async function fetchWithRetry(url: string, maxRetries = 3): Promise<string> {
     try {
       const delay = i * 2000 + Math.random() * 1000;
       if (i > 0) {
+        console.log(`Retry ${i} after ${Math.round(delay)}ms delay...`);
         await new Promise(resolve => setTimeout(resolve, delay));
       }
 
@@ -44,14 +44,15 @@ async function fetchWithRetry(url: string, maxRetries = 3): Promise<string> {
         redirect: "follow",
       });
 
+      console.log(`Fetch attempt ${i + 1}: Status ${response.status}`);
+
       if (response.ok) {
         const html = await response.text();
+        console.log(`HTML length: ${html.length} chars`);
         if (html.length > 5000) {
           return html;
         }
       }
-
-      console.log(`Attempt ${i + 1} failed: ${response.status}`);
     } catch (error) {
       console.error(`Attempt ${i + 1} error:`, error);
     }
@@ -60,68 +61,85 @@ async function fetchWithRetry(url: string, maxRetries = 3): Promise<string> {
 }
 
 function parseProducts(html: string): Array<any> {
-  const dom = new DOMParser().parseFromString(html, "text/html");
   const products: Array<any> = [];
 
-  const scripts = Array.from(dom.querySelectorAll('script[type="application/ld+json"]'));
-  
-  for (const script of scripts) {
-    try {
-      const data = JSON.parse(script.textContent || "");
-      if (data["@type"] === "Product" || (Array.isArray(data) && data.some((d: any) => d["@type"] === "Product"))) {
-        const productList = Array.isArray(data) ? data : [data];
-        for (const product of productList) {
-          if (product["@type"] === "Product") {
-            products.push({
-              name: product.name,
-              price: parseFloat(product.offers?.price || product.offers?.[0]?.price || 0),
-              imageUrl: product.image?.[0] || product.image || "",
-              sku: product.sku || "",
-            });
+  console.log("Starting to parse products...");
+
+  try {
+    const jsonLdMatches = html.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi);
+    
+    for (const match of jsonLdMatches) {
+      try {
+        const jsonText = match[1].trim();
+        const data = JSON.parse(jsonText);
+        
+        if (data["@type"] === "Product" || (Array.isArray(data) && data.some((d: any) => d["@type"] === "Product"))) {
+          const productList = Array.isArray(data) ? data : [data];
+          
+          for (const product of productList) {
+            if (product["@type"] === "Product") {
+              const price = parseFloat(product.offers?.price || product.offers?.[0]?.price || 0);
+              const imageUrl = product.image?.[0] || product.image || "";
+              
+              if (product.name && price > 0) {
+                products.push({
+                  name: product.name,
+                  price,
+                  imageUrl,
+                  sku: product.sku || "",
+                });
+              }
+            }
           }
         }
+      } catch (e) {
+        console.log("Failed to parse JSON-LD:", e);
       }
-    } catch (e) {
-      continue;
     }
+  } catch (e) {
+    console.error("Error in JSON-LD parsing:", e);
   }
 
+  console.log(`Found ${products.length} products from JSON-LD`);
+
   if (products.length === 0) {
-    const productTiles = dom.querySelectorAll('.product-tile, .product, [data-pid]');
+    console.log("No JSON-LD products found, trying regex parsing...");
     
-    productTiles.forEach((tile: any) => {
-      try {
-        const nameEl = tile.querySelector('.product-name, .pdp-link, [class*="product-name"]');
-        const priceEl = tile.querySelector('.price, .sales, [class*="price"]');
-        const imageEl = tile.querySelector('img');
-        const linkEl = tile.querySelector('a[href*="/p/"]');
-
-        if (nameEl && priceEl) {
-          const name = nameEl.textContent?.trim() || "";
-          const priceText = priceEl.textContent?.trim() || "";
-          const price = parseFloat(priceText.replace(/[^\d.]/g, ""));
-          
-          let imageUrl = imageEl?.getAttribute("src") || imageEl?.getAttribute("data-src") || "";
-          if (imageUrl) {
-            if (imageUrl.includes("scene7")) {
-              imageUrl = imageUrl.split("?")[0] + "?$AFHS-PDP-Main$";
-            }
-            if (imageUrl.startsWith("//")) {
-              imageUrl = "https:" + imageUrl;
-            }
-          }
-
-          const productUrl = linkEl?.getAttribute("href") || "";
-          const sku = productUrl.match(/\/p\/[^\/]+\/([^\/\.]+)/)?.[1] || "";
-
-          if (name && !isNaN(price) && price > 0) {
-            products.push({ name, price, imageUrl, sku });
+    const tileRegex = /<div[^>]*class="[^"]*product[^"]*"[^>]*>([\s\S]*?)<\/div>/gi;
+    const matches = html.matchAll(tileRegex);
+    
+    let matchCount = 0;
+    for (const match of matches) {
+      matchCount++;
+      const tileHtml = match[1];
+      
+      const nameMatch = tileHtml.match(/class="[^"]*product-name[^"]*"[^>]*>([^<]+)</i);
+      const priceMatch = tileHtml.match(/\$([\d,]+\.?\d*)/i);
+      const imageMatch = tileHtml.match(/src="([^"]*scene7[^"]*)"/);
+      const skuMatch = tileHtml.match(/\/p\/[^\/]+\/([^\/\."\s]+)/);
+      
+      if (nameMatch && priceMatch) {
+        const name = nameMatch[1].trim();
+        const price = parseFloat(priceMatch[1].replace(/,/g, ""));
+        let imageUrl = imageMatch?.[1] || "";
+        
+        if (imageUrl) {
+          imageUrl = imageUrl.split("?")[0] + "?$AFHS-PDP-Main$";
+          if (imageUrl.startsWith("//")) {
+            imageUrl = "https:" + imageUrl;
           }
         }
-      } catch (err) {
-        console.error("Error parsing product:", err);
+        
+        products.push({
+          name,
+          price,
+          imageUrl,
+          sku: skuMatch?.[1] || "",
+        });
       }
-    });
+    }
+    
+    console.log(`Checked ${matchCount} HTML tiles, found ${products.length} products`);
   }
 
   return products;
@@ -136,6 +154,8 @@ Deno.serve(async (req: Request) => {
     const { pageNum, importToDb = true } = await req.json();
     const authHeader = req.headers.get("Authorization");
 
+    console.log(`=== Ashley Scraper Page ${pageNum} ===`);
+
     if (!pageNum || pageNum < 1 || pageNum > 20) {
       return new Response(
         JSON.stringify({ error: "Valid pageNum (1-20) is required" }),
@@ -144,23 +164,30 @@ Deno.serve(async (req: Request) => {
     }
 
     const startParam = pageNum === 1 ? 0 : (pageNum - 1) * 30;
-    const url = pageNum === 1
-      ? "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/"
-      : `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${startParam}&sz=30`;
+    const baseUrl = "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/";
+    const url = pageNum === 1 ? baseUrl : baseUrl + "?start=" + startParam + "&sz=30";
 
-    console.log(`Scraping page ${pageNum}: ${url}`);
+    console.log(`Fetching: ${url}`);
 
     const html = await fetchWithRetry(url);
     const products = parseProducts(html);
 
-    console.log(`Found ${products.length} products`);
+    console.log(`Parsed ${products.length} total products`);
 
     if (!importToDb) {
+      console.log("Returning without import (importToDb=false)");
       return new Response(
-        JSON.stringify({ success: true, products, count: products.length }),
+        JSON.stringify({ 
+          success: true, 
+          products, 
+          count: products.length,
+          pageNum,
+        }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+
+    console.log("Starting database import...");
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = authHeader?.replace("Bearer ", "") || Deno.env.get("SUPABASE_ANON_KEY")!;
@@ -168,12 +195,15 @@ Deno.serve(async (req: Request) => {
 
     let succeeded = 0;
     let failed = 0;
+    const errors: string[] = [];
 
     const { data: category } = await supabase
       .from("categories")
       .select("id")
       .eq("slug", "sofas")
       .maybeSingle();
+
+    console.log(`Category ID: ${category?.id || 'null'}`);
 
     for (const product of products) {
       try {
@@ -186,6 +216,7 @@ Deno.serve(async (req: Request) => {
           .maybeSingle();
 
         if (existing) {
+          console.log(`Skipped duplicate: ${product.name}`);
           failed++;
           continue;
         }
@@ -211,25 +242,34 @@ Deno.serve(async (req: Request) => {
           .single();
 
         if (productError || !newProduct) {
-          console.error(`Failed to insert ${product.name}:`, productError);
+          console.error(`Failed to insert ${product.name}:`, productError?.message);
+          errors.push(`${product.name}: ${productError?.message}`);
           failed++;
           continue;
         }
 
         if (product.imageUrl) {
-          await supabase.from("product_images").insert({
+          const { error: imageError } = await supabase.from("product_images").insert({
             product_id: newProduct.id,
             image_url: product.imageUrl,
             display_order: 0,
           });
+          
+          if (imageError) {
+            console.log(`Image insert failed for ${product.name}:`, imageError.message);
+          }
         }
 
+        console.log(`Imported: ${product.name} - $${product.price}`);
         succeeded++;
-      } catch (error) {
+      } catch (error: any) {
         console.error(`Error importing product:`, error);
+        errors.push(error.message);
         failed++;
       }
     }
+
+    console.log(`=== Summary: Succeeded ${succeeded}, Failed ${failed} ===`);
 
     return new Response(
       JSON.stringify({
@@ -238,13 +278,18 @@ Deno.serve(async (req: Request) => {
         total: products.length,
         succeeded,
         failed,
+        errors: errors.slice(0, 5),
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error: any) {
     console.error("Scraper error:", error);
     return new Response(
-      JSON.stringify({ success: false, error: error.message }),
+      JSON.stringify({ 
+        success: false, 
+        error: error.message,
+        stack: error.stack,
+      }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }

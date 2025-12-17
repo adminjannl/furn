@@ -6,7 +6,9 @@ interface ScrapeStats {
   page: number;
   succeeded: number;
   failed: number;
+  total: number;
   status: 'idle' | 'scraping' | 'done' | 'error';
+  errorMessage?: string;
 }
 
 export default function SofaScraper() {
@@ -15,6 +17,7 @@ export default function SofaScraper() {
       page: i + 1,
       succeeded: 0,
       failed: 0,
+      total: 0,
       status: 'idle',
     }))
   );
@@ -57,23 +60,31 @@ export default function SofaScraper() {
         throw new Error(result.error || 'Scraping failed');
       }
 
-      const { succeeded, failed } = result;
+      const { succeeded, failed, total, errors } = result;
 
       setStats((prev) =>
         prev.map((s) =>
           s.page === pageNum
-            ? { ...s, status: 'done', succeeded, failed }
+            ? {
+                ...s,
+                status: 'done',
+                succeeded: succeeded || 0,
+                failed: failed || 0,
+                total: total || 0,
+                errorMessage: errors && errors.length > 0 ? errors[0] : undefined
+              }
             : s
         )
       );
 
-      console.log(`✅ Page ${pageNum}: ${succeeded} succeeded, ${failed} failed`);
+      console.log(`✅ Page ${pageNum}: ${succeeded} succeeded, ${failed} failed, ${total} total found`);
     } catch (error) {
       console.error('Error scraping page:', error);
+      const errorMsg = error instanceof Error ? error.message : 'Unknown error';
       setStats((prev) =>
         prev.map((s) =>
           s.page === pageNum
-            ? { ...s, status: 'error', failed: 1 }
+            ? { ...s, status: 'error', failed: 1, errorMessage: errorMsg }
             : s
         )
       );
@@ -151,10 +162,18 @@ export default function SofaScraper() {
                 {stat.status === 'idle' && (
                   <Download className="w-6 h-6 text-oak-400 mx-auto mb-2" />
                 )}
-                {(stat.succeeded > 0 || stat.failed > 0) && (
+                {(stat.succeeded > 0 || stat.failed > 0 || stat.total > 0) && (
                   <div className="text-xs space-y-1">
+                    {stat.total > 0 && (
+                      <div className="text-oak-600 font-medium">Found: {stat.total}</div>
+                    )}
                     <div className="text-green-600 font-medium">+{stat.succeeded}</div>
                     <div className="text-red-600 font-medium">-{stat.failed}</div>
+                  </div>
+                )}
+                {stat.errorMessage && (
+                  <div className="text-xs text-red-600 mt-2 truncate" title={stat.errorMessage}>
+                    {stat.errorMessage}
                   </div>
                 )}
               </div>
