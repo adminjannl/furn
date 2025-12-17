@@ -59,41 +59,49 @@ interface Product {
 function parseAshleyHtml(html: string): Product[] {
   const products: Product[] = [];
 
-  const productRegex = /<div[^>]*class="[^"]*product-tile[^"]*"[^>]*>([\s\S]*?)<\/div>(?=\s*<div[^>]*class="[^"]*product-tile|$)/gi;
+  const gtmDataRegex = /data-gtmdata="([^"]+)"/gi;
   let match;
 
-  while ((match = productRegex.exec(html)) !== null) {
-    const productHtml = match[1];
+  while ((match = gtmDataRegex.exec(html)) !== null) {
+    try {
+      const jsonStr = match[1]
+        .replace(/&quot;/g, '"')
+        .replace(/&amp;/g, '&');
 
-    const skuMatch = productHtml.match(/data-itemid="([^"]+)"|data-sku="([^"]+)"/i);
-    const sku = skuMatch ? (skuMatch[1] || skuMatch[2]) : '';
+      const data = JSON.parse(jsonStr);
 
-    const nameMatch = productHtml.match(/<a[^>]*class="[^"]*name-link[^"]*"[^>]*>([^<]+)</i) ||
-                      productHtml.match(/<div[^>]*class="[^"]*product-name[^"]*"[^>]*>([^<]+)</i);
-    const name = nameMatch ? nameMatch[1].trim() : '';
+      if (data.id && data.name && data.price) {
+        const sku = data.id.replace(/-Master$/, '');
+        const name = data.name;
+        const price = parseFloat(data.price) || 0;
+        const url = data.productURL || '';
+        const imageUrl = data.imageUrl || '';
 
-    const priceMatch = productHtml.match(/\$([0-9,]+(?:\.[0-9]{2})?)/);
-    const price = priceMatch ? parseFloat(priceMatch[1].replace(/,/g, '')) : 0;
+        const fullImageUrl = imageUrl.includes('?')
+          ? imageUrl
+          : `${imageUrl}?$AFHS-Zoom$`;
 
-    const urlMatch = productHtml.match(/<a[^>]*href="([^"]* \/p\/[^"]+)"/i);
-    const url = urlMatch ? (urlMatch[1].startsWith('http') ? urlMatch[1] : `https://www.ashleyfurniture.com${urlMatch[1]}`) : '';
-
-    const imageMatch = productHtml.match(/src="([^"]*ashley[^"]*\.jpg[^"]*)"/i) ||
-                       productHtml.match(/data-src="([^"]*ashley[^"]*\.jpg[^"]*)"/i);
-    const imageUrl = imageMatch ? imageMatch[1] : '';
-
-    if (sku && name && url) {
-      products.push({
-        sku,
-        name,
-        price,
-        url,
-        imageUrl,
-      });
+        products.push({
+          sku,
+          name,
+          price,
+          url,
+          imageUrl: fullImageUrl,
+        });
+      }
+    } catch (e) {
+      continue;
     }
   }
 
-  return products;
+  const uniqueProducts = new Map<string, Product>();
+  products.forEach(p => {
+    if (!uniqueProducts.has(p.sku)) {
+      uniqueProducts.set(p.sku, p);
+    }
+  });
+
+  return Array.from(uniqueProducts.values());
 }
 
 async function fetchProductDetails(productUrl: string): Promise<Partial<Product>> {
@@ -108,7 +116,7 @@ async function fetchProductDetails(productUrl: string): Promise<Partial<Product>
 
     const html = await response.text();
 
-    const descMatch = html.match(/<div[^>]*class="[^"]*product-description[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
+    const descMatch = html.match(/<div[^>]*class="[^"]*description[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
     const description = descMatch ? descMatch[1].replace(/<[^>]+>/g, '').trim() : '';
 
     const dimensionsMatch = html.match(/Dimensions[:\s]*([^<]+)/i);
@@ -118,13 +126,15 @@ async function fetchProductDetails(productUrl: string): Promise<Partial<Product>
     const material = materialMatch ? materialMatch[1].trim() : '';
 
     const galleryImages: string[] = [];
-    const imageRegex = /<img[^>]*src="([^"]*ashley[^"]*\.jpg[^"]*)"/gi;
+    const imageRegex = /scene7\.com\/is\/image\/AshleyFurniture\/([^"?]+)/gi;
     let imgMatch;
+    const seen = new Set<string>();
 
     while ((imgMatch = imageRegex.exec(html)) !== null) {
-      const imgUrl = imgMatch[1];
-      if (!galleryImages.includes(imgUrl) && imgUrl.includes('ashley')) {
-        galleryImages.push(imgUrl);
+      const imgId = imgMatch[1];
+      if (!seen.has(imgId)) {
+        seen.add(imgId);
+        galleryImages.push(`https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imgId}?$AFHS-Zoom$`);
       }
     }
 
