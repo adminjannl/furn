@@ -18,6 +18,18 @@ interface DetailedProduct {
   images: string[];
 }
 
+interface Scene7ImageSetItem {
+  n: string;
+  dx?: number;
+  dy?: number;
+}
+
+interface Scene7SetResponse {
+  set: {
+    item: Scene7ImageSetItem[];
+  };
+}
+
 function generateDescription(name: string): string {
   const cleanName = name.toLowerCase();
   const features = [];
@@ -40,6 +52,266 @@ function skuToImageBase(sku: string): string {
     return sku.slice(0, -2) + '-' + sku.slice(-2);
   }
   return sku;
+}
+
+function buildImageUrl(imageId: string, width = 1200, height = 900): string {
+  return `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageId}?fit=fit&wid=${width}&hei=${height}`;
+}
+
+async function fetchScene7ImageSet(imageBase: string): Promise<string[]> {
+  const images: string[] = [];
+
+  const setUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageBase}?req=set,json&handler=s7jsonResponse`;
+
+  console.log(`  Trying Scene7 ImageSet API: ${imageBase}`);
+
+  try {
+    const response = await fetch(setUrl, {
+      headers: {
+        "Accept": "*/*",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      },
+    });
+
+    if (!response.ok) {
+      console.log(`  Scene7 API returned ${response.status}`);
+      return [];
+    }
+
+    const text = await response.text();
+
+    const jsonMatch = text.match(/s7jsonResponse\(([\s\S]+)\)/);
+    if (!jsonMatch) {
+      console.log(`  Could not parse Scene7 response`);
+      return [];
+    }
+
+    const data = JSON.parse(jsonMatch[1]) as Scene7SetResponse;
+
+    if (data.set && data.set.item && Array.isArray(data.set.item)) {
+      for (const item of data.set.item) {
+        if (item.n) {
+          const imageId = item.n.replace('AshleyFurniture/', '');
+          images.push(buildImageUrl(imageId));
+          console.log(`    Set image: ${imageId}`);
+        }
+      }
+    }
+
+    console.log(`  Scene7 API found ${images.length} images`);
+  } catch (error: any) {
+    console.log(`  Scene7 API error: ${error.message}`);
+  }
+
+  return images;
+}
+
+function extractImagesFromHtml(html: string, imageBase: string): string[] {
+  const images: string[] = [];
+  const imageIds = new Set<string>();
+
+  console.log(`  Extracting images from HTML for base: ${imageBase}`);
+
+  const patterns = [
+    /AshleyFurniture\/([A-Z0-9]+-[A-Z0-9]+(?:-[A-Za-z0-9-]+)?)/gi,
+    /data-src="[^"]*AshleyFurniture\/([^"?]+)/gi,
+    /src="[^"]*AshleyFurniture\/([^"?]+)/gi,
+    /"mediaId"\s*:\s*"([^"]+)"/gi,
+    /"imageId"\s*:\s*"([^"]+)"/gi,
+    /pdp-carousel[^>]*data-images="([^"]+)"/gi,
+  ];
+
+  for (const pattern of patterns) {
+    let match;
+    while ((match = pattern.exec(html)) !== null) {
+      let imageId = match[1];
+
+      imageId = imageId
+        .replace(/&amp;/g, '&')
+        .replace(/\\u002F/g, '/')
+        .split('?')[0]
+        .split('&')[0];
+
+      if (imageId.includes('$')) continue;
+      if (imageId.length < 5) continue;
+
+      const normalizedId = imageId.toUpperCase();
+      const normalizedBase = imageBase.toUpperCase();
+
+      if (!normalizedId.startsWith(normalizedBase.split('-')[0])) continue;
+
+      if (!imageIds.has(normalizedId)) {
+        imageIds.add(normalizedId);
+        images.push(buildImageUrl(imageId));
+        console.log(`    HTML image: ${imageId}`);
+      }
+    }
+  }
+
+  console.log(`  HTML extraction found ${images.length} images`);
+  return images;
+}
+
+function generateCommonSuffixImages(imageBase: string): string[] {
+  const images: string[] = [];
+
+  console.log(`  Generating common suffix variants for: ${imageBase}`);
+
+  const commonSuffixes = [
+    '',
+    '-quill',
+    '-quill-quill',
+    '-quill-quill-quill',
+    '-quill-quill-quill-quill',
+    '-quill-quill-quill-quill-quill',
+    '-quill-quill-quill-quill-quill-quill',
+    '-quill-quill-quill-quill-quill-quill-quill',
+    '-quill-quill-quill-quill-quill-quill-quill-quill',
+    '-QUILL',
+    '-SW',
+    '-ALT',
+    '-10x8-QUILL',
+  ];
+
+  for (const suffix of commonSuffixes) {
+    images.push(buildImageUrl(`${imageBase}${suffix}`));
+  }
+
+  console.log(`  Generated ${images.length} suffix variants`);
+  return images;
+}
+
+async function validateImageUrls(imageUrls: string[]): Promise<string[]> {
+  const validImages: string[] = [];
+
+  console.log(`  Validating ${imageUrls.length} image URLs...`);
+
+  const batchSize = 5;
+  for (let i = 0; i < imageUrls.length; i += batchSize) {
+    const batch = imageUrls.slice(i, i + batchSize);
+
+    const results = await Promise.all(
+      batch.map(async (url) => {
+        try {
+          const response = await fetch(url, { method: 'HEAD' });
+          const contentType = response.headers.get('content-type') || '';
+
+          if (response.ok && contentType.includes('image')) {
+            return url;
+          }
+          return null;
+        } catch {
+          return null;
+        }
+      })
+    );
+
+    for (const result of results) {
+      if (result) {
+        validImages.push(result);
+      }
+    }
+  }
+
+  console.log(`  Validated: ${validImages.length}/${imageUrls.length} images exist`);
+  return validImages;
+}
+
+function sortAndDedupeImages(images: string[], imageBase: string): string[] {
+  const seen = new Set<string>();
+  const unique: string[] = [];
+
+  for (const url of images) {
+    const normalizedUrl = url.toLowerCase().split('?')[0];
+    if (!seen.has(normalizedUrl)) {
+      seen.add(normalizedUrl);
+      unique.push(url);
+    }
+  }
+
+  const baseUpper = imageBase.toUpperCase();
+
+  unique.sort((a, b) => {
+    const aId = a.split('/AshleyFurniture/')[1]?.split('?')[0]?.toUpperCase() || '';
+    const bId = b.split('/AshleyFurniture/')[1]?.split('?')[0]?.toUpperCase() || '';
+
+    const aIsMain = aId === baseUpper;
+    const bIsMain = bId === baseUpper;
+    if (aIsMain && !bIsMain) return -1;
+    if (!aIsMain && bIsMain) return 1;
+
+    const aSuffixCount = (aId.match(/-/g) || []).length;
+    const bSuffixCount = (bId.match(/-/g) || []).length;
+
+    return aSuffixCount - bSuffixCount;
+  });
+
+  return unique;
+}
+
+async function scrapeFullGallery(productUrl: string, sku: string, validate = false): Promise<string[]> {
+  console.log(`\n========================================`);
+  console.log(`SCRAPING FULL GALLERY FOR: ${sku}`);
+  console.log(`URL: ${productUrl}`);
+  console.log(`========================================`);
+
+  const imageBase = skuToImageBase(sku);
+  let allImages: string[] = [];
+
+  const scene7Images = await fetchScene7ImageSet(imageBase);
+  allImages.push(...scene7Images);
+
+  if (scene7Images.length < 3) {
+    console.log(`\n  Scene7 returned few images, fetching detail page...`);
+
+    try {
+      const scraperUrl = `http://api.scraperapi.com?api_key=${SCRAPER_API_KEY}&url=${encodeURIComponent(productUrl)}&render=true&country_code=us&device_type=desktop`;
+
+      const response = await fetch(scraperUrl, {
+        headers: {
+          "Accept": "text/html,application/xhtml+xml",
+          "Accept-Language": "en-US,en;q=0.9",
+        },
+      });
+
+      if (response.ok) {
+        const html = await response.text();
+        console.log(`  Fetched ${html.length} chars of HTML`);
+
+        const htmlImages = extractImagesFromHtml(html, imageBase);
+        allImages.push(...htmlImages);
+      }
+    } catch (error: any) {
+      console.log(`  Detail page fetch failed: ${error.message}`);
+    }
+  }
+
+  if (allImages.length < 3) {
+    console.log(`\n  Still few images, generating suffix variants...`);
+    const suffixImages = generateCommonSuffixImages(imageBase);
+    allImages.push(...suffixImages);
+
+    if (validate) {
+      allImages = await validateImageUrls(allImages);
+    }
+  }
+
+  allImages = sortAndDedupeImages(allImages, imageBase);
+
+  if (allImages.length === 0) {
+    console.log(`  No images found, using default`);
+    allImages.push(buildImageUrl(imageBase));
+  }
+
+  const finalImages = allImages.slice(0, 12);
+
+  console.log(`\n  FINAL IMAGE COUNT: ${finalImages.length}`);
+  finalImages.forEach((img, i) => {
+    const id = img.split('/AshleyFurniture/')[1]?.split('?')[0] || 'unknown';
+    console.log(`    [${i + 1}] ${id}`);
+  });
+
+  return finalImages;
 }
 
 function parseListingPage(html: string): DetailedProduct[] {
@@ -97,7 +369,7 @@ function parseListingPage(html: string): DetailedProduct[] {
 
       const fullUrl = url.startsWith("http") ? url : `https://www.ashleyfurniture.com${url}`;
       const imageBase = skuToImageBase(sku);
-      const defaultImage = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageBase}?fit=fit&wid=1200&hei=900`;
+      const defaultImage = buildImageUrl(imageBase);
 
       products.push({
         name,
@@ -145,7 +417,7 @@ function parseListingPage(html: string): DetailedProduct[] {
       const { url, sku } = urls[i];
       const fullUrl = `https://www.ashleyfurniture.com${url}`;
       const imageBase = skuToImageBase(sku);
-      const defaultImage = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageBase}?fit=fit&wid=1200&hei=900`;
+      const defaultImage = buildImageUrl(imageBase);
 
       products.push({
         name,
@@ -171,7 +443,6 @@ async function fetchViaScraperApi(targetUrl: string): Promise<string> {
   const scraperUrl = `http://api.scraperapi.com?api_key=${SCRAPER_API_KEY}&url=${encodeURIComponent(targetUrl)}&render=true&country_code=us&device_type=desktop`;
 
   console.log(`\nFetching: ${targetUrl}`);
-  console.log(`ScraperAPI URL: ${scraperUrl.substring(0, 100)}...`);
 
   const response = await fetch(scraperUrl, {
     method: "GET",
@@ -185,50 +456,14 @@ async function fetchViaScraperApi(targetUrl: string): Promise<string> {
 
   if (!response.ok) {
     const errorText = await response.text();
-    console.error(`ScraperAPI error response: ${errorText.substring(0, 500)}`);
+    console.error(`ScraperAPI error: ${errorText.substring(0, 500)}`);
     throw new Error(`ScraperAPI failed with status ${response.status}`);
   }
 
   const html = await response.text();
-  console.log(`Received ${html.length} characters of HTML`);
+  console.log(`Received ${html.length} characters`);
 
   return html;
-}
-
-async function scrapeProductDetailPage(productUrl: string, sku: string): Promise<string[]> {
-  console.log(`\nFetching detail page for ${sku}...`);
-
-  try {
-    const detailHtml = await fetchViaScraperApi(productUrl);
-    const images: string[] = [];
-    const imageIds = new Set<string>();
-    const imageBase = skuToImageBase(sku);
-
-    const scene7Pattern = /AshleyFurniture\/([A-Z0-9]+-[A-Z0-9]+(?:-[A-Z0-9-]+)?)/gi;
-    let match;
-
-    while ((match = scene7Pattern.exec(detailHtml)) !== null) {
-      const imageId = match[1];
-      if (!imageIds.has(imageId) && imageId.startsWith(imageBase) && !imageId.includes('$')) {
-        imageIds.add(imageId);
-        const directUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageId}?fit=fit&wid=1200&hei=900`;
-        images.push(directUrl);
-        console.log(`  Found image: ${imageId}`);
-      }
-    }
-
-    if (images.length === 0) {
-      const defaultUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageBase}?fit=fit&wid=1200&hei=900`;
-      images.push(defaultUrl);
-      console.log(`  Using default: ${imageBase}`);
-    }
-
-    console.log(`  Total: ${images.length} images`);
-    return images.slice(0, 12);
-  } catch (error: any) {
-    console.error(`  Failed: ${error.message}`);
-    return [];
-  }
 }
 
 Deno.serve(async (req: Request) => {
@@ -238,7 +473,17 @@ Deno.serve(async (req: Request) => {
 
   try {
     const body = await req.json();
-    const { pageNum, mode = "fast", productUrl, sku, importToDb = true, fetchDetails = false, deleteAll = false } = body;
+    const {
+      pageNum,
+      mode = "fast",
+      productUrl,
+      sku,
+      importToDb = true,
+      fetchDetails = false,
+      deleteAll = false,
+      validateImages = false
+    } = body;
+
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const svcKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
@@ -286,9 +531,53 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+    if (mode === "gallery" && sku) {
+      console.log("\n============ GALLERY EXTRACTION MODE ============");
+
+      const url = productUrl || `https://www.ashleyfurniture.com/p/product/${sku}.html`;
+      const images = await scrapeFullGallery(url, sku, validateImages);
+
+      if (importToDb && images.length > 0) {
+        const supabase = createClient(supabaseUrl, svcKey);
+        const { data: product } = await supabase
+          .from("products")
+          .select("id")
+          .eq("sku", sku)
+          .maybeSingle();
+
+        if (product) {
+          await supabase.from("product_images").delete().eq("product_id", product.id);
+
+          const insertPromises = images.map((imageUrl, idx) =>
+            supabase.from("product_images").insert({
+              product_id: product.id,
+              image_url: imageUrl,
+              display_order: idx,
+            })
+          );
+
+          await Promise.all(insertPromises);
+          console.log(`\nUpdated ${sku} with ${images.length} gallery images`);
+        } else {
+          console.log(`\nProduct ${sku} not found in database`);
+        }
+      }
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          sku,
+          images,
+          count: images.length,
+          method: 'full_gallery'
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     if (mode === "detail" && productUrl && sku) {
       console.log("\n============ DETAIL PAGE MODE ============");
-      const images = await scrapeProductDetailPage(productUrl, sku);
+      const images = await scrapeFullGallery(productUrl, sku, validateImages);
 
       if (importToDb && images.length > 0) {
         const supabase = createClient(supabaseUrl, svcKey);
@@ -380,10 +669,10 @@ Deno.serve(async (req: Request) => {
         let imagesToUse = product.images;
 
         if (fetchDetails) {
-          console.log(`\n[${i + 1}/${products.length}] Fetching gallery for ${product.sku}...`);
-          const detailImages = await scrapeProductDetailPage(product.url, product.sku);
-          if (detailImages.length > 0) {
-            imagesToUse = detailImages;
+          console.log(`\n[${i + 1}/${products.length}] Fetching full gallery for ${product.sku}...`);
+          const galleryImages = await scrapeFullGallery(product.url, product.sku, validateImages);
+          if (galleryImages.length > 0) {
+            imagesToUse = galleryImages;
           }
         }
 
