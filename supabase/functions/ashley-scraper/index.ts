@@ -9,7 +9,7 @@ const corsHeaders = {
 
 const SCRAPER_API_KEY = "1cd1284bc7d418a0eb88bbebd8cd46d1";
 const GALLERY_TIMEOUT_MS = 8000;
-const BATCH_GALLERY_TIMEOUT_MS = 6000;
+const BATCH_GALLERY_TIMEOUT_MS = 2000;
 
 interface DetailedProduct {
   name: string;
@@ -234,23 +234,37 @@ function sortAndDedupeImages(images: string[], imageBase: string): string[] {
   return unique;
 }
 
-async function scrapeGalleryFast(sku: string, validate = true): Promise<string[]> {
+function generateGalleryUrlsInstant(sku: string): string[] {
+  const imageBase = skuToImageBase(sku);
+
+  const suffixes = [
+    '',
+    '-HEAD-ON-SW-P1-KO',
+    '-QUILL-SW-P1-KO',
+    '-ANGLE-SW-P1-KO',
+    '-QUILL-QUILL-SW-P1-KO',
+    '-BACK-SW-P1-KO',
+  ];
+
+  return suffixes.map(suffix => buildImageUrl(`${imageBase}${suffix}`));
+}
+
+async function scrapeGalleryFast(sku: string, validate = false): Promise<string[]> {
   const imageBase = skuToImageBase(sku);
   let allImages: string[] = [];
 
-  const scene7Images = await fetchScene7ImageSetFast(imageBase, BATCH_GALLERY_TIMEOUT_MS);
-  allImages.push(...scene7Images);
-
-  const suffixImages = generateCommonSuffixImages(imageBase);
-
   if (validate) {
-    const validSuffixImages = await validateImageUrls(suffixImages, 1500);
-    allImages.push(...validSuffixImages);
-  } else {
-    allImages.push(...suffixImages.slice(0, 8));
-  }
+    const scene7Images = await fetchScene7ImageSetFast(imageBase, BATCH_GALLERY_TIMEOUT_MS);
+    allImages.push(...scene7Images);
 
-  allImages = sortAndDedupeImages(allImages, imageBase);
+    const suffixImages = generateCommonSuffixImages(imageBase);
+    const validSuffixImages = await validateImageUrls(suffixImages, 1000);
+    allImages.push(...validSuffixImages);
+
+    allImages = sortAndDedupeImages(allImages, imageBase);
+  } else {
+    allImages = generateGalleryUrlsInstant(sku);
+  }
 
   if (allImages.length === 0) {
     allImages.push(buildImageUrl(imageBase));
@@ -701,19 +715,9 @@ Deno.serve(async (req: Request) => {
           let imagesToUse = product.images;
 
           if (fetchDetails) {
-            console.log(`[${i + 1}/${products.length}] Fetching gallery for ${product.sku}...`);
-            try {
-              const galleryImages = await fetchWithTimeout(
-                scrapeGalleryFast(product.sku, validateImages),
-                BATCH_GALLERY_TIMEOUT_MS,
-                product.images
-              );
-              if (galleryImages.length > 0) {
-                imagesToUse = galleryImages;
-              }
-            } catch (galleryError) {
-              console.log(`  Gallery fetch failed, using default image`);
-            }
+            console.log(`[${i + 1}/${products.length}] Generating gallery for ${product.sku}...`);
+            imagesToUse = generateGalleryUrlsInstant(product.sku);
+            console.log(`  Generated ${imagesToUse.length} image URLs`);
           }
 
           const { data: existing } = await supabase
@@ -797,7 +801,7 @@ Deno.serve(async (req: Request) => {
 
     console.log("\n============================================");
     console.log(`ASHLEY SCRAPER - PAGE ${pageNum}`);
-    console.log(`Mode: ${fetchDetails ? 'With Gallery (Fast)' : 'Fast'}`);
+    console.log(`Mode: ${fetchDetails ? 'With Gallery' : 'Basic'}`);
     console.log("============================================");
 
     if (!pageNum || pageNum < 1 || pageNum > 20) {
@@ -858,20 +862,9 @@ Deno.serve(async (req: Request) => {
         let imagesToUse = product.images;
 
         if (fetchDetails) {
-          console.log(`[${i + 1}/${products.length}] Fetching gallery for ${product.sku}...`);
-          try {
-            const galleryImages = await fetchWithTimeout(
-              scrapeGalleryFast(product.sku, validateImages),
-              BATCH_GALLERY_TIMEOUT_MS,
-              product.images
-            );
-            if (galleryImages.length > 0) {
-              imagesToUse = galleryImages;
-              console.log(`  Got ${imagesToUse.length} images from Scene7`);
-            }
-          } catch (galleryError: any) {
-            console.log(`  Gallery fetch failed: ${galleryError.message}, using default`);
-          }
+          console.log(`[${i + 1}/${products.length}] Generating gallery for ${product.sku}...`);
+          imagesToUse = generateGalleryUrlsInstant(product.sku);
+          console.log(`  Generated ${imagesToUse.length} image URLs`);
         }
 
         const { data: existing } = await supabase
