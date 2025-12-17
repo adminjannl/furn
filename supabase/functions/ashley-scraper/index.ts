@@ -49,13 +49,23 @@ async function fetchWithRetry(url: string, maxRetries = 3): Promise<string> {
       if (response.ok) {
         const html = await response.text();
         console.log(`HTML length: ${html.length} chars`);
-        
-        if (html.length > 5000) {
-          const hasProductTile = html.includes('product-tile') || html.includes('data-pid');
-          const hasScene7 = html.includes('scene7');
-          console.log(`Content check: productTile=${hasProductTile}, scene7=${hasScene7}`);
+
+        const hasProductTile = html.includes('product-tile') || html.includes('data-pid');
+        const hasScene7 = html.includes('scene7');
+        const hasDiscota = html.includes('Discota');
+        const hasNameLink = html.includes('name-link');
+        console.log(`Content check: productTile=${hasProductTile}, scene7=${hasScene7}, discota=${hasDiscota}, nameLink=${hasNameLink}`);
+
+        if (html.length > 1000 && (hasProductTile || hasNameLink || hasDiscota)) {
           return html;
         }
+
+        if (html.length > 5000) {
+          console.log('HTML length > 5000, accepting...');
+          return html;
+        }
+
+        console.log('HTML too short or no product markers. First 500 chars:', html.substring(0, 500));
       }
     } catch (error) {
       console.error(`Attempt ${i + 1} error:`, error);
