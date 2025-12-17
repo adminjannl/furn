@@ -101,11 +101,18 @@ function sortAndDedupeImages(images: string[], imageBase: string): string[] {
 
 function parseListingPage(html: string): DetailedProduct[] {
   const products: DetailedProduct[] = [];
+  console.log('HTML length:', html.length);
   const jsonMatch = html.match(/gtmPageData\s*=\s*(\{[^}]+"ecommerce"[\s\S]+?\});/);
-  if (!jsonMatch) return [];
+  if (!jsonMatch) {
+    console.log('No gtmPageData match found');
+    console.log('HTML preview:', html.substring(0, 500));
+    return [];
+  }
   try {
     const jsonData = JSON.parse(jsonMatch[1]);
+    console.log('Parsed JSON, has ecommerce:', !!jsonData.ecommerce);
     if (jsonData.ecommerce && jsonData.ecommerce.impressions && Array.isArray(jsonData.ecommerce.impressions)) {
+      console.log('Found impressions:', jsonData.ecommerce.impressions.length);
       for (const item of jsonData.ecommerce.impressions) {
         if (item.id && item.name) {
           const priceNum = parseFloat(String(item.price || 0).replace(/[^0-9.]/g, '')) || 0;
@@ -120,7 +127,10 @@ function parseListingPage(html: string): DetailedProduct[] {
         }
       }
     }
-  } catch {}
+  } catch (e: any) {
+    console.error('Parse error:', e.message);
+  }
+  console.log('Returning', products.length, 'products');
   return products;
 }
 
@@ -159,6 +169,7 @@ Deno.serve(async (req: Request) => {
     }
     const startParam = (pageNum - 1) * 30;
     const listingUrl = pageNum === 1 ? "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/" : 'https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=' + startParam + '&sz=30';
+    console.log('Fetching page', pageNum, 'from:', listingUrl);
     const listingHtml = await fetchViaScraperApi(listingUrl);
     const products = parseListingPage(listingHtml);
     if (products.length === 0) {
