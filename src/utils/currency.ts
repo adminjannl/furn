@@ -5,6 +5,6 @@ export function formatEuro(amount: number): string {
   }).format(amount);
 }
 
-export function formatNumber(value: number): string {
+function formatNumber(value: number): string {
   return new Intl.NumberFormat('nl-NL').format(value);
 }

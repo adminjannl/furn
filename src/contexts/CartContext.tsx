@@ -7,7 +7,7 @@ import { calculateDiscountedPrice } from '../utils/pricing';
 type Product = Database['public']['Tables']['products']['Row'];
 type ProductImage = Database['public']['Tables']['product_images']['Row'];
 
-export interface CartItem {
+interface CartItem {
   id: string;
   product_id: string;
   quantity: number;

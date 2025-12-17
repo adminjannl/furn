@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 const STORAGE_KEY = 'recentlyViewedProducts';
 const MAX_ITEMS = 10;
 
-export interface RecentlyViewedProduct {
+interface RecentlyViewedProduct {
   id: string;
   slug: string;
   name: string;

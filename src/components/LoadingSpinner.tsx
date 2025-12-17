@@ -56,7 +56,7 @@ export function LoadingSkeleton({ className = '' }: { className?: string }) {
   );
 }
 
-export function ProductCardSkeleton() {
+function ProductCardSkeleton() {
   return (
     <div className="bg-white rounded-2xl overflow-hidden border border-slate-200/30 elegant-shadow">
       <LoadingSkeleton className="aspect-square" />
@@ -68,7 +68,7 @@ export function ProductCardSkeleton() {
   );
 }
 
-export function ProductDetailSkeleton() {
+function ProductDetailSkeleton() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
       <div>
