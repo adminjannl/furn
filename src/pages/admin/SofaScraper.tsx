@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Download, CheckCircle, XCircle, Loader, ClipboardPaste, ExternalLink, Trash2, AlertTriangle, Search, Clock, Zap, ListChecks, Settings } from 'lucide-react';
+import { Download, CheckCircle, XCircle, Loader, ClipboardPaste, ExternalLink, Trash2, AlertTriangle, Search, Clock, Zap, ListChecks, Settings, ImageIcon } from 'lucide-react';
 
-type TabType = 'batch' | 'single' | 'gap' | 'manual' | 'settings';
+type TabType = 'batch' | 'single' | 'gap' | 'manual' | 'settings' | 'deep';
 
 interface ScrapeStats {
   page: number;
@@ -110,6 +110,56 @@ export default function SofaScraper() {
   const [gapStatus, setGapStatus] = useState<'idle' | 'analyzing' | 'done' | 'error'>('idle');
 
   const [currentProgress, setCurrentProgress] = useState({ current: 0, total: 0, startTime: 0 });
+
+  const [deepScrapeStatus, setDeepScrapeStatus] = useState<'idle' | 'scraping' | 'done' | 'error'>('idle');
+  const [deepScrapeResults, setDeepScrapeResults] = useState<{ sku: string; imageCount: number; status: string }[]>([]);
+  const [deepScrapeProgress, setDeepScrapeProgress] = useState({ current: 0, total: 0 });
+  const [skusToScrape, setSkusToScrape] = useState('');
+
+  const scrapeImagesForSkus = async () => {
+    const skus = skusToScrape
+      .split(/[\n,\s]+/)
+      .map(s => s.trim().toUpperCase())
+      .filter(s => s.length > 0);
+
+    if (skus.length === 0) return;
+
+    setDeepScrapeStatus('scraping');
+    setDeepScrapeResults([]);
+    setDeepScrapeProgress({ current: 0, total: skus.length });
+
+    const results: { sku: string; imageCount: number; status: string }[] = [];
+    const edgeFunctionUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ashley-scraper`;
+
+    for (let i = 0; i < skus.length; i++) {
+      const sku = skus[i];
+      setDeepScrapeProgress({ current: i + 1, total: skus.length });
+
+      try {
+        const response = await fetch(edgeFunctionUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify({ mode: 'scrape-images', sku, importToDb: true }),
+        });
+
+        const result = await response.json();
+        results.push({
+          sku,
+          imageCount: result.count || 0,
+          status: result.success ? 'done' : 'error',
+        });
+      } catch {
+        results.push({ sku, imageCount: 0, status: 'error' });
+      }
+
+      setDeepScrapeResults([...results]);
+    }
+
+    setDeepScrapeStatus('done');
+  };
 
   const scrapePage = async (pageNum: number) => {
     const startTime = Date.now();
@@ -369,6 +419,7 @@ export default function SofaScraper() {
 
   const tabs: { id: TabType; label: string; icon: typeof Download }[] = [
     { id: 'batch', label: 'Batch Scrape', icon: Download },
+    { id: 'deep', label: 'Deep Images', icon: ImageIcon },
     { id: 'single', label: 'Single Product', icon: Search },
     { id: 'gap', label: 'Gap Detection', icon: ListChecks },
     { id: 'manual', label: 'Manual HTML', icon: ClipboardPaste },
@@ -538,6 +589,87 @@ export default function SofaScraper() {
                   <strong>Tip:</strong> Use "Manual HTML" tab for faster, more reliable imports - bypasses bot detection.
                 </span>
               </div>
+            </div>
+          )}
+
+          {activeTab === 'deep' && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-lg font-semibold text-oak-900 mb-1">Deep Image Scraper</h2>
+                <p className="text-sm text-oak-500">
+                  Visit each product page to scrape ALL gallery images. Enter SKUs below (one per line or comma-separated).
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <textarea
+                  value={skusToScrape}
+                  onChange={(e) => setSkusToScrape(e.target.value)}
+                  placeholder="Enter SKUs (e.g., U4380887, U4380888 or one per line)"
+                  rows={5}
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-oak-500 focus:border-oak-500 font-mono text-sm"
+                />
+                <button
+                  onClick={scrapeImagesForSkus}
+                  disabled={deepScrapeStatus === 'scraping' || !skusToScrape.trim()}
+                  className="flex items-center gap-2 px-4 py-2 bg-oak-600 hover:bg-oak-700 text-white rounded-lg disabled:opacity-50"
+                >
+                  {deepScrapeStatus === 'scraping' ? (
+                    <Loader className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <ImageIcon className="w-4 h-4" />
+                  )}
+                  Scrape Images ({skusToScrape.split(/[\n,\s]+/).filter(s => s.trim()).length} SKUs)
+                </button>
+              </div>
+
+              {deepScrapeStatus === 'scraping' && (
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="flex items-center gap-2 text-blue-700 mb-2">
+                    <Loader className="w-4 h-4 animate-spin" />
+                    <span>Scraping {deepScrapeProgress.current} / {deepScrapeProgress.total}...</span>
+                  </div>
+                  <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-blue-500 transition-all"
+                      style={{ width: `${deepScrapeProgress.total > 0 ? (deepScrapeProgress.current / deepScrapeProgress.total) * 100 : 0}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {deepScrapeResults.length > 0 && (
+                <div className="bg-slate-50 rounded-lg border border-slate-200 p-4">
+                  <h3 className="font-semibold text-oak-900 mb-3">Results</h3>
+                  <div className="max-h-64 overflow-y-auto space-y-1">
+                    {deepScrapeResults.map((r, idx) => (
+                      <div
+                        key={idx}
+                        className={`flex items-center justify-between p-2 rounded text-sm ${
+                          r.status === 'done' ? 'bg-green-50' : 'bg-red-50'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          {r.status === 'done' ? (
+                            <CheckCircle className="w-4 h-4 text-green-600" />
+                          ) : (
+                            <XCircle className="w-4 h-4 text-red-600" />
+                          )}
+                          <span className="font-mono">{r.sku}</span>
+                        </div>
+                        <span className="font-medium">{r.imageCount} images</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {deepScrapeStatus === 'done' && (
+                <div className="flex items-center gap-2 text-green-700 p-3 bg-green-50 rounded-lg">
+                  <CheckCircle className="w-5 h-5" />
+                  <span>Done! Scraped images for {deepScrapeResults.length} products.</span>
+                </div>
+              )}
             </div>
           )}
 

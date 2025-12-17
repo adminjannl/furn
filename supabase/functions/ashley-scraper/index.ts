@@ -548,6 +548,64 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+    if (mode === "scrape-images" && sku) {
+      console.log('\n============ SCRAPE PRODUCT IMAGES ============');
+      console.log('SKU: ' + sku);
+
+      const url = productUrl || 'https://www.ashleyfurniture.com/p/product/' + sku + '.html';
+      const imageBase = skuToImageBase(sku);
+      let images: string[] = [];
+
+      try {
+        const scraperUrl = 'http://api.scraperapi.com?api_key=' + SCRAPER_API_KEY + '&url=' + encodeURIComponent(url) + '&render=true&country_code=us&device_type=desktop';
+        const response = await fetch(scraperUrl, {
+          headers: { "Accept": "text/html", "Accept-Language": "en-US,en;q=0.9" },
+        });
+
+        if (response.ok) {
+          const html = await response.text();
+          console.log('Got ' + html.length + ' chars');
+          images = extractImagesFromHtml(html, imageBase);
+          images = sortAndDedupeImages(images, imageBase);
+          console.log('Extracted ' + images.length + ' images');
+        }
+      } catch (e: any) {
+        console.log('Fetch failed: ' + e.message);
+      }
+
+      if (images.length === 0) {
+        images = generateFallbackImages(sku);
+      }
+
+      images = images.slice(0, 12);
+
+      if (importToDb) {
+        const supabase = createClient(supabaseUrl, svcKey);
+        const { data: product } = await supabase
+          .from("products")
+          .select("id")
+          .eq("sku", sku)
+          .maybeSingle();
+
+        if (product) {
+          await supabase.from("product_images").delete().eq("product_id", product.id);
+          for (let i = 0; i < images.length; i++) {
+            await supabase.from("product_images").insert({
+              product_id: product.id,
+              image_url: images[i],
+              display_order: i,
+            });
+          }
+          console.log('Updated DB with ' + images.length + ' images');
+        }
+      }
+
+      return new Response(
+        JSON.stringify({ success: true, sku, images, count: images.length }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     if (mode === "gallery" && sku) {
       console.log('\n============ GALLERY EXTRACTION MODE ============');
 
