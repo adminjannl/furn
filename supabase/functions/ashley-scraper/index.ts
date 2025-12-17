@@ -41,38 +41,50 @@ function generateDescription(name: string): string {
   return baseDesc + details;
 }
 
-function extractProductImages(html: string, sku: string, supabaseUrl: string): string[] {
+function skuToImageBase(sku: string): string {
+  if (sku.length >= 3) {
+    return sku.slice(0, -2) + '-' + sku.slice(-2);
+  }
+  return sku;
+}
+
+function extractProductImages(html: string, sku: string, _supabaseUrl: string): string[] {
   const images: string[] = [];
   const imageIds = new Set<string>();
+  const imageBase = skuToImageBase(sku);
 
-  const imagePatterns = [
-    new RegExp(`https://ashleyfurniture\\.scene7\\.com/is/image/AshleyFurniture/([^"?]+)`, 'gi'),
-    new RegExp(`${sku}_[A-Z0-9]+_[A-Z0-9]+`, 'gi'),
-  ];
-
-  for (const pattern of imagePatterns) {
-    let match;
-    while ((match = pattern.exec(html)) !== null) {
-      const imageId = match[1] || match[0];
-      if (imageId && imageId.includes(sku) && !imageIds.has(imageId)) {
+  const srcsetPattern = /srcset="([^"]+)"/gi;
+  let srcsetMatch;
+  while ((srcsetMatch = srcsetPattern.exec(html)) !== null) {
+    const srcset = srcsetMatch[1];
+    const urlMatch = srcset.match(/https:\/\/ashleyfurniture\.scene7\.com\/is\/image\/AshleyFurniture\/([^\s?]+)/);
+    if (urlMatch) {
+      const imageId = urlMatch[1];
+      if (!imageIds.has(imageId)) {
         imageIds.add(imageId);
-        const cleanId = imageId.replace(/\?.*$/, '');
-        const ashleyUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${cleanId}?wid=1200&hei=1200&fmt=jpg`;
-        const proxyUrl = `${supabaseUrl}/functions/v1/image-proxy?url=${encodeURIComponent(ashleyUrl)}`;
-        images.push(proxyUrl);
-        if (images.length >= 5) break;
+        const directUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageId}?fit=fit&wid=1200&hei=900`;
+        images.push(directUrl);
       }
     }
-    if (images.length >= 5) break;
+  }
+
+  const imgSrcPattern = /src="(https:\/\/ashleyfurniture\.scene7\.com\/is\/image\/AshleyFurniture\/([^"?\s]+))/gi;
+  let imgMatch;
+  while ((imgMatch = imgSrcPattern.exec(html)) !== null) {
+    const imageId = imgMatch[2];
+    if (imageId && !imageIds.has(imageId) && !imageId.includes('$')) {
+      imageIds.add(imageId);
+      const directUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageId}?fit=fit&wid=1200&hei=900`;
+      images.push(directUrl);
+    }
   }
 
   if (images.length === 0) {
-    const ashleyUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${sku}?wid=1200&hei=1200&fmt=jpg`;
-    const proxyUrl = `${supabaseUrl}/functions/v1/image-proxy?url=${encodeURIComponent(ashleyUrl)}`;
-    images.push(proxyUrl);
+    const defaultUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageBase}?fit=fit&wid=1200&hei=900`;
+    images.push(defaultUrl);
   }
 
-  return images;
+  return images.slice(0, 10);
 }
 
 function parseListingPage(html: string, supabaseUrl: string): DetailedProduct[] {
@@ -160,6 +172,60 @@ async function fetchViaScraperApi(targetUrl: string): Promise<string> {
   return html;
 }
 
+async function scrapeProductDetailPage(productUrl: string, sku: string): Promise<string[]> {
+  console.log(`\n  Fetching detail page for SKU ${sku}...`);
+
+  try {
+    const detailHtml = await fetchViaScraperApi(productUrl);
+    const images: string[] = [];
+    const imageIds = new Set<string>();
+    const imageBase = skuToImageBase(sku);
+
+    const srcsetPattern = /srcset="([^"]+)"/gi;
+    let srcsetMatch;
+    while ((srcsetMatch = srcsetPattern.exec(detailHtml)) !== null) {
+      const srcset = srcsetMatch[1];
+      const urls = srcset.split(',');
+      for (const urlPart of urls) {
+        const urlMatch = urlPart.trim().match(/https:\/\/ashleyfurniture\.scene7\.com\/is\/image\/AshleyFurniture\/([^\s?]+)/);
+        if (urlMatch) {
+          const imageId = urlMatch[1];
+          if (!imageIds.has(imageId) && imageId.includes(imageBase)) {
+            imageIds.add(imageId);
+            const directUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageId}?fit=fit&wid=1200&hei=900`;
+            images.push(directUrl);
+            console.log(`    Found: ${imageId}`);
+          }
+        }
+      }
+    }
+
+    const imgSrcPattern = /src="https:\/\/ashleyfurniture\.scene7\.com\/is\/image\/AshleyFurniture\/([^"?\s]+)[^"]*"/gi;
+    let imgMatch;
+    while ((imgMatch = imgSrcPattern.exec(detailHtml)) !== null) {
+      const imageId = imgMatch[1];
+      if (imageId && !imageIds.has(imageId) && imageId.includes(imageBase) && !imageId.includes('$')) {
+        imageIds.add(imageId);
+        const directUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageId}?fit=fit&wid=1200&hei=900`;
+        images.push(directUrl);
+        console.log(`    Found: ${imageId}`);
+      }
+    }
+
+    if (images.length === 0) {
+      const defaultUrl = `https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imageBase}?fit=fit&wid=1200&hei=900`;
+      images.push(defaultUrl);
+      console.log(`    Using default: ${imageBase}`);
+    }
+
+    console.log(`  Total: ${images.length} gallery images`);
+    return images.slice(0, 12);
+  } catch (error: any) {
+    console.error(`  Failed to fetch detail page: ${error.message}`);
+    return [];
+  }
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { status: 200, headers: corsHeaders });
@@ -167,8 +233,56 @@ Deno.serve(async (req: Request) => {
 
   try {
     const body = await req.json();
-    const { pageNum, rawHtml, importToDb = true } = body;
+    const { pageNum, mode = "fast", productUrl, sku, importToDb = true } = body;
     const authHeader = req.headers.get("Authorization");
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+
+    if (mode === "detail" && productUrl && sku) {
+      console.log(`\n${"=".repeat(60)}`);
+      console.log(`ASHLEY SCRAPER - DETAIL PAGE MODE`);
+      console.log(`SKU: ${sku}`);
+      console.log("=".repeat(60));
+
+      const images = await scrapeProductDetailPage(productUrl, sku);
+
+      if (importToDb && images.length > 0) {
+        const supabaseKey = authHeader?.replace("Bearer ", "") || Deno.env.get("SUPABASE_ANON_KEY")!;
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        const { data: product } = await supabase
+          .from("products")
+          .select("id")
+          .eq("sku", sku)
+          .maybeSingle();
+
+        if (product) {
+          await supabase
+            .from("product_images")
+            .delete()
+            .eq("product_id", product.id);
+
+          for (let i = 0; i < images.length; i++) {
+            await supabase.from("product_images").insert({
+              product_id: product.id,
+              image_url: images[i],
+              display_order: i,
+            });
+          }
+
+          console.log(`\nUpdated ${sku} with ${images.length} gallery images`);
+        }
+      }
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          sku,
+          images,
+          count: images.length,
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
 
     console.log(`\n${"=".repeat(60)}`);
     console.log(`ASHLEY SCRAPER - PAGE ${pageNum} (Fast Mode)`);
@@ -176,7 +290,7 @@ Deno.serve(async (req: Request) => {
 
     if (!pageNum || pageNum < 1 || pageNum > 20) {
       return new Response(
-        JSON.stringify({ error: "Provide pageNum (1-20)" }),
+        JSON.stringify({ error: "Provide pageNum (1-20) or use mode: 'detail' with productUrl and sku" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
@@ -185,8 +299,6 @@ Deno.serve(async (req: Request) => {
     const listingUrl = pageNum === 1
       ? "https://www.ashleyfurniture.com/c/furniture/living-room/sofas/"
       : `https://www.ashleyfurniture.com/c/furniture/living-room/sofas/?start=${startParam}&sz=30`;
-
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 
     console.log("\nSTEP 1: Fetching listing page...");
     const listingHtml = await fetchViaScraperApi(listingUrl);
@@ -199,7 +311,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    console.log(`\n✓ Parsed ${detailedProducts.length} products with images and descriptions`);
+    console.log(`\nParsed ${detailedProducts.length} products with images and descriptions`);
 
     if (!importToDb) {
       return new Response(
@@ -263,7 +375,7 @@ Deno.serve(async (req: Request) => {
             });
           }
 
-          console.log(`  ✓ Updated with ${product.images.length} images`);
+          console.log(`  Updated with ${product.images.length} images`);
           updated++;
         } else {
           const slug = product.name
@@ -301,7 +413,7 @@ Deno.serve(async (req: Request) => {
             });
           }
 
-          console.log(`${i + 1}/${detailedProducts.length} ✓ CREATED: ${product.name} with ${product.images.length} images`);
+          console.log(`${i + 1}/${detailedProducts.length} CREATED: ${product.name} with ${product.images.length} images`);
           succeeded++;
         }
       } catch (error: any) {
