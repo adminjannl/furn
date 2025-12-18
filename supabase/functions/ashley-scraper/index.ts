@@ -30,6 +30,12 @@ interface ScrapeImagesRequest {
   importToDb?: boolean;
 }
 
+interface UpdateDescriptionsRequest {
+  mode: 'update-descriptions';
+  skus?: string[];
+  pageNum?: number;
+}
+
 interface PageScrapeRequest {
   pageNum: number;
   importToDb?: boolean;
@@ -116,8 +122,37 @@ async function fetchProductDetails(productUrl: string): Promise<Partial<Product>
 
     const html = await response.text();
 
-    const descMatch = html.match(/<div[^>]*class="[^"]*description[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
-    const description = descMatch ? descMatch[1].replace(/<[^>]+>/g, '').trim() : '';
+    let description = '';
+
+    const overviewMatch = html.match(/<div[^>]*class="[^"]*pdp-accordion-body[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
+    if (overviewMatch) {
+      description = overviewMatch[1]
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<\/li>/gi, '\n')
+        .replace(/<li[^>]*>/gi, '• ')
+        .replace(/<\/p>/gi, '\n\n')
+        .replace(/<[^>]+>/g, '')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/\s+/g, ' ')
+        .replace(/\n\s+/g, '\n')
+        .trim();
+    }
+
+    if (!description) {
+      const detailsMatch = html.match(/Details\s*&\s*Overview[\s\S]*?<div[^>]*>([\s\S]*?)<\/div>/i);
+      if (detailsMatch) {
+        description = detailsMatch[1]
+          .replace(/<br\s*\/?>/gi, '\n')
+          .replace(/<\/li>/gi, '\n')
+          .replace(/<li[^>]*>/gi, '• ')
+          .replace(/<\/p>/gi, '\n\n')
+          .replace(/<[^>]+>/g, '')
+          .replace(/&nbsp;/g, ' ')
+          .replace(/\s+/g, ' ')
+          .replace(/\n\s+/g, '\n')
+          .trim();
+      }
+    }
 
     const dimensionsMatch = html.match(/Dimensions[:\s]*([^<]+)/i);
     const dimensions = dimensionsMatch ? dimensionsMatch[1].trim() : '';
@@ -139,7 +174,7 @@ async function fetchProductDetails(productUrl: string): Promise<Partial<Product>
     }
 
     return {
-      description,
+      description: description || undefined,
       dimensions,
       material,
       galleryImages: galleryImages.slice(0, 10),
@@ -605,6 +640,107 @@ Deno.serve(async (req: Request) => {
           sku,
           count: galleryImages.length,
           images: galleryImages.slice(0, 12),
+        },
+        { headers: corsHeaders }
+      );
+    }
+
+    if (body.mode === 'update-descriptions') {
+      const { skus, pageNum } = body as UpdateDescriptionsRequest;
+
+      const { data: category } = await supabase
+        .from('categories')
+        .select('id')
+        .eq('slug', 'sofas')
+        .single();
+
+      if (!category) {
+        return Response.json(
+          { success: false, error: 'Sofas category not found' },
+          { headers: corsHeaders }
+        );
+      }
+
+      let products;
+
+      if (skus && skus.length > 0) {
+        const { data } = await supabase
+          .from('products')
+          .select('id, sku, name')
+          .in('sku', skus);
+        products = data;
+      } else if (pageNum) {
+        const start = (pageNum - 1) * 30;
+        const { data } = await supabase
+          .from('products')
+          .select('id, sku, name')
+          .eq('category_id', category.id)
+          .order('created_at', { ascending: true })
+          .range(start, start + 29);
+        products = data;
+      } else {
+        const { data } = await supabase
+          .from('products')
+          .select('id, sku, name')
+          .eq('category_id', category.id)
+          .order('created_at', { ascending: true });
+        products = data;
+      }
+
+      if (!products || products.length === 0) {
+        return Response.json(
+          { success: false, error: 'No products found' },
+          { headers: corsHeaders }
+        );
+      }
+
+      let succeeded = 0;
+      let failed = 0;
+      const results = [];
+
+      for (const product of products) {
+        try {
+          const productUrl = `https://www.ashleyfurniture.com/p/${product.sku}/`;
+          const details = await fetchProductDetails(productUrl);
+
+          if (details.description) {
+            const { error } = await supabase
+              .from('products')
+              .update({ description: details.description })
+              .eq('id', product.id);
+
+            if (error) {
+              failed++;
+              results.push({ sku: product.sku, success: false, error: error.message });
+            } else {
+              succeeded++;
+              results.push({
+                sku: product.sku,
+                success: true,
+                descriptionLength: details.description.length
+              });
+            }
+          } else {
+            failed++;
+            results.push({ sku: product.sku, success: false, error: 'No description found' });
+          }
+        } catch (error) {
+          failed++;
+          results.push({
+            sku: product.sku,
+            success: false,
+            error: error instanceof Error ? error.message : 'Unknown error'
+          });
+        }
+      }
+
+      return Response.json(
+        {
+          success: true,
+          total: products.length,
+          succeeded,
+          failed,
+          results,
         },
         { headers: corsHeaders }
       );

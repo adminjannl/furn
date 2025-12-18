@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Download, CheckCircle, XCircle, Loader, ClipboardPaste, ExternalLink, Trash2, AlertTriangle, Search, Clock, Zap, ListChecks, Settings, ImageIcon } from 'lucide-react';
+import { Download, CheckCircle, XCircle, Loader, ClipboardPaste, ExternalLink, Trash2, AlertTriangle, Search, Clock, Zap, ListChecks, Settings, ImageIcon, FileText } from 'lucide-react';
 
-type TabType = 'batch' | 'single' | 'gap' | 'manual' | 'settings' | 'deep';
+type TabType = 'batch' | 'single' | 'gap' | 'manual' | 'settings' | 'deep' | 'descriptions';
 
 interface ScrapeStats {
   page: number;
@@ -117,6 +117,11 @@ export default function SofaScraper() {
   const [deepScrapeProgress, setDeepScrapeProgress] = useState({ current: 0, total: 0 });
   const [skusToScrape, setSkusToScrape] = useState('');
 
+  const [descriptionStatus, setDescriptionStatus] = useState<'idle' | 'updating' | 'done' | 'error'>('idle');
+  const [descriptionResults, setDescriptionResults] = useState<{ sku: string; success: boolean; descriptionLength?: number; error?: string }[]>([]);
+  const [descriptionProgress, setDescriptionProgress] = useState({ current: 0, total: 0 });
+  const [descriptionPageNum, setDescriptionPageNum] = useState<number>(1);
+
   const scrapeImagesForSkus = async () => {
     const skus = skusToScrape
       .split(/[\n,\s]+/)
@@ -160,6 +165,43 @@ export default function SofaScraper() {
     }
 
     setDeepScrapeStatus('done');
+  };
+
+  const updateDescriptions = async (pageNum?: number) => {
+    setDescriptionStatus('updating');
+    setDescriptionResults([]);
+    setDescriptionProgress({ current: 0, total: 0 });
+
+    try {
+      const edgeFunctionUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ashley-scraper`;
+
+      const body: any = { mode: 'update-descriptions' };
+      if (pageNum) {
+        body.pageNum = pageNum;
+      }
+
+      const response = await fetch(edgeFunctionUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify(body),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setDescriptionResults(result.results || []);
+        setDescriptionProgress({ current: result.succeeded + result.failed, total: result.total });
+        setDescriptionStatus('done');
+      } else {
+        setDescriptionStatus('error');
+      }
+    } catch (error) {
+      setDescriptionStatus('error');
+      setDescriptionResults([{ sku: 'error', success: false, error: 'Request failed' }]);
+    }
   };
 
   const scrapePage = async (pageNum: number) => {
@@ -422,6 +464,7 @@ export default function SofaScraper() {
   const tabs: { id: TabType; label: string; icon: typeof Download }[] = [
     { id: 'batch', label: 'Batch Scrape', icon: Download },
     { id: 'deep', label: 'Deep Images', icon: ImageIcon },
+    { id: 'descriptions', label: 'Descriptions', icon: FileText },
     { id: 'single', label: 'Single Product', icon: Search },
     { id: 'gap', label: 'Gap Detection', icon: ListChecks },
     { id: 'manual', label: 'Manual HTML', icon: ClipboardPaste },
@@ -667,6 +710,139 @@ export default function SofaScraper() {
                   <span>Done! Scraped images for {deepScrapeResults.length} products.</span>
                 </div>
               )}
+            </div>
+          )}
+
+          {activeTab === 'descriptions' && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-lg font-semibold text-oak-900 mb-1">Update Product Descriptions</h2>
+                <p className="text-sm text-oak-500">
+                  Scrape detailed product descriptions from Ashley Furniture product pages and update database.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-3">
+                  <label className="block text-sm font-medium text-oak-700">
+                    Select Page (Optional)
+                  </label>
+                  <select
+                    value={descriptionPageNum}
+                    onChange={(e) => setDescriptionPageNum(Number(e.target.value))}
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-oak-500 focus:border-oak-500"
+                  >
+                    <option value={0}>All Pages (270 products)</option>
+                    {Array.from({ length: 9 }, (_, i) => i + 1).map((page) => (
+                      <option key={page} value={page}>
+                        Page {page} (30 products)
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="space-y-3">
+                  <label className="block text-sm font-medium text-oak-700">Action</label>
+                  <button
+                    onClick={() => updateDescriptions(descriptionPageNum || undefined)}
+                    disabled={descriptionStatus === 'updating'}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-oak-600 hover:bg-oak-700 text-white rounded-lg disabled:opacity-50"
+                  >
+                    {descriptionStatus === 'updating' ? (
+                      <>
+                        <Loader className="w-4 h-4 animate-spin" />
+                        Updating...
+                      </>
+                    ) : (
+                      <>
+                        <FileText className="w-4 h-4" />
+                        Update Descriptions
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {descriptionStatus === 'updating' && (
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="flex items-center gap-2 text-blue-700 mb-2">
+                    <Loader className="w-4 h-4 animate-spin" />
+                    <span>Updating descriptions... This may take a few minutes.</span>
+                  </div>
+                  {descriptionProgress.total > 0 && (
+                    <>
+                      <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-blue-500 transition-all"
+                          style={{ width: `${(descriptionProgress.current / descriptionProgress.total) * 100}%` }}
+                        />
+                      </div>
+                      <div className="text-xs text-blue-600 mt-1">
+                        {descriptionProgress.current} / {descriptionProgress.total} processed
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+
+              {descriptionResults.length > 0 && (
+                <div className="bg-slate-50 rounded-lg border border-slate-200 p-4">
+                  <h3 className="font-semibold text-oak-900 mb-3">
+                    Results ({descriptionResults.filter(r => r.success).length} succeeded, {descriptionResults.filter(r => !r.success).length} failed)
+                  </h3>
+                  <div className="max-h-96 overflow-y-auto space-y-1">
+                    {descriptionResults.map((r, idx) => (
+                      <div
+                        key={idx}
+                        className={`flex items-center justify-between p-2 rounded text-sm ${
+                          r.success ? 'bg-green-50' : 'bg-red-50'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 flex-1 min-w-0">
+                          {r.success ? (
+                            <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
+                          ) : (
+                            <XCircle className="w-4 h-4 text-red-600 flex-shrink-0" />
+                          )}
+                          <span className="font-mono truncate">{r.sku}</span>
+                        </div>
+                        {r.success ? (
+                          <span className="font-medium text-green-700 ml-2 flex-shrink-0">
+                            {r.descriptionLength} chars
+                          </span>
+                        ) : (
+                          <span className="text-xs text-red-600 ml-2 truncate max-w-xs">
+                            {r.error}
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {descriptionStatus === 'done' && descriptionResults.length > 0 && (
+                <div className="flex items-center gap-2 text-green-700 p-3 bg-green-50 rounded-lg">
+                  <CheckCircle className="w-5 h-5" />
+                  <span>
+                    Done! Updated {descriptionResults.filter(r => r.success).length} descriptions.
+                  </span>
+                </div>
+              )}
+
+              {descriptionStatus === 'error' && (
+                <div className="flex items-center gap-2 text-red-700 p-3 bg-red-50 rounded-lg">
+                  <XCircle className="w-5 h-5" />
+                  <span>Failed to update descriptions. Please try again.</span>
+                </div>
+              )}
+
+              <div className="flex items-center gap-2 p-3 bg-amber-50 rounded-lg border border-amber-200">
+                <AlertTriangle className="w-4 h-4 text-amber-600" />
+                <span className="text-sm text-amber-800">
+                  <strong>Note:</strong> Description scraping visits each product page individually, so it takes longer than batch scraping.
+                </span>
+              </div>
             </div>
           )}
 
