@@ -112,15 +112,18 @@ function parseAshleyHtml(html: string): Product[] {
 
 async function fetchProductDetails(productUrl: string): Promise<Partial<Product>> {
   try {
+    console.log(`Fetching details for: ${productUrl}`);
     const scraperUrl = `http://api.scraperapi.com?api_key=${SCRAPER_API_KEY}&url=${encodeURIComponent(productUrl)}`;
     const response = await fetch(scraperUrl);
 
     if (!response.ok) {
-      console.error(`Failed to fetch product details: ${response.status}`);
-      return {};
+      const errorText = await response.text();
+      console.error(`Failed to fetch product details: ${response.status} - ${errorText}`);
+      throw new Error(`ScraperAPI returned ${response.status}: ${errorText}`);
     }
 
     const html = await response.text();
+    console.log(`Fetched HTML length: ${html.length}`);
 
     let description = '';
 
@@ -181,7 +184,7 @@ async function fetchProductDetails(productUrl: string): Promise<Partial<Product>
     };
   } catch (error) {
     console.error('Error fetching product details:', error);
-    return {};
+    throw error;
   }
 }
 
@@ -701,6 +704,8 @@ Deno.serve(async (req: Request) => {
       for (const product of products) {
         try {
           const productUrl = `https://www.ashleyfurniture.com/p/${product.slug}/${product.sku}.html`;
+          console.log(`Processing ${product.name} (${product.sku}): ${productUrl}`);
+
           const details = await fetchProductDetails(productUrl);
 
           if (details.description) {
@@ -710,26 +715,43 @@ Deno.serve(async (req: Request) => {
               .eq('id', product.id);
 
             if (error) {
+              console.error(`DB update error for ${product.sku}:`, error);
               failed++;
-              results.push({ sku: product.sku, success: false, error: error.message });
-            } else {
-              succeeded++;
               results.push({
                 sku: product.sku,
+                name: product.name,
+                success: false,
+                error: error.message
+              });
+            } else {
+              succeeded++;
+              console.log(`Successfully updated ${product.sku}`);
+              results.push({
+                sku: product.sku,
+                name: product.name,
                 success: true,
                 descriptionLength: details.description.length
               });
             }
           } else {
             failed++;
-            results.push({ sku: product.sku, success: false, error: 'No description found' });
+            console.warn(`No description found for ${product.sku}`);
+            results.push({
+              sku: product.sku,
+              name: product.name,
+              success: false,
+              error: 'No description found in HTML'
+            });
           }
         } catch (error) {
           failed++;
+          const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+          console.error(`Error processing ${product.sku}:`, errorMsg);
           results.push({
             sku: product.sku,
+            name: product.name,
             success: false,
-            error: error instanceof Error ? error.message : 'Unknown error'
+            error: errorMsg
           });
         }
       }
