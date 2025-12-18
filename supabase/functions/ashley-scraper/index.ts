@@ -127,58 +127,18 @@ async function fetchProductDetails(productUrl: string): Promise<Partial<Product>
 
     let description = '';
 
-    const detailsHeadingMatch = html.match(/Details\s*(?:&amp;|&)\s*Overview/i);
-    if (detailsHeadingMatch) {
-      const startIndex = detailsHeadingMatch.index || 0;
-      console.log(`Found heading at position ${startIndex}`);
-
-      const afterHeading = html.substring(startIndex);
-      const snippet = afterHeading.substring(0, 500).replace(/\n/g, ' ');
-      console.log(`Content after heading (first 500 chars): ${snippet}`);
-
-      const sectionContent = afterHeading.substring(0, 10000);
-      const paragraphMatch = sectionContent.match(/<p[^>]*>([\s\S]+?)<\/p>/i);
-
-      if (paragraphMatch) {
-        console.log(`Found paragraph, length: ${paragraphMatch[1].length}`);
-
-        let content = paragraphMatch[0];
-
-        const listMatch = sectionContent.match(/<ul[^>]*>([\s\S]+?)<\/ul>/i);
-        if (listMatch) {
-          console.log(`Found list, length: ${listMatch[1].length}`);
-          content += '\n' + listMatch[0];
-        } else {
-          console.log('No list found');
-        }
-
-        description = content
-          .replace(/<\/li>\s*/gi, '\n')
-          .replace(/<li[^>]*>\s*/gi, '• ')
-          .replace(/<\/p>\s*/gi, '\n\n')
-          .replace(/<p[^>]*>\s*/gi, '')
-          .replace(/<ul[^>]*>\s*/gi, '')
-          .replace(/<\/ul>\s*/gi, '')
-          .replace(/<br\s*\/?>/gi, '\n')
-          .replace(/<[^>]+>/g, '')
-          .replace(/&nbsp;/g, ' ')
-          .replace(/&amp;/g, '&')
-          .replace(/&quot;/g, '"')
-          .replace(/&lt;/g, '<')
-          .replace(/&gt;/g, '>')
-          .replace(/ {2,}/g, ' ')
-          .replace(/\n {1,}/g, '\n')
-          .replace(/\n{3,}/g, '\n\n')
-          .trim();
-
-        console.log(`Extracted description (${description.length} chars): ${description.substring(0, 100)}...`);
-      } else {
-        console.warn('Could not find <p> tag after heading');
-        console.log(`First 1000 chars after heading: ${sectionContent.substring(0, 1000)}`);
-      }
+    const ogDescriptionMatch = html.match(/<meta\s+property=["']og:description["']\s+content=["']([^"']+)["']/i);
+    if (ogDescriptionMatch) {
+      description = ogDescriptionMatch[1]
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .trim();
+      console.log(`Extracted description from og:description (${description.length} chars): ${description.substring(0, 100)}...`);
     } else {
-      console.warn('Could not find Details & Overview heading');
-      console.log(`Searching in HTML of length ${html.length}`);
+      console.warn('Could not find og:description meta tag');
     }
 
     const dimensionsMatch = html.match(/Dimensions[:\s]*([^<]+)/i);
