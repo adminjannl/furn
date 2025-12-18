@@ -169,35 +169,49 @@ async function importProductToDb(product: Product, supabase: any): Promise<boole
       .eq('sku', product.sku)
       .maybeSingle();
 
+    let productId: string;
+
     if (existingProduct) {
-      console.log(`Product ${product.sku} already exists, skipping`);
-      return false;
-    }
+      const { count: imageCount } = await supabase
+        .from('product_images')
+        .select('*', { count: 'exact', head: true })
+        .eq('product_id', existingProduct.id);
 
-    const slug = product.name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '');
+      if (imageCount && imageCount > 0) {
+        console.log(`Product ${product.sku} already exists with images, skipping`);
+        return false;
+      }
 
-    const { data: newProduct, error: productError } = await supabase
-      .from('products')
-      .insert({
-        sku: product.sku,
-        name: product.name,
-        slug,
-        description: product.description || product.name,
-        price: product.price,
-        category_id: category.id,
-        stock_quantity: 50,
-        status: 'active',
-        materials: product.material || null,
-      })
-      .select()
-      .single();
+      console.log(`Product ${product.sku} exists but has no images, adding images`);
+      productId = existingProduct.id;
+    } else {
+      const slug = product.name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
 
-    if (productError || !newProduct) {
-      console.error('Error inserting product:', productError);
-      return false;
+      const { data: newProduct, error: productError } = await supabase
+        .from('products')
+        .insert({
+          sku: product.sku,
+          name: product.name,
+          slug,
+          description: product.description || product.name,
+          price: product.price,
+          category_id: category.id,
+          stock_quantity: 50,
+          status: 'active',
+          materials: product.material || null,
+        })
+        .select()
+        .single();
+
+      if (productError || !newProduct) {
+        console.error('Error inserting product:', productError);
+        return false;
+      }
+
+      productId = newProduct.id;
     }
 
     const images = product.galleryImages && product.galleryImages.length > 0
@@ -208,7 +222,7 @@ async function importProductToDb(product: Product, supabase: any): Promise<boole
 
     if (images.length > 0) {
       const imageRecords = images.map((url, index) => ({
-        product_id: newProduct.id,
+        product_id: productId,
         image_url: url,
         display_order: index,
         is_primary: index === 0,
