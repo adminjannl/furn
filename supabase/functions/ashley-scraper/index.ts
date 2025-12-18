@@ -666,14 +666,14 @@ Deno.serve(async (req: Request) => {
       if (skus && skus.length > 0) {
         const { data } = await supabase
           .from('products')
-          .select('id, sku, name')
+          .select('id, sku, name, slug')
           .in('sku', skus);
         products = data;
       } else if (pageNum) {
         const start = (pageNum - 1) * 30;
         const { data } = await supabase
           .from('products')
-          .select('id, sku, name')
+          .select('id, sku, name, slug')
           .eq('category_id', category.id)
           .order('created_at', { ascending: true })
           .range(start, start + 29);
@@ -681,7 +681,7 @@ Deno.serve(async (req: Request) => {
       } else {
         const { data } = await supabase
           .from('products')
-          .select('id, sku, name')
+          .select('id, sku, name, slug')
           .eq('category_id', category.id)
           .order('created_at', { ascending: true });
         products = data;
@@ -700,7 +700,7 @@ Deno.serve(async (req: Request) => {
 
       for (const product of products) {
         try {
-          const productUrl = `https://www.ashleyfurniture.com/p/${product.sku}/`;
+          const productUrl = `https://www.ashleyfurniture.com/p/${product.slug}/${product.sku}.html`;
           const details = await fetchProductDetails(productUrl);
 
           if (details.description) {
