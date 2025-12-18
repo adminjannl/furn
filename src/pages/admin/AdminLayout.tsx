@@ -17,6 +17,13 @@ export default function AdminLayout() {
 
           <nav className="space-y-2">
             <Link
+              to="/"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-slate-300 hover:bg-slate-800"
+            >
+              <Home className="w-5 h-5" />
+              Home
+            </Link>
+            <Link
               to="/admin"
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                 location.pathname === '/admin'
@@ -156,16 +163,6 @@ export default function AdminLayout() {
               Craftsmanship
             </Link>
           </nav>
-
-          <div className="mt-8 pt-8 border-t border-slate-700">
-            <Link
-              to="/"
-              className="flex items-center gap-3 px-4 py-3 bg-slate-800 text-white hover:bg-slate-700 rounded-lg transition-colors font-medium"
-            >
-              <Home className="w-5 h-5" />
-              Home
-            </Link>
-          </div>
         </aside>
 
         <main className="flex-1 ml-64 p-8">
