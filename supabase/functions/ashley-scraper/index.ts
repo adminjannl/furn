@@ -127,34 +127,42 @@ async function fetchProductDetails(productUrl: string): Promise<Partial<Product>
 
     let description = '';
 
-    const overviewMatch = html.match(/<div[^>]*class="[^"]*pdp-accordion-body[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
-    if (overviewMatch) {
-      description = overviewMatch[1]
-        .replace(/<br\s*\/?>/gi, '\n')
-        .replace(/<\/li>/gi, '\n')
-        .replace(/<li[^>]*>/gi, '• ')
-        .replace(/<\/p>/gi, '\n\n')
-        .replace(/<[^>]+>/g, '')
-        .replace(/&nbsp;/g, ' ')
-        .replace(/\s+/g, ' ')
-        .replace(/\n\s+/g, '\n')
-        .trim();
-    }
+    const detailsHeadingMatch = html.match(/Details\s*(?:&amp;|&)\s*Overview/i);
+    if (detailsHeadingMatch) {
+      const startIndex = detailsHeadingMatch.index || 0;
+      const afterHeading = html.substring(startIndex + 100);
 
-    if (!description) {
-      const detailsMatch = html.match(/Details\s*&\s*Overview[\s\S]*?<div[^>]*>([\s\S]*?)<\/div>/i);
-      if (detailsMatch) {
-        description = detailsMatch[1]
+      const contentMatch = afterHeading.match(/<p[^>]*>([\s\S]{20,2000}?)<\/p>(?:[\s\S]*?<ul[^>]*>([\s\S]{20,5000}?)<\/ul>)?/i);
+      if (contentMatch) {
+        const paragraphText = contentMatch[1] || '';
+        const listText = contentMatch[2] || '';
+        const content = paragraphText + (listText ? '\n' + listText : '');
+
+        description = content
+          .replace(/<\/li>\s*/gi, '\n')
+          .replace(/<li[^>]*>\s*/gi, '• ')
+          .replace(/<\/p>\s*/gi, '\n\n')
+          .replace(/<p[^>]*>\s*/gi, '')
+          .replace(/<ul[^>]*>\s*/gi, '')
+          .replace(/<\/ul>\s*/gi, '')
           .replace(/<br\s*\/?>/gi, '\n')
-          .replace(/<\/li>/gi, '\n')
-          .replace(/<li[^>]*>/gi, '• ')
-          .replace(/<\/p>/gi, '\n\n')
           .replace(/<[^>]+>/g, '')
           .replace(/&nbsp;/g, ' ')
-          .replace(/\s+/g, ' ')
-          .replace(/\n\s+/g, '\n')
+          .replace(/&amp;/g, '&')
+          .replace(/&quot;/g, '"')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/ {2,}/g, ' ')
+          .replace(/\n {1,}/g, '\n')
+          .replace(/\n{3,}/g, '\n\n')
           .trim();
+
+        console.log(`Extracted description (${description.length} chars)`);
+      } else {
+        console.warn('Could not match content after Details & Overview heading');
       }
+    } else {
+      console.warn('Could not find Details & Overview heading');
     }
 
     const dimensionsMatch = html.match(/Dimensions[:\s]*([^<]+)/i);
