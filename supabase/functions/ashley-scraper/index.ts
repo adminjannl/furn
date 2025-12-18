@@ -526,10 +526,71 @@ Deno.serve(async (req: Request) => {
     }
 
     if (body.mode === 'scrape-images') {
+      const { sku, importToDb = true } = body as ScrapeImagesRequest;
+
+      const { data: product } = await supabase
+        .from('products')
+        .select('id, name')
+        .eq('sku', sku)
+        .maybeSingle();
+
+      if (!product) {
+        return Response.json(
+          { success: false, error: `Product ${sku} not found in database` },
+          { headers: corsHeaders }
+        );
+      }
+
+      const productUrl = `https://www.ashleyfurniture.com/p/${sku}/`;
+      const scraperUrl = `http://api.scraperapi.com?api_key=${SCRAPER_API_KEY}&url=${encodeURIComponent(productUrl)}`;
+
+      const response = await fetch(scraperUrl);
+      if (!response.ok) {
+        return Response.json(
+          { success: false, error: `Failed to fetch product page: ${response.status}` },
+          { headers: corsHeaders }
+        );
+      }
+
+      const html = await response.text();
+
+      const galleryImages: string[] = [];
+      const imageRegex = /scene7\.com\/is\/image\/AshleyFurniture\/([^"?]+)/gi;
+      let imgMatch;
+      const seen = new Set<string>();
+
+      while ((imgMatch = imageRegex.exec(html)) !== null) {
+        const imgId = imgMatch[1];
+        if (!seen.has(imgId)) {
+          seen.add(imgId);
+          galleryImages.push(`https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/${imgId}?$AFHS-Zoom$`);
+        }
+      }
+
+      if (importToDb && galleryImages.length > 0) {
+        await supabase
+          .from('product_images')
+          .delete()
+          .eq('product_id', product.id);
+
+        const imageRecords = galleryImages.slice(0, 12).map((url, index) => ({
+          product_id: product.id,
+          image_url: url,
+          display_order: index,
+          is_primary: index === 0,
+        }));
+
+        await supabase
+          .from('product_images')
+          .insert(imageRecords);
+      }
+
       return Response.json(
         {
-          success: false,
-          error: 'Scrape-images mode not yet implemented. Use other edge functions.',
+          success: true,
+          sku,
+          count: galleryImages.length,
+          images: galleryImages.slice(0, 12),
         },
         { headers: corsHeaders }
       );
