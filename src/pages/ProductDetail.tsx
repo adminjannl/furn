@@ -56,7 +56,12 @@ export default function ProductDetail() {
         .from('products')
         .select('*, product_images(*), product_colors(*), categories(*)')
         .eq('slug', slug)
+        .order('display_order', { foreignTable: 'product_images', ascending: true })
         .single();
+
+      console.log('Product data loaded:', productData);
+      console.log('Product images count:', productData?.product_images?.length);
+      console.log('Product images:', productData?.product_images);
 
       if (productData) {
         setProduct(productData as Product);
@@ -140,6 +145,9 @@ export default function ProductDetail() {
     url: img.image_url,
     alt: img.alt_text || product.name
   }));
+
+  console.log('Gallery images prepared:', galleryImages.length, 'images');
+  console.log('First image URL:', galleryImages[0]?.url);
 
   const breadcrumbItems = [
     { label: 'Products', path: '/products' },
